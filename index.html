@@ -147,6 +147,35 @@
     footer { border-top: 1px solid var(--border); padding: 2.2rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; }
     footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.2rem; }
 
+    /* Swipeable demo inside the phone: stealth · live text · live summary */
+    .phone .pages { position: absolute; inset: 0; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .phone .pages::-webkit-scrollbar { display: none; }
+    .phone .page { flex: 0 0 100%; height: 100%; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; }
+    .phone .page.stealth { align-items: center; justify-content: center; }
+    .phone .page.text, .phone .page.summary { padding: 13% 7% 12%; color: #E8EEF5; font: 400 clamp(0.62rem, 2.6vw, 0.8rem)/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", sans-serif; text-align: left; }
+    .phone .ph-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; color: #9AA7B5; margin-bottom: 0.6em; }
+    .phone .ph-head b { color: #E8EEF5; font-variant-numeric: tabular-nums; }
+    .phone .ph-head .pill { color: #4FB3A9; border: 1px solid rgba(79,179,169,.4); border-radius: 999px; padding: 0.1em 0.6em; font-size: 0.85em; }
+    .phone .lines { flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 0.45em; }
+    .phone .line { display: flex; gap: 0.5em; animation: rise 0.35s ease-out; }
+    .phone .line .t { color: #6F7E8C; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .phone .line.volatile { color: #8E9BA8; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .phone .sum { flex: 1; overflow: hidden; }
+    .phone .sum h4 { font-size: 0.9em; color: #4FB3A9; margin: 0.7em 0 0.2em; font-weight: 700; }
+    .phone .sum h4:first-child { margin-top: 0; }
+    .phone .sum li { list-style: none; padding-left: 0.9em; position: relative; animation: rise 0.4s ease-out; margin: 0.15em 0; }
+    .phone .sum li::before { content: "•"; position: absolute; left: 0; color: #6F7E8C; }
+    .phone .sum li.todo::before { content: "☐"; }
+    .phone .sum .empty { color: #6F7E8C; }
+    .phone .dots { position: absolute; bottom: 4%; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; pointer-events: none; }
+    .phone .dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.22); }
+    .phone .dots i.on { background: rgba(255,255,255,.85); }
+    .swipe-hint { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; color: var(--teal-deep); font-size: 0.9rem; font-weight: 600; }
+    .swipe-hint .arrow { display: inline-block; animation: nudge 1.6s ease-in-out infinite; }
+    @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+    .swipe-hint.done .arrow { animation: none; }
+
     /* Live hero: a phone in stealth mode. Glow breathes; timer counts from page load. */
     .phone {
       position: relative; margin: 3rem auto 0;
@@ -250,9 +279,18 @@
     <h1>Your spare iPhone is now an AI voice recorder.<br><em>Nothing leaves it.</em></h1>
     <p class="sub">Record a meeting on any iPhone — or import from the voice recorder you already own — and get a transcript, live notes, and a final summary. Transcription runs on the phone. Summaries use your own Gemini key. No account, no server, no minute meter.</p>
     <div class="badge">Private beta · App Store 2026</div>
-    <div class="phone" role="img" aria-label="An iPhone in OdiMeet's stealth recorder mode: black screen, a faint white breathing light, and a running timer">
-      <div class="screen"><div class="island"></div><div class="glow"></div><div class="timer" id="stealth-timer">0:00</div></div>
+    <div class="phone" role="group" aria-label="An iPhone in OdiMeet: swipe between stealth mode, live transcript, and live summary" data-lang="en">
+      <div class="screen">
+        <div class="island"></div>
+        <div class="pages" id="demo-pages">
+          <div class="page stealth"><div class="glow"></div><div class="timer" id="stealth-timer">0:00</div></div>
+          <div class="page text"><div class="ph-head"><span>Live text</span><b class="timer-mini">0:00</b></div><div class="lines" id="demo-lines"><div class="line volatile"><span>Listening…</span></div></div></div>
+          <div class="page summary"><div class="ph-head"><span class="pill">✦ Gemini</span><span id="demo-sum-status"></span></div><div class="sum" id="demo-sum"><div class="empty">Notes appear after about a minute of speech.</div></div></div>
+        </div>
+        <div class="dots" id="demo-dots"><i class="on"></i><i></i><i></i></div>
+      </div>
     </div>
+    <div class="swipe-hint" id="swipe-hint"><span>Swipe the phone for live text and the Gemini summary</span><span class="arrow">→</span></div>
     <p class="caption">Stealth mode: the phone looks asleep on the table. The faint breathing light means it is recording — this one has been recording since you opened the page.</p>
   </header>
 
@@ -427,18 +465,55 @@
     <div>© 2026 OdiMeet</div>
   </footer>
 
+
   <script>
     (function () {
-      var el = document.getElementById("stealth-timer");
-      if (!el) return;
+      var D = {"lines": [[3, "Okay, let's start. Main thing today is the Q4 launch timeline."], [9, "Engineering: recording and import are done, speaker attribution is still in progress."], [16, "Then let's move speaker attribution to 1.1 and ship the core first."], [23, "Agreed. I need the design files by Friday — Alice, can you?"], [29, "Yes, before noon Friday."], [34, "Pricing stays 2.99, 29.99, 39.99; label lifetime as best deal."], [41, "The marketing page is live; beta applications open Monday."], [48, "One more question — do we mention the DJI mic on the home page?"], [55, "FAQ only, not the home page, or people think they must buy one."], [62, "Good, so those are the decisions. Same time next week."], [70, "Oh, and the privacy label — remember to pick Data Not Collected."], [76, "I'll handle that and confirm before we submit tomorrow."]], "stages": [[20, {"Topics": ["Q4 launch timeline", "Engineering status"], "Decisions": [], "Action items": [], "Open questions": []}], [40, {"Topics": ["Q4 launch timeline", "Engineering status"], "Decisions": ["Speaker attribution moves to 1.1; ship the core first"], "Action items": ["Design files — Alice (Friday noon)"], "Open questions": []}], [60, {"Topics": ["Q4 launch timeline", "Pricing", "Marketing page"], "Decisions": ["Speaker attribution moves to 1.1; ship the core first", "Pricing 2.99 / 29.99 / 39.99; lifetime labelled best deal"], "Action items": ["Design files — Alice (Friday noon)", "Open beta applications Monday"], "Open questions": ["DJI mic on the home page?"]}], [80, {"Summary": ["Q4 scope confirmed: core ships first, speaker attribution moves to 1.1; pricing and marketing page settled."], "Decisions": ["Speaker attribution moves to 1.1", "Pricing 2.99 / 29.99 / 39.99; lifetime labelled best deal", "DJI mic goes in the FAQ only, not the home page"], "Action items": ["Design files — Alice (Friday noon)", "Open beta applications Monday", "Privacy label: Data Not Collected — confirm before submitting (tomorrow)"], "Open questions": []}]], "consolidate": 300, "upd": "updated", "nxt": "next"};
+      var timer = document.getElementById("stealth-timer"), mini = document.querySelector(".timer-mini");
+      var linesEl = document.getElementById("demo-lines"), sumEl = document.getElementById("demo-sum"), statusEl = document.getElementById("demo-sum-status");
+      var pages = document.getElementById("demo-pages"), dots = document.getElementById("demo-dots"), hint = document.getElementById("swipe-hint");
+      if (!timer || !pages) return;
       var start = Date.now();
       function pad(n) { return n < 10 ? "0" + n : "" + n; }
-      function tick() {
+      function clock(s) { var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; return h > 0 ? h + ":" + pad(m) + ":" + pad(x) : m + ":" + pad(x); }
+      var shownLines = 0, stage = -1, lastUpdate = null;
+      function render() {
         var s = Math.floor((Date.now() - start) / 1000);
-        var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
-        el.textContent = h > 0 ? h + ":" + pad(m) + ":" + pad(sec) : m + ":" + pad(sec);
+        timer.textContent = clock(s); if (mini) mini.textContent = clock(s);
+        // transcript: finalized lines up to now, plus a typing tail for the next line
+        var html = "";
+        for (var i = 0; i < D.lines.length; i++) {
+          var at = D.lines[i][0], text = D.lines[i][1];
+          if (s >= at + 3) { html += '<div class="line"><span class="t">' + clock(at) + '</span><span>' + text + '</span></div>'; }
+          else if (s >= at) {
+            var frac = (s - at + ((Date.now() - start) / 1000 - s)) / 3; var n = Math.max(1, Math.floor(text.length * frac));
+            html += '<div class="line volatile"><span class="t">' + clock(at) + '</span><span>' + text.slice(0, n) + '</span></div>'; break;
+          } else break;
+        }
+        if (html) linesEl.innerHTML = html;
+        // summary: staged
+        var idx = -1; for (var k = 0; k < D.stages.length; k++) if (s >= D.stages[k][0]) idx = k;
+        if (idx !== stage) {
+          stage = idx; lastUpdate = s;
+          if (idx >= 0) {
+            var sum = D.stages[idx][1], out = "";
+            for (var key in sum) { if (!sum[key].length) continue; out += "<h4>" + key + "</h4>"; for (var j = 0; j < sum[key].length; j++) out += '<li class="' + (/^(Action items|待辦)$/.test(key) ? "todo" : "") + '">' + sum[key][j] + "</li>"; }
+            sumEl.innerHTML = out;
+          }
+        }
+        if (statusEl) {
+          var nextAt = null; for (var q = 0; q < D.stages.length; q++) if (D.stages[q][0] > s) { nextAt = D.stages[q][0]; break; }
+          statusEl.textContent = (lastUpdate !== null && stage >= 0 ? D.upd + " " + clock(s - lastUpdate) : "") + (nextAt !== null ? "  ·  " + D.nxt + " " + clock(nextAt - s) : "");
+        }
       }
-      tick(); setInterval(tick, 1000);
+      render(); setInterval(render, 250);
+      // page dots + hint
+      pages.addEventListener("scroll", function () {
+        var p = Math.round(pages.scrollLeft / pages.clientWidth);
+        var ds = dots.children; for (var i = 0; i < ds.length; i++) ds[i].className = i === p ? "on" : "";
+        if (p > 0 && hint) hint.classList.add("done");
+      }, { passive: true });
+      hint.addEventListener("click", function () { var p = Math.round(pages.scrollLeft / pages.clientWidth); pages.scrollTo({ left: ((p + 1) % 3) * pages.clientWidth, behavior: "smooth" }); });
     })();
   </script>
 </body>

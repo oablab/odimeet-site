@@ -147,6 +147,35 @@
     footer { border-top: 1px solid var(--border); padding: 2.2rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; }
     footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.2rem; }
 
+    /* Swipeable demo inside the phone: stealth · live text · live summary */
+    .phone .pages { position: absolute; inset: 0; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .phone .pages::-webkit-scrollbar { display: none; }
+    .phone .page { flex: 0 0 100%; height: 100%; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; }
+    .phone .page.stealth { align-items: center; justify-content: center; }
+    .phone .page.text, .phone .page.summary { padding: 13% 7% 12%; color: #E8EEF5; font: 400 clamp(0.62rem, 2.6vw, 0.8rem)/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", sans-serif; text-align: left; }
+    .phone .ph-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; color: #9AA7B5; margin-bottom: 0.6em; }
+    .phone .ph-head b { color: #E8EEF5; font-variant-numeric: tabular-nums; }
+    .phone .ph-head .pill { color: #4FB3A9; border: 1px solid rgba(79,179,169,.4); border-radius: 999px; padding: 0.1em 0.6em; font-size: 0.85em; }
+    .phone .lines { flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 0.45em; }
+    .phone .line { display: flex; gap: 0.5em; animation: rise 0.35s ease-out; }
+    .phone .line .t { color: #6F7E8C; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .phone .line.volatile { color: #8E9BA8; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .phone .sum { flex: 1; overflow: hidden; }
+    .phone .sum h4 { font-size: 0.9em; color: #4FB3A9; margin: 0.7em 0 0.2em; font-weight: 700; }
+    .phone .sum h4:first-child { margin-top: 0; }
+    .phone .sum li { list-style: none; padding-left: 0.9em; position: relative; animation: rise 0.4s ease-out; margin: 0.15em 0; }
+    .phone .sum li::before { content: "•"; position: absolute; left: 0; color: #6F7E8C; }
+    .phone .sum li.todo::before { content: "☐"; }
+    .phone .sum .empty { color: #6F7E8C; }
+    .phone .dots { position: absolute; bottom: 4%; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; pointer-events: none; }
+    .phone .dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.22); }
+    .phone .dots i.on { background: rgba(255,255,255,.85); }
+    .swipe-hint { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; color: var(--teal-deep); font-size: 0.9rem; font-weight: 600; }
+    .swipe-hint .arrow { display: inline-block; animation: nudge 1.6s ease-in-out infinite; }
+    @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+    .swipe-hint.done .arrow { animation: none; }
+
     /* Live hero: a phone in stealth mode. Glow breathes; timer counts from page load. */
     .phone {
       position: relative; margin: 3rem auto 0;
@@ -241,9 +270,18 @@
     <h1>你的備用 iPhone，<br>就是一支 AI 錄音筆。<br><em>什麼都不會離開它。</em></h1>
     <p class="sub">用任何一支 iPhone 錄下會議——或匯入你手上錄音筆的檔案——就能得到逐字稿、即時筆記和最終摘要。轉錄在手機上完成，摘要用你自己的 Gemini 金鑰。沒有帳號、沒有伺服器、沒有分鐘表。</p>
     <div class="badge">封測中 · 2026 上架 App Store</div>
-    <div class="phone" role="img" aria-label="一支處於 OdiMeet 隱形錄音模式的 iPhone：黑色螢幕、微弱的白色呼吸光和持續計時">
-      <div class="screen"><div class="island"></div><div class="glow"></div><div class="timer" id="stealth-timer">0:00</div></div>
+    <div class="phone" role="group" aria-label="一支 OdiMeet 中的 iPhone：可在隱形模式、即時逐字稿與即時摘要之間滑動" data-lang="zh">
+      <div class="screen">
+        <div class="island"></div>
+        <div class="pages" id="demo-pages">
+          <div class="page stealth"><div class="glow"></div><div class="timer" id="stealth-timer">0:00</div></div>
+          <div class="page text"><div class="ph-head"><span>即時文字</span><b class="timer-mini">0:00</b></div><div class="lines" id="demo-lines"><div class="line volatile"><span>聆聽中…</span></div></div></div>
+          <div class="page summary"><div class="ph-head"><span class="pill">✦ Gemini</span><span id="demo-sum-status"></span></div><div class="sum" id="demo-sum"><div class="empty">約一分鐘的談話後會出現第一批筆記。</div></div></div>
+        </div>
+        <div class="dots" id="demo-dots"><i class="on"></i><i></i><i></i></div>
+      </div>
     </div>
+    <div class="swipe-hint" id="swipe-hint"><span>滑動手機螢幕，看即時文字與 Gemini 摘要</span><span class="arrow">→</span></div>
     <p class="caption">隱形模式：手機放在桌上像睡著了。微弱的呼吸光代表正在錄音——這支從你打開網頁那一刻就開始錄了。</p>
   </header>
 
@@ -418,18 +456,55 @@
     <div>© 2026 OdiMeet</div>
   </footer>
 
+
   <script>
     (function () {
-      var el = document.getElementById("stealth-timer");
-      if (!el) return;
+      var D = {"lines": [[3, "好，我們開始。今天主要確認第四季的上線時程。"], [9, "工程這邊，錄音和匯入都完成了，說話者歸屬還在做。"], [16, "那我們把說話者歸屬放到 1.1 版，先上核心功能。"], [23, "同意。設計稿星期五前要給我，Alice 可以嗎？"], [29, "可以，星期五中午前。"], [34, "定價維持 2.99、29.99、39.99，買斷標最實惠。"], [41, "行銷頁面已經上線了，週一開放封測申請。"], [48, "還有一個問題，DJI 麥克風要不要在首頁提？"], [55, "先放 FAQ，不要放首頁，避免大家以為一定要買。"], [62, "好，那決議就這樣。下週同一時間再對一次。"], [70, "對了，隱私標籤記得選未收集資料。"], [76, "這個我來處理，明天送審前確認。"]], "stages": [[20, {"主題": ["第四季上線時程", "工程進度"], "決議": [], "待辦": [], "未決問題": []}], [40, {"主題": ["第四季上線時程", "工程進度"], "決議": ["說話者歸屬延到 1.1 版，先上核心功能"], "待辦": ["設計稿 — Alice（星期五中午前）"], "未決問題": []}], [60, {"主題": ["第四季上線時程", "定價", "行銷頁面"], "決議": ["說話者歸屬延到 1.1 版，先上核心功能", "定價 2.99 / 29.99 / 39.99，買斷標最實惠"], "待辦": ["設計稿 — Alice（星期五中午前）", "週一開放封測申請"], "未決問題": ["DJI 麥克風是否放首頁"]}], [80, {"摘要": ["確認 Q4 上線範圍：核心功能先行，說話者歸屬移至 1.1；定價與行銷頁已定案。"], "決議": ["說話者歸屬延到 1.1 版", "定價 2.99 / 29.99 / 39.99，買斷標最實惠", "DJI 麥克風只放 FAQ，不放首頁"], "待辦": ["設計稿 — Alice（星期五中午前）", "週一開放封測申請", "隱私標籤選「未收集資料」— 送審前確認（明天）"], "未決問題": []}]], "consolidate": 300, "upd": "已更新", "nxt": "下次整合"};
+      var timer = document.getElementById("stealth-timer"), mini = document.querySelector(".timer-mini");
+      var linesEl = document.getElementById("demo-lines"), sumEl = document.getElementById("demo-sum"), statusEl = document.getElementById("demo-sum-status");
+      var pages = document.getElementById("demo-pages"), dots = document.getElementById("demo-dots"), hint = document.getElementById("swipe-hint");
+      if (!timer || !pages) return;
       var start = Date.now();
       function pad(n) { return n < 10 ? "0" + n : "" + n; }
-      function tick() {
+      function clock(s) { var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; return h > 0 ? h + ":" + pad(m) + ":" + pad(x) : m + ":" + pad(x); }
+      var shownLines = 0, stage = -1, lastUpdate = null;
+      function render() {
         var s = Math.floor((Date.now() - start) / 1000);
-        var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
-        el.textContent = h > 0 ? h + ":" + pad(m) + ":" + pad(sec) : m + ":" + pad(sec);
+        timer.textContent = clock(s); if (mini) mini.textContent = clock(s);
+        // transcript: finalized lines up to now, plus a typing tail for the next line
+        var html = "";
+        for (var i = 0; i < D.lines.length; i++) {
+          var at = D.lines[i][0], text = D.lines[i][1];
+          if (s >= at + 3) { html += '<div class="line"><span class="t">' + clock(at) + '</span><span>' + text + '</span></div>'; }
+          else if (s >= at) {
+            var frac = (s - at + ((Date.now() - start) / 1000 - s)) / 3; var n = Math.max(1, Math.floor(text.length * frac));
+            html += '<div class="line volatile"><span class="t">' + clock(at) + '</span><span>' + text.slice(0, n) + '</span></div>'; break;
+          } else break;
+        }
+        if (html) linesEl.innerHTML = html;
+        // summary: staged
+        var idx = -1; for (var k = 0; k < D.stages.length; k++) if (s >= D.stages[k][0]) idx = k;
+        if (idx !== stage) {
+          stage = idx; lastUpdate = s;
+          if (idx >= 0) {
+            var sum = D.stages[idx][1], out = "";
+            for (var key in sum) { if (!sum[key].length) continue; out += "<h4>" + key + "</h4>"; for (var j = 0; j < sum[key].length; j++) out += '<li class="' + (/^(Action items|待辦)$/.test(key) ? "todo" : "") + '">' + sum[key][j] + "</li>"; }
+            sumEl.innerHTML = out;
+          }
+        }
+        if (statusEl) {
+          var nextAt = null; for (var q = 0; q < D.stages.length; q++) if (D.stages[q][0] > s) { nextAt = D.stages[q][0]; break; }
+          statusEl.textContent = (lastUpdate !== null && stage >= 0 ? D.upd + " " + clock(s - lastUpdate) : "") + (nextAt !== null ? "  ·  " + D.nxt + " " + clock(nextAt - s) : "");
+        }
       }
-      tick(); setInterval(tick, 1000);
+      render(); setInterval(render, 250);
+      // page dots + hint
+      pages.addEventListener("scroll", function () {
+        var p = Math.round(pages.scrollLeft / pages.clientWidth);
+        var ds = dots.children; for (var i = 0; i < ds.length; i++) ds[i].className = i === p ? "on" : "";
+        if (p > 0 && hint) hint.classList.add("done");
+      }, { passive: true });
+      hint.addEventListener("click", function () { var p = Math.round(pages.scrollLeft / pages.clientWidth); pages.scrollTo({ left: ((p + 1) % 3) * pages.clientWidth, behavior: "smooth" }); });
     })();
   </script>
 </body>

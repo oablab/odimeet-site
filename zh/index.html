@@ -147,6 +147,32 @@
     footer { border-top: 1px solid var(--border); padding: 2.2rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; }
     footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.2rem; }
 
+    /* Live hero: a phone in stealth mode. Glow breathes; timer counts from page load. */
+    .phone {
+      position: relative; margin: 3rem auto 0;
+      width: min(280px, 68vw); aspect-ratio: 9 / 19.2;
+      border-radius: 44px; background: #1c1e22;
+      box-shadow: 0 30px 60px rgba(19, 48, 44, 0.32), inset 0 0 0 2px #2a2d33;
+      padding: 12px;
+    }
+    .phone .screen {
+      position: relative; width: 100%; height: 100%; border-radius: 34px; background: #06080b; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .phone .island { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 34%; height: 5.5%; border-radius: 999px; background: #1c1e22; }
+    .phone .glow {
+      width: 46%; aspect-ratio: 1; border-radius: 50%; background: #fff;
+      filter: blur(28px); opacity: 0.12;
+      animation: breathe 4.4s ease-in-out infinite;
+    }
+    @keyframes breathe { 0%, 100% { opacity: 0.12; transform: scale(0.92); } 50% { opacity: 0.55; transform: scale(1.06); } }
+    .phone .timer {
+      position: absolute; bottom: 12%; left: 0; right: 0; text-align: center;
+      font: 500 clamp(1rem, 4.2vw, 1.3rem) -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, 0.28); letter-spacing: 0.04em;
+    }
+    @media (prefers-reduced-motion: reduce) { .phone .glow { animation: none; opacity: 0.35; } }
+
     section.plans { max-width: 1080px; margin: 0 auto; padding: 4.6rem 1.5rem 1rem; text-align: center; }
     .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.1rem; margin-top: 0.6rem; }
     .plan { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.7rem 1.5rem; text-align: left; position: relative; }
@@ -215,8 +241,10 @@
     <h1>你的備用 iPhone，<br>就是一支 AI 錄音筆。<br><em>什麼都不會離開它。</em></h1>
     <p class="sub">用任何一支 iPhone 錄下會議——或匯入你手上錄音筆的檔案——就能得到逐字稿、即時筆記和最終摘要。轉錄在手機上完成，摘要用你自己的 Gemini 金鑰。沒有帳號、沒有伺服器、沒有分鐘表。</p>
     <div class="badge">封測中 · 2026 上架 App Store</div>
-    <img class="phone-shot" src="/hero-phone.webp" alt="一支放在桌上的 iPhone，處於 OdiMeet 隱形錄音模式：黑色螢幕上只有微弱的白色呼吸光" width="1100" height="1600" fetchpriority="high">
-    <p class="caption">隱形模式：手機放在桌上像睡著了。微弱的呼吸光代表正在錄音。</p>
+    <div class="phone" role="img" aria-label="一支處於 OdiMeet 隱形錄音模式的 iPhone：黑色螢幕、微弱的白色呼吸光和持續計時">
+      <div class="screen"><div class="island"></div><div class="glow"></div><div class="timer" id="stealth-timer">0:00</div></div>
+    </div>
+    <p class="caption">隱形模式：手機放在桌上像睡著了。微弱的呼吸光代表正在錄音——這支從你打開網頁那一刻就開始錄了。</p>
   </header>
 
   <section class="features" id="features">
@@ -384,5 +412,20 @@
     <div><a href="/privacy/">隱私權政策</a></div>
     <div>© 2026 OdiMeet</div>
   </footer>
+
+  <script>
+    (function () {
+      var el = document.getElementById("stealth-timer");
+      if (!el) return;
+      var start = Date.now();
+      function pad(n) { return n < 10 ? "0" + n : "" + n; }
+      function tick() {
+        var s = Math.floor((Date.now() - start) / 1000);
+        var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+        el.textContent = h > 0 ? h + ":" + pad(m) + ":" + pad(sec) : m + ":" + pad(sec);
+      }
+      tick(); setInterval(tick, 1000);
+    })();
+  </script>
 </body>
 </html>

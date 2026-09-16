@@ -322,7 +322,7 @@
       <div class="feature">
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h2M7 8v8M11 4v16M15 7v10M19 10v4"/></svg></div>
         <h3>Two on-device engines</h3>
-        <p>Apple's iOS 26 speech engine for live text; Whisper large-v3-turbo (downloaded once) for the final pass. 99 languages, auto-detect, and mixed Chinese–English handled properly.</p>
+        <p>Apple's iOS 26 engine for live text and English; SenseVoice (Alibaba FunASR, downloaded once) for the most accurate Mandarin, Cantonese, Japanese and Korean. Auto-detect or choose the language.</p>
       </div>
       <div class="feature">
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></div>
@@ -370,7 +370,7 @@
     <p class="section-sub">No account to create, no server to trust, no minutes to count.</p>
     <div class="steps">
       <div class="step"><div class="num">1</div><h3>Record or import</h3><p>Tap Record on any iPhone running iOS 26 — or plug in a voice recorder and pick the file. Share from Voice Memos works too.</p></div>
-      <div class="step"><div class="num">2</div><h3>Transcribed on the phone</h3><p>Live text appears while you record. When you stop, the full-quality pass runs — Whisper if you downloaded it, Apple's engine if not. Nothing is uploaded.</p></div>
+      <div class="step"><div class="num">2</div><h3>Transcribed on the phone</h3><p>Live text appears while you record. When you stop, a full-quality pass runs on the device — SenseVoice if you downloaded it, Apple's engine otherwise. Nothing is uploaded.</p></div>
       <div class="step"><div class="num">3</div><h3>Summarize with your key</h3><p>Optional. Add a Gemini key once; get live notes while recording and a final summary after. You see the model, the token count, and every request goes straight from your phone to Google.</p></div>
     </div>
   </section>
@@ -384,7 +384,7 @@
         <h3>Monthly</h3>
         <div class="price">$2.99<small>/ month</small></div>
         <div class="per">Cancel any time</div>
-        <ul><li>Recorder, stealth and live-text modes</li><li>Import from any recorder</li><li>Apple + Whisper on-device engines</li><li>Live &amp; final summaries with your Gemini key</li><li>All export formats</li></ul>
+        <ul><li>Recorder, stealth and live-text modes</li><li>Import from any recorder</li><li>Apple + SenseVoice on-device engines</li><li>Live &amp; final summaries with your Gemini key</li><li>All export formats</li></ul>
       </div>
       <div class="plan featured">
         <span class="ribbon">Best value</span>
@@ -428,15 +428,11 @@
     </details>
     <details>
       <summary>Which iPhones work?</summary>
-      <p>Any iPhone that runs iOS 26 — from the iPhone SE (2nd generation) and iPhone 11 up. Apple's live engine is comfortable on all of them. Whisper large-v3-turbo runs on all of them too, but on an SE-class phone it is slow and its first load takes a few minutes; the smaller Whisper model is the better fit there. A recent iPhone with an OLED screen also makes stealth mode truly black.</p>
-    </details>
-    <details>
-      <summary>Why does the first Whisper transcription take minutes?</summary>
-      <p>The first time a Whisper model loads, iOS compiles it for your phone's Neural Engine. OdiMeet does this right after the download, in Settings, with a visible timer, so your first real recording starts instantly. The result is cached; later loads take seconds.</p>
+      <p>Any iPhone that runs iOS 26 — from the iPhone SE (2nd generation) and iPhone 11 up. Apple's engine is comfortable on all of them, and the optional SenseVoice model is fast even on the older ones. A recent iPhone with an OLED screen also makes stealth mode truly black.</p>
     </details>
     <details>
       <summary>What about meetings that mix Chinese and English?</summary>
-      <p>Whisper handles code-switching within a sentence well when the transcription language is set to Chinese — English words come out in English, inside the Chinese sentence. For Taiwan-style mixed meetings that is the setting we recommend. Auto-detect listens to the first 30 seconds and picks one language, which suits imported recordings whose language you do not know.</p>
+      <p>Set the transcription language to Chinese and SenseVoice keeps English words in English inside the Chinese sentence — the right setting for Taiwan-style mixed meetings. Auto-detect listens to the first 30 seconds and picks one language, which suits imported recordings whose language you do not know.</p>
     </details>
     <details>
       <summary>Does it identify speakers?</summary>

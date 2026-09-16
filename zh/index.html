@@ -313,7 +313,7 @@
       <div class="feature">
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h2M7 8v8M11 4v16M15 7v10M19 10v4"/></svg></div>
         <h3>兩個裝置端引擎</h3>
-        <p>即時文字用 Apple iOS 26 語音引擎；定稿用 Whisper large-v3-turbo（下載一次）。99 種語言、自動偵測，中英夾雜也處理得當。</p>
+        <p>即時文字與英文用 Apple iOS 26 引擎；國語、粵語、日文、韓文用 SenseVoice（阿里 FunASR，下載一次）最準。可自動偵測或手動指定語言。</p>
       </div>
       <div class="feature">
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></div>
@@ -361,7 +361,7 @@
     <p class="section-sub">不用建帳號、不用信任伺服器、不用數分鐘。</p>
     <div class="steps">
       <div class="step"><div class="num">1</div><h3>錄音或匯入</h3><p>在任何 iOS 26 的 iPhone 上按下錄音——或插上錄音筆選檔。從語音備忘錄分享過來也可以。</p></div>
-      <div class="step"><div class="num">2</div><h3>在手機上轉錄</h3><p>錄音時即時文字就出現。停止後跑完整品質的轉錄——下載了 Whisper 就用 Whisper，否則用 Apple 引擎。什麼都不上傳。</p></div>
+      <div class="step"><div class="num">2</div><h3>在手機上轉錄</h3><p>錄音時即時文字就出現。停止後在裝置上跑完整品質的轉錄——下載了 SenseVoice 就用 SenseVoice，否則用 Apple 引擎。什麼都不上傳。</p></div>
       <div class="step"><div class="num">3</div><h3>用你的金鑰做摘要</h3><p>選用。加一次 Gemini 金鑰，錄音時有即時筆記、錄完有最終摘要。你看得到模型、token 數，而且每個請求都從手機直送 Google。</p></div>
     </div>
   </section>
@@ -375,7 +375,7 @@
         <h3>月訂</h3>
         <div class="price">US$2.99<small>/ 月</small></div>
         <div class="per">隨時取消</div>
-        <ul><li>錄音筆、隱形、即時文字三種模式</li><li>匯入任何錄音筆</li><li>Apple ＋ Whisper 裝置端引擎</li><li>用你的 Gemini 金鑰做即時與最終摘要</li><li>所有匯出格式</li></ul>
+        <ul><li>錄音筆、隱形、即時文字三種模式</li><li>匯入任何錄音筆</li><li>Apple ＋ SenseVoice 裝置端引擎</li><li>用你的 Gemini 金鑰做即時與最終摘要</li><li>所有匯出格式</li></ul>
       </div>
       <div class="plan featured">
         <span class="ribbon">最實惠</span>
@@ -419,15 +419,11 @@
     </details>
     <details>
       <summary>哪些 iPhone 可以用？</summary>
-      <p>能跑 iOS 26 的都行——iPhone SE（第 2 代）、iPhone 11 以後。Apple 即時引擎在這些機型上都很輕鬆。Whisper large-v3-turbo 也都能跑，但在 SE 等級的手機上較慢、第一次載入要幾分鐘，那類機型更適合較小的 Whisper 模型。OLED 螢幕的新機型還能讓隱形模式真正全黑。</p>
-    </details>
-    <details>
-      <summary>為什麼第一次用 Whisper 要等好幾分鐘？</summary>
-      <p>Whisper 模型第一次載入時，iOS 會針對你手機的 Neural Engine 編譯。OdiMeet 在下載完成後就在設定裡先做這一步、有計時可看，之後第一次正式錄音能立刻開始。結果會被快取，之後載入只要幾秒。</p>
+      <p>能跑 iOS 26 的都行——iPhone SE（第 2 代）、iPhone 11 以後。Apple 引擎在這些機型上都很輕鬆，選用的 SenseVoice 模型即使在較舊機型上也很快。OLED 螢幕的新機型還能讓隱形模式真正全黑。</p>
     </details>
     <details>
       <summary>中英夾雜的會議怎麼辦？</summary>
-      <p>轉錄語言設為中文時，Whisper 對句內夾雜處理得很好——英文詞以英文寫在中文句子裡。台灣式的混合會議我們建議就這樣設。自動偵測會聽開頭 30 秒決定一種語言，適合不知道內容語言的匯入檔。</p>
+      <p>轉錄語言設為中文時，SenseVoice 會把英文詞以英文保留在中文句子裡——台灣式混合會議建議就這樣設。自動偵測會聽開頭 30 秒決定一種語言，適合不知道內容語言的匯入檔。</p>
     </details>
     <details>
       <summary>會分辨說話者嗎？</summary>

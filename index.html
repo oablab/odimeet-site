@@ -154,6 +154,22 @@
     footer { border-top: 1px solid var(--border); padding: 2.2rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; }
     footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.2rem; }
 
+    /* Mini iPhone-array demo (Coming-soon array card) */
+    .array-demo { display: flex; gap: 18px; align-items: center; justify-content: center; padding: 8px 0 4px; }
+    .mini { width: 78px; height: 158px; border-radius: 18px; background: #1c1e22; padding: 6px;
+            box-shadow: 0 8px 22px rgba(19,48,44,.25); position: relative; flex: 0 0 auto; }
+    .mini .scr { width: 100%; height: 100%; border-radius: 13px; background: #06080b; overflow: hidden;
+                 display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+    .mini .isl { position: absolute; top: 11px; left: 50%; transform: translateX(-50%); width: 34%; height: 6px; border-radius: 99px; background: #1c1e22; }
+    .mini .who { font-size: 10px; color: #9AA7B5; font-weight: 600; }
+    .mini .count { font: 300 30px/1 -apple-system, sans-serif; color: #E8EEF5; font-variant-numeric: tabular-nums; }
+    .mini .rec { display: none; align-items: center; gap: 5px; font-size: 11px; color: #ff5a5f; font-weight: 700; }
+    .mini .rec .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff5a5f; animation: recpulse 1.4s ease-in-out infinite; }
+    .mini .clock { font: 500 13px/1 -apple-system, sans-serif; color: #E8EEF5; font-variant-numeric: tabular-nums; display: none; }
+    @keyframes recpulse { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
+    .array-demo .link { align-self: center; color: var(--teal-deep); font-size: 11px; font-weight: 700; text-align: center; width: 46px; line-height: 1.3; }
+    .array-note { text-align: center; font-size: .82rem; color: var(--muted); margin-top: .6rem; }
+
     /* Swipeable demo inside the phone: stealth · live text · live summary */
     .phone .pages { position: absolute; inset: 0; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
     .phone .pages::-webkit-scrollbar { display: none; }
@@ -372,11 +388,12 @@
         <p>Stop, and the tracks come back to one phone and merge automatically into a single conversation, already labelled by who sat where. You know exactly who said what, because each voice had its own microphone.</p>
         <p>Two phones for a one-on-one, more for a round table. The recorder you already own, turned into a microphone array.</p>
       </div>
-      <div class="diagram" aria-label="Phones pairing over the air and starting to record together">
-        <div class="ph win"><b>iPhone · host</b>You<div class="bars"><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i></div>paired · REC</div>
-        <div class="ph win"><b>iPhone · guest</b>Guest<div class="bars"><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i></div>paired · REC</div>
-        <div class="diagram-note">Paired peer-to-peer · synchronized start · tracks merged on stop.</div>
+      <div class="array-demo" id="array-demo" aria-label="Two iPhones pairing, counting down together, then recording in sync">
+        <div class="mini"><div class="isl"></div><div class="scr"><span class="who">You</span><span class="count">3</span><span class="rec"><span class="dot"></span>REC</span><span class="clock">0:00</span></div></div>
+        <span class="link" data-pairing="pairing…" data-synced="synced">pairing…</span>
+        <div class="mini"><div class="isl"></div><div class="scr"><span class="who">Guest</span><span class="count">3</span><span class="rec"><span class="dot"></span>REC</span><span class="clock">0:00</span></div></div>
       </div>
+      <div class="array-note">Paired peer-to-peer · one countdown · both recording in sync.</div>
     </div>
   </section>
 
@@ -529,6 +546,50 @@
         if (p > 0 && hint) hint.classList.add("done");
       }, { passive: true });
       hint.addEventListener("click", function () { var p = Math.round(pages.scrollLeft / pages.clientWidth); pages.scrollTo({ left: ((p + 1) % 3) * pages.clientWidth, behavior: "smooth" }); });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var demo = document.getElementById("array-demo");
+      if (!demo) return;
+      var counts = demo.querySelectorAll(".count");
+      var recs = demo.querySelectorAll(".rec");
+      var clocks = demo.querySelectorAll(".clock");
+      var link = demo.querySelector(".link");
+      function two(n){ return n<10 ? "0"+n : ""+n; }
+      function cycle() {
+        // pairing
+        if (link) link.textContent = link.dataset.pairing;
+        counts.forEach(function(c){ c.style.display="none"; });
+        recs.forEach(function(r){ r.style.display="none"; });
+        clocks.forEach(function(k){ k.style.display="none"; });
+        setTimeout(function(){
+          // countdown 3..2..1 together
+          if (link) link.textContent = link.dataset.synced;
+          counts.forEach(function(c){ c.style.display="block"; });
+          var n = 3;
+          counts.forEach(function(c){ c.textContent = n; });
+          var iv = setInterval(function(){
+            n--;
+            if (n <= 0) {
+              clearInterval(iv);
+              counts.forEach(function(c){ c.style.display="none"; });
+              recs.forEach(function(r){ r.style.display="flex"; });
+              clocks.forEach(function(k){ k.style.display="block"; });
+              var t = 0;
+              var rec = setInterval(function(){
+                t++;
+                clocks.forEach(function(k){ k.textContent = two(Math.floor(t/60))+":"+two(t%60); });
+                if (t >= 6) { clearInterval(rec); setTimeout(cycle, 900); }
+              }, 1000);
+            } else {
+              counts.forEach(function(c){ c.textContent = n; });
+            }
+          }, 800);
+        }, 1400);
+      }
+      cycle();
     })();
   </script>
 </body>

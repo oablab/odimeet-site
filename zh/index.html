@@ -147,6 +147,22 @@
     footer { border-top: 1px solid var(--border); padding: 2.2rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; }
     footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.2rem; }
 
+    section.plans { max-width: 1080px; margin: 0 auto; padding: 4.6rem 1.5rem 1rem; text-align: center; }
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.1rem; margin-top: 0.6rem; }
+    .plan { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.7rem 1.5rem; text-align: left; position: relative; }
+    .plan.featured { border-color: var(--teal); box-shadow: 0 12px 40px rgba(47, 140, 131, 0.15); }
+    .plan .ribbon { position: absolute; top: -0.7rem; left: 1.2rem; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; background: var(--teal-deep); border-radius: 999px; padding: 0.2rem 0.7rem; }
+    @media (prefers-color-scheme: dark) { .plan .ribbon { color: #0F1720; } }
+    .plan h3 { font-size: 1.05rem; margin-bottom: 0.2rem; }
+    .plan .price { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 2.3rem; letter-spacing: -0.02em; line-height: 1.1; margin: 0.4rem 0 0.1rem; }
+    .plan .price small { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; font-size: 0.9rem; color: var(--muted); letter-spacing: 0; margin-left: 0.2rem; }
+    .plan .per { color: var(--muted); font-size: 0.88rem; min-height: 1.4em; }
+    .plan ul { list-style: none; margin-top: 1rem; padding: 0; }
+    .plan li { font-size: 0.92rem; color: var(--muted); padding: 0.28rem 0 0.28rem 1.4rem; position: relative; }
+    .plan li::before { content: "✓"; position: absolute; left: 0; color: var(--teal-deep); font-weight: 700; }
+    .plans-note { color: var(--muted); font-size: 0.9rem; max-width: 620px; margin: 1.6rem auto 0; }
+    html[lang="zh-Hant"] .plan .price { font-family: inherit; font-weight: 800; }
+
     /* Traditional Chinese — same convention as rocketbucket.app: PingFang TC body,
        display headings inherit the sans (the serif New York has no CJK glyphs). */
     html[lang="zh-Hant"] body {
@@ -187,6 +203,7 @@
       <a href="#features">功能</a>
       <a href="#next">即將推出</a>
       <a href="#how">怎麼用</a>
+      <a href="#plans">方案</a>
       <a href="#faq">常見問題</a>
       <a href="mailto:tautiu.dev+odimeet@gmail.com">支援</a>
       <span class="lang"><a class="active" href="/zh/">中文</a>|<a href="/?lang=en">EN</a></span>
@@ -276,6 +293,34 @@
     </div>
   </section>
 
+
+  <section class="plans" id="plans">
+    <h2 class="section-title">方案</h2>
+    <p class="section-sub">每個方案都從七天免費開始，功能全部包含。有需要的月份再訂——或一次買斷、永久保留。</p>
+    <div class="plans-grid">
+      <div class="plan">
+        <h3>月訂</h3>
+        <div class="price">US$2.99<small>/ 月</small></div>
+        <div class="per">隨時取消</div>
+        <ul><li>錄音筆、隱形、即時文字三種模式</li><li>匯入任何錄音筆</li><li>Apple ＋ Whisper 裝置端引擎</li><li>用你的 Gemini 金鑰做即時與最終摘要</li><li>所有匯出格式</li></ul>
+      </div>
+      <div class="plan featured">
+        <span class="ribbon">最划算</span>
+        <h3>年訂</h3>
+        <div class="price">US$29.99<small>/ 年</small></div>
+        <div class="per">約每月 US$2.50</div>
+        <ul><li>月訂的全部內容</li><li>比月訂省兩個月</li><li>說話者歸屬推出時直接享有</li></ul>
+      </div>
+      <div class="plan">
+        <h3>買斷</h3>
+        <div class="price">US$39.99<small>一次</small></div>
+        <div class="per">永遠不用訂閱</div>
+        <ul><li>此 Apple ID 永久擁有全部功能</li><li>包含所有未來更新</li><li>給和我們一樣討厭分鐘表的人</li></ul>
+      </div>
+    </div>
+    <p class="plans-note">以美元計價，各地區依 Apple 價格層級換算。Gemini 用量由 Google 向你自己的帳號收費——開著即時摘要的兩小時會議通常遠低於一美元。任何方案都沒有按分鐘計費。</p>
+  </section>
+
   <section class="privacy">
     <div class="privacy-card">
       <h2>沒有帳號。沒有伺服器。沒有分鐘表。</h2>
@@ -320,7 +365,7 @@
     </details>
     <details>
       <summary>多少錢？</summary>
-      <p>按照慣例，所有用戶七天免費。之後可以按月或按年訂閱——有需要的月份再訂即可——也可以選擇買斷。詳細方案我們會在日後公布。Gemini 的用量用你自己的金鑰直接付給 Google，開著即時摘要的兩小時會議通常遠低於一美元。</p>
+      <p>七天免費，之後月訂 US$2.99、年訂 US$29.99，或 US$39.99 一次買斷——見<a href="#plans">方案</a>。每個方案功能全包，有需要的月份再訂即可。Gemini 的用量用你自己的金鑰直接付給 Google，開著即時摘要的兩小時會議通常遠低於一美元。</p>
     </details>
     <details>
       <summary>什麼時候能用？</summary>
@@ -331,7 +376,7 @@
   <div class="bottom-cta">
     <h2>你的錄音筆早就錄下來了。</h2>
     <a class="cta" href="mailto:tautiu.dev+odimeet@gmail.com?subject=OdiMeet%20beta">申請封測</a>
-    <a class="cta pending" href="#">App Store · 2026 年</a>
+    <a class="cta pending" href="#plans">US$2.99 起 · 七天免費</a>
   </div>
 
   <footer>

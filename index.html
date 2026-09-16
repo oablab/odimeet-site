@@ -147,6 +147,22 @@
     footer { border-top: 1px solid var(--border); padding: 2.2rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; }
     footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.2rem; }
 
+    section.plans { max-width: 1080px; margin: 0 auto; padding: 4.6rem 1.5rem 1rem; text-align: center; }
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.1rem; margin-top: 0.6rem; }
+    .plan { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.7rem 1.5rem; text-align: left; position: relative; }
+    .plan.featured { border-color: var(--teal); box-shadow: 0 12px 40px rgba(47, 140, 131, 0.15); }
+    .plan .ribbon { position: absolute; top: -0.7rem; left: 1.2rem; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; background: var(--teal-deep); border-radius: 999px; padding: 0.2rem 0.7rem; }
+    @media (prefers-color-scheme: dark) { .plan .ribbon { color: #0F1720; } }
+    .plan h3 { font-size: 1.05rem; margin-bottom: 0.2rem; }
+    .plan .price { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 2.3rem; letter-spacing: -0.02em; line-height: 1.1; margin: 0.4rem 0 0.1rem; }
+    .plan .price small { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; font-size: 0.9rem; color: var(--muted); letter-spacing: 0; margin-left: 0.2rem; }
+    .plan .per { color: var(--muted); font-size: 0.88rem; min-height: 1.4em; }
+    .plan ul { list-style: none; margin-top: 1rem; padding: 0; }
+    .plan li { font-size: 0.92rem; color: var(--muted); padding: 0.28rem 0 0.28rem 1.4rem; position: relative; }
+    .plan li::before { content: "✓"; position: absolute; left: 0; color: var(--teal-deep); font-weight: 700; }
+    .plans-note { color: var(--muted); font-size: 0.9rem; max-width: 620px; margin: 1.6rem auto 0; }
+    html[lang="zh-Hant"] .plan .price { font-family: inherit; font-weight: 800; }
+
     /* Traditional Chinese — same convention as rocketbucket.app: PingFang TC body,
        display headings inherit the sans (the serif New York has no CJK glyphs). */
     html[lang="zh-Hant"] body {
@@ -196,6 +212,7 @@
       <a href="#features">Features</a>
       <a href="#next">Coming next</a>
       <a href="#how">How it works</a>
+      <a href="#plans">Plans</a>
       <a href="#faq">FAQ</a>
       <a href="mailto:tautiu.dev+odimeet@gmail.com">Support</a>
       <span class="lang"><a href="/zh/">中文</a>|<a class="active" href="/?lang=en">EN</a></span>
@@ -285,6 +302,34 @@
     </div>
   </section>
 
+
+  <section class="plans" id="plans">
+    <h2 class="section-title">Plans</h2>
+    <p class="section-sub">Every plan starts with seven days free and includes everything. Subscribe only for the months you need — or buy once and keep it.</p>
+    <div class="plans-grid">
+      <div class="plan">
+        <h3>Monthly</h3>
+        <div class="price">$2.99<small>/ month</small></div>
+        <div class="per">Cancel any time</div>
+        <ul><li>Recorder, stealth and live-text modes</li><li>Import from any recorder</li><li>Apple + Whisper on-device engines</li><li>Live &amp; final summaries with your Gemini key</li><li>All export formats</li></ul>
+      </div>
+      <div class="plan featured">
+        <span class="ribbon">Best value</span>
+        <h3>Yearly</h3>
+        <div class="price">$29.99<small>/ year</small></div>
+        <div class="per">About $2.50 a month</div>
+        <ul><li>Everything in Monthly</li><li>Two months free versus monthly</li><li>Speaker attribution when it ships</li></ul>
+      </div>
+      <div class="plan">
+        <h3>Lifetime</h3>
+        <div class="price">$39.99<small>once</small></div>
+        <div class="per">No subscription, ever</div>
+        <ul><li>Everything, forever, on this Apple ID</li><li>All future updates included</li><li>For people who hate meters as much as we do</li></ul>
+      </div>
+    </div>
+    <p class="plans-note">Prices in USD; local pricing follows Apple's tiers. Gemini usage is billed by Google to your own account — typically well under a dollar for a two-hour meeting with live summaries on. No plan ever includes a per-minute meter.</p>
+  </section>
+
   <section class="privacy">
     <div class="privacy-card">
       <h2>No account. No server. No meter.</h2>
@@ -329,7 +374,7 @@
     </details>
     <details>
       <summary>What does it cost?</summary>
-      <p>As is customary, everyone gets seven days free. After that, subscribe monthly or yearly — only for the months you actually need it — or choose a one-time purchase. Detailed plans will be announced later. Gemini usage is paid directly to Google with your own key, typically well under a dollar for a two-hour meeting with live summaries on.</p>
+      <p>Seven days free, then $2.99 a month, $29.99 a year, or $39.99 once for lifetime — see <a href="#plans">Plans</a>. Every plan includes everything; subscribe only for the months you need. Gemini usage is paid directly to Google with your own key, typically well under a dollar for a two-hour meeting with live summaries on.</p>
     </details>
     <details>
       <summary>When can I get it?</summary>
@@ -340,7 +385,7 @@
   <div class="bottom-cta">
     <h2>Your recorder already captured it.</h2>
     <a class="cta" href="mailto:tautiu.dev+odimeet@gmail.com?subject=OdiMeet%20beta">Request beta access</a>
-    <a class="cta pending" href="#">App Store · 2026</a>
+    <a class="cta pending" href="#plans">From $2.99 · 7 days free</a>
   </div>
 
   <footer>

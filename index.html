@@ -166,11 +166,11 @@
     .attr-note { text-align: center; font-size: .82rem; color: var(--muted); margin-top: .6rem; }
 
     /* Live jitter on the speaking phone's bars */
-    .attr-demo .mini.win .lvl i { animation: vu 0.5s ease-in-out infinite; transform-origin: bottom; }
-    .attr-demo .mini.win .lvl i:nth-child(1) { animation-duration: 0.42s; animation-delay: 0s; }
-    .attr-demo .mini.win .lvl i:nth-child(2) { animation-duration: 0.31s; animation-delay: 0.09s; }
-    .attr-demo .mini.win .lvl i:nth-child(3) { animation-duration: 0.47s; animation-delay: 0.04s; }
-    .attr-demo .mini.win .lvl i:nth-child(4) { animation-duration: 0.36s; animation-delay: 0.13s; }
+    .attr-demo .mini.win .lvl i { animation: vu 1s ease-in-out infinite; transform-origin: bottom; }
+    .attr-demo .mini.win .lvl i:nth-child(1) { animation-duration: 1.1s; animation-delay: 0s; }
+    .attr-demo .mini.win .lvl i:nth-child(2) { animation-duration: 0.85s; animation-delay: 0.2s; }
+    .attr-demo .mini.win .lvl i:nth-child(3) { animation-duration: 1.25s; animation-delay: 0.1s; }
+    .attr-demo .mini.win .lvl i:nth-child(4) { animation-duration: 0.95s; animation-delay: 0.3s; }
     @keyframes vu { 0%,100% { transform: scaleY(0.55); } 30% { transform: scaleY(1); } 60% { transform: scaleY(0.4); } 80% { transform: scaleY(0.85); } }
     /* the quiet phones breathe very slightly so they don't look dead */
     .attr-demo .mini:not(.win) .lvl i { animation: vuq 1.8s ease-in-out infinite; transform-origin: bottom; }

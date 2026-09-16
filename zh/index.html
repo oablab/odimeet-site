@@ -459,7 +459,7 @@
 
   <script>
     (function () {
-      var D = {"lines": [[3, "好，我們開始。今天主要確認第四季的上線時程。"], [9, "工程這邊，錄音和匯入都完成了，說話者歸屬還在做。"], [16, "那我們把說話者歸屬放到 1.1 版，先上核心功能。"], [23, "同意。設計稿星期五前要給我，Alice 可以嗎？"], [29, "可以，星期五中午前。"], [34, "定價維持 2.99、29.99、39.99，買斷標最實惠。"], [41, "行銷頁面已經上線了，週一開放封測申請。"], [48, "還有一個問題，DJI 麥克風要不要在首頁提？"], [55, "先放 FAQ，不要放首頁，避免大家以為一定要買。"], [62, "好，那決議就這樣。下週同一時間再對一次。"], [70, "對了，隱私標籤記得選未收集資料。"], [76, "這個我來處理，明天送審前確認。"]], "stages": [[20, {"主題": ["第四季上線時程", "工程進度"], "決議": [], "待辦": [], "未決問題": []}], [40, {"主題": ["第四季上線時程", "工程進度"], "決議": ["說話者歸屬延到 1.1 版，先上核心功能"], "待辦": ["設計稿 — Alice（星期五中午前）"], "未決問題": []}], [60, {"主題": ["第四季上線時程", "定價", "行銷頁面"], "決議": ["說話者歸屬延到 1.1 版，先上核心功能", "定價 2.99 / 29.99 / 39.99，買斷標最實惠"], "待辦": ["設計稿 — Alice（星期五中午前）", "週一開放封測申請"], "未決問題": ["DJI 麥克風是否放首頁"]}], [80, {"摘要": ["確認 Q4 上線範圍：核心功能先行，說話者歸屬移至 1.1；定價與行銷頁已定案。"], "決議": ["說話者歸屬延到 1.1 版", "定價 2.99 / 29.99 / 39.99，買斷標最實惠", "DJI 麥克風只放 FAQ，不放首頁"], "待辦": ["設計稿 — Alice（星期五中午前）", "週一開放封測申請", "隱私標籤選「未收集資料」— 送審前確認（明天）"], "未決問題": []}]], "consolidate": 300, "upd": "已更新", "nxt": "下次整合"};
+      var D = {"lines": [[5, "好，我們開始。今天主要確認第四季的上線時程。"], [10, "工程這邊，錄音和匯入都完成了，說話者歸屬還在做。"], [15, "那我們把說話者歸屬放到 1.1 版，先上核心功能。"], [20, "同意。設計稿星期五前要給我，Alice 可以嗎？"], [25, "可以，星期五中午前。"], [30, "定價維持 2.99、29.99、39.99，買斷標最實惠。"], [35, "行銷頁面已經上線了，週一開放封測申請。"], [40, "還有一個問題，DJI 麥克風要不要在首頁提？"], [45, "先放 FAQ，不要放首頁，避免大家以為一定要買。"], [50, "好，那決議就這樣。下週同一時間再對一次。"], [55, "對了，隱私標籤記得選未收集資料。"], [60, "這個我來處理，明天送審前確認。"]], "stages": [[20, {"主題": ["第四季上線時程", "工程進度"], "決議": [], "待辦": [], "未決問題": []}], [40, {"主題": ["第四季上線時程", "工程進度"], "決議": ["說話者歸屬延到 1.1 版，先上核心功能"], "待辦": ["設計稿 — Alice（星期五中午前）"], "未決問題": []}], [60, {"主題": ["第四季上線時程", "定價", "行銷頁面"], "決議": ["說話者歸屬延到 1.1 版，先上核心功能", "定價 2.99 / 29.99 / 39.99，買斷標最實惠"], "待辦": ["設計稿 — Alice（星期五中午前）", "週一開放封測申請"], "未決問題": ["DJI 麥克風是否放首頁"]}], [80, {"摘要": ["確認 Q4 上線範圍：核心功能先行，說話者歸屬移至 1.1；定價與行銷頁已定案。"], "決議": ["說話者歸屬延到 1.1 版", "定價 2.99 / 29.99 / 39.99，買斷標最實惠", "DJI 麥克風只放 FAQ，不放首頁"], "待辦": ["設計稿 — Alice（星期五中午前）", "週一開放封測申請", "隱私標籤選「未收集資料」— 送審前確認（明天）"], "未決問題": []}]], "consolidate": 300, "upd": "已更新", "nxt": "下次整合"};
       var timer = document.getElementById("stealth-timer"), mini = document.querySelector(".timer-mini");
       var linesEl = document.getElementById("demo-lines"), sumEl = document.getElementById("demo-sum"), statusEl = document.getElementById("demo-sum-status");
       var pages = document.getElementById("demo-pages"), dots = document.getElementById("demo-dots"), hint = document.getElementById("swipe-hint");
@@ -467,25 +467,22 @@
       var start = Date.now();
       function pad(n) { return n < 10 ? "0" + n : "" + n; }
       function clock(s) { var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; return h > 0 ? h + ":" + pad(m) + ":" + pad(x) : m + ":" + pad(x); }
-      var shownLines = 0, stage = -1, lastUpdate = null;
+      var bucket = -1, stage = -1, lastUpdate = null;
       function render() {
         var s = Math.floor((Date.now() - start) / 1000);
         timer.textContent = clock(s); if (mini) mini.textContent = clock(s);
-        // transcript: finalized lines up to now, plus a typing tail for the next line
+        // Everything below moves in 5-second steps, like the real app's chunks.
+        var b = Math.floor(s / 5) * 5;
+        if (b === bucket) return;
+        bucket = b;
         var html = "";
         for (var i = 0; i < D.lines.length; i++) {
-          var at = D.lines[i][0], text = D.lines[i][1];
-          if (s >= at + 3) { html += '<div class="line"><span class="t">' + clock(at) + '</span><span>' + text + '</span></div>'; }
-          else if (s >= at) {
-            var frac = (s - at + ((Date.now() - start) / 1000 - s)) / 3; var n = Math.max(1, Math.floor(text.length * frac));
-            html += '<div class="line volatile"><span class="t">' + clock(at) + '</span><span>' + text.slice(0, n) + '</span></div>'; break;
-          } else break;
+          if (b >= D.lines[i][0]) html += '<div class="line"><span class="t">' + clock(D.lines[i][0]) + '</span><span>' + D.lines[i][1] + '</span></div>';
         }
         if (html) linesEl.innerHTML = html;
-        // summary: staged
-        var idx = -1; for (var k = 0; k < D.stages.length; k++) if (s >= D.stages[k][0]) idx = k;
+        var idx = -1; for (var k = 0; k < D.stages.length; k++) if (b >= D.stages[k][0]) idx = k;
         if (idx !== stage) {
-          stage = idx; lastUpdate = s;
+          stage = idx; lastUpdate = b;
           if (idx >= 0) {
             var sum = D.stages[idx][1], out = "";
             for (var key in sum) { if (!sum[key].length) continue; out += "<h4>" + key + "</h4>"; for (var j = 0; j < sum[key].length; j++) out += '<li class="' + (/^(Action items|待辦)$/.test(key) ? "todo" : "") + '">' + sum[key][j] + "</li>"; }
@@ -493,11 +490,11 @@
           }
         }
         if (statusEl) {
-          var nextAt = null; for (var q = 0; q < D.stages.length; q++) if (D.stages[q][0] > s) { nextAt = D.stages[q][0]; break; }
-          statusEl.textContent = (lastUpdate !== null && stage >= 0 ? D.upd + " " + clock(s - lastUpdate) : "") + (nextAt !== null ? "  ·  " + D.nxt + " " + clock(nextAt - s) : "");
+          var nextAt = null; for (var q = 0; q < D.stages.length; q++) if (D.stages[q][0] > b) { nextAt = D.stages[q][0]; break; }
+          statusEl.textContent = (lastUpdate !== null && stage >= 0 ? D.upd + " " + clock(b - lastUpdate) : "") + (nextAt !== null ? "  ·  " + D.nxt + " " + clock(nextAt - b) : "");
         }
       }
-      render(); setInterval(render, 250);
+      render(); setInterval(render, 1000);
       // page dots + hint
       pages.addEventListener("scroll", function () {
         var p = Math.round(pages.scrollLeft / pages.clientWidth);

@@ -468,7 +468,7 @@
 
   <script>
     (function () {
-      var D = {"lines": [[3, "Okay, let's start. Main thing today is the Q4 launch timeline."], [9, "Engineering: recording and import are done, speaker attribution is still in progress."], [16, "Then let's move speaker attribution to 1.1 and ship the core first."], [23, "Agreed. I need the design files by Friday — Alice, can you?"], [29, "Yes, before noon Friday."], [34, "Pricing stays 2.99, 29.99, 39.99; label lifetime as best deal."], [41, "The marketing page is live; beta applications open Monday."], [48, "One more question — do we mention the DJI mic on the home page?"], [55, "FAQ only, not the home page, or people think they must buy one."], [62, "Good, so those are the decisions. Same time next week."], [70, "Oh, and the privacy label — remember to pick Data Not Collected."], [76, "I'll handle that and confirm before we submit tomorrow."]], "stages": [[20, {"Topics": ["Q4 launch timeline", "Engineering status"], "Decisions": [], "Action items": [], "Open questions": []}], [40, {"Topics": ["Q4 launch timeline", "Engineering status"], "Decisions": ["Speaker attribution moves to 1.1; ship the core first"], "Action items": ["Design files — Alice (Friday noon)"], "Open questions": []}], [60, {"Topics": ["Q4 launch timeline", "Pricing", "Marketing page"], "Decisions": ["Speaker attribution moves to 1.1; ship the core first", "Pricing 2.99 / 29.99 / 39.99; lifetime labelled best deal"], "Action items": ["Design files — Alice (Friday noon)", "Open beta applications Monday"], "Open questions": ["DJI mic on the home page?"]}], [80, {"Summary": ["Q4 scope confirmed: core ships first, speaker attribution moves to 1.1; pricing and marketing page settled."], "Decisions": ["Speaker attribution moves to 1.1", "Pricing 2.99 / 29.99 / 39.99; lifetime labelled best deal", "DJI mic goes in the FAQ only, not the home page"], "Action items": ["Design files — Alice (Friday noon)", "Open beta applications Monday", "Privacy label: Data Not Collected — confirm before submitting (tomorrow)"], "Open questions": []}]], "consolidate": 300, "upd": "updated", "nxt": "next"};
+      var D = {"lines": [[5, "Okay, let's start. Main thing today is the Q4 launch timeline."], [10, "Engineering: recording and import are done, speaker attribution is still in progress."], [15, "Then let's move speaker attribution to 1.1 and ship the core first."], [20, "Agreed. I need the design files by Friday — Alice, can you?"], [25, "Yes, before noon Friday."], [30, "Pricing stays 2.99, 29.99, 39.99; label lifetime as best deal."], [35, "The marketing page is live; beta applications open Monday."], [40, "One more question — do we mention the DJI mic on the home page?"], [45, "FAQ only, not the home page, or people think they must buy one."], [50, "Good, so those are the decisions. Same time next week."], [55, "Oh, and the privacy label — remember to pick Data Not Collected."], [60, "I'll handle that and confirm before we submit tomorrow."]], "stages": [[20, {"Topics": ["Q4 launch timeline", "Engineering status"], "Decisions": [], "Action items": [], "Open questions": []}], [40, {"Topics": ["Q4 launch timeline", "Engineering status"], "Decisions": ["Speaker attribution moves to 1.1; ship the core first"], "Action items": ["Design files — Alice (Friday noon)"], "Open questions": []}], [60, {"Topics": ["Q4 launch timeline", "Pricing", "Marketing page"], "Decisions": ["Speaker attribution moves to 1.1; ship the core first", "Pricing 2.99 / 29.99 / 39.99; lifetime labelled best deal"], "Action items": ["Design files — Alice (Friday noon)", "Open beta applications Monday"], "Open questions": ["DJI mic on the home page?"]}], [80, {"Summary": ["Q4 scope confirmed: core ships first, speaker attribution moves to 1.1; pricing and marketing page settled."], "Decisions": ["Speaker attribution moves to 1.1", "Pricing 2.99 / 29.99 / 39.99; lifetime labelled best deal", "DJI mic goes in the FAQ only, not the home page"], "Action items": ["Design files — Alice (Friday noon)", "Open beta applications Monday", "Privacy label: Data Not Collected — confirm before submitting (tomorrow)"], "Open questions": []}]], "consolidate": 300, "upd": "updated", "nxt": "next"};
       var timer = document.getElementById("stealth-timer"), mini = document.querySelector(".timer-mini");
       var linesEl = document.getElementById("demo-lines"), sumEl = document.getElementById("demo-sum"), statusEl = document.getElementById("demo-sum-status");
       var pages = document.getElementById("demo-pages"), dots = document.getElementById("demo-dots"), hint = document.getElementById("swipe-hint");
@@ -476,25 +476,22 @@
       var start = Date.now();
       function pad(n) { return n < 10 ? "0" + n : "" + n; }
       function clock(s) { var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; return h > 0 ? h + ":" + pad(m) + ":" + pad(x) : m + ":" + pad(x); }
-      var shownLines = 0, stage = -1, lastUpdate = null;
+      var bucket = -1, stage = -1, lastUpdate = null;
       function render() {
         var s = Math.floor((Date.now() - start) / 1000);
         timer.textContent = clock(s); if (mini) mini.textContent = clock(s);
-        // transcript: finalized lines up to now, plus a typing tail for the next line
+        // Everything below moves in 5-second steps, like the real app's chunks.
+        var b = Math.floor(s / 5) * 5;
+        if (b === bucket) return;
+        bucket = b;
         var html = "";
         for (var i = 0; i < D.lines.length; i++) {
-          var at = D.lines[i][0], text = D.lines[i][1];
-          if (s >= at + 3) { html += '<div class="line"><span class="t">' + clock(at) + '</span><span>' + text + '</span></div>'; }
-          else if (s >= at) {
-            var frac = (s - at + ((Date.now() - start) / 1000 - s)) / 3; var n = Math.max(1, Math.floor(text.length * frac));
-            html += '<div class="line volatile"><span class="t">' + clock(at) + '</span><span>' + text.slice(0, n) + '</span></div>'; break;
-          } else break;
+          if (b >= D.lines[i][0]) html += '<div class="line"><span class="t">' + clock(D.lines[i][0]) + '</span><span>' + D.lines[i][1] + '</span></div>';
         }
         if (html) linesEl.innerHTML = html;
-        // summary: staged
-        var idx = -1; for (var k = 0; k < D.stages.length; k++) if (s >= D.stages[k][0]) idx = k;
+        var idx = -1; for (var k = 0; k < D.stages.length; k++) if (b >= D.stages[k][0]) idx = k;
         if (idx !== stage) {
-          stage = idx; lastUpdate = s;
+          stage = idx; lastUpdate = b;
           if (idx >= 0) {
             var sum = D.stages[idx][1], out = "";
             for (var key in sum) { if (!sum[key].length) continue; out += "<h4>" + key + "</h4>"; for (var j = 0; j < sum[key].length; j++) out += '<li class="' + (/^(Action items|待辦)$/.test(key) ? "todo" : "") + '">' + sum[key][j] + "</li>"; }
@@ -502,11 +499,11 @@
           }
         }
         if (statusEl) {
-          var nextAt = null; for (var q = 0; q < D.stages.length; q++) if (D.stages[q][0] > s) { nextAt = D.stages[q][0]; break; }
-          statusEl.textContent = (lastUpdate !== null && stage >= 0 ? D.upd + " " + clock(s - lastUpdate) : "") + (nextAt !== null ? "  ·  " + D.nxt + " " + clock(nextAt - s) : "");
+          var nextAt = null; for (var q = 0; q < D.stages.length; q++) if (D.stages[q][0] > b) { nextAt = D.stages[q][0]; break; }
+          statusEl.textContent = (lastUpdate !== null && stage >= 0 ? D.upd + " " + clock(b - lastUpdate) : "") + (nextAt !== null ? "  ·  " + D.nxt + " " + clock(nextAt - b) : "");
         }
       }
-      render(); setInterval(render, 250);
+      render(); setInterval(render, 1000);
       // page dots + hint
       pages.addEventListener("scroll", function () {
         var p = Math.round(pages.scrollLeft / pages.clientWidth);

@@ -109,7 +109,7 @@
     .feature p { font-size: 0.94rem; color: var(--muted); }
 
     section.next { max-width: 1080px; margin: 4.6rem auto 0; padding: 0 1.5rem; }
-    .next-card { background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 2.4rem; display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center; }
+    .next-card { margin-bottom: 1.1rem; background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 2.4rem; display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center; }
     @media (max-width: 800px) { .next-card { grid-template-columns: 1fr; } }
     .next-card .tag { display: inline-block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal-deep); background: var(--teal-tint); border-radius: 999px; padding: 0.3rem 0.8rem; margin-bottom: 0.9rem; }
     .next-card h2 { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 1.8rem; letter-spacing: -0.02em; margin-bottom: 0.8rem; }
@@ -352,6 +352,21 @@
         <div class="ph win"><b>手機 B</b>阿明<div class="bars"><i style="height:70%"></i><i style="height:100%"></i><i style="height:85%"></i><i style="height:95%"></i></div>正在說話</div>
         <div class="ph"><b>手機 C</b>陳老師<div class="bars"><i style="height:25%"></i><i style="height:35%"></i><i style="height:20%"></i><i style="height:30%"></i></div>−16 dB</div>
         <div class="diagram-note">每 200 毫秒取最大聲的一軌 → 說話者。接近 100% 的歸屬，重疊對話完整保留。</div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <div>
+        <span class="tag">近期推出</span>
+        <h2>多 iPhone 陣列，同步錄音。</h2>
+        <p>要訪談嗎？每個人面前放一支 iPhone。OdiMeet 透過 Wi-Fi 與藍牙把它們配對——不用網路、不用帳號——讓每支手機在同一瞬間開始錄音，並持續對齊各自的時鐘。</p>
+        <p>停止後，各軌回傳到同一支手機，自動合併成一段對話，而且已經標好誰坐在哪。你會完全知道誰講了什麼，因為每個人的聲音都有自己的麥克風。</p>
+        <p>一對一放兩支，圓桌放更多。把你已經擁有的手機，變成一組麥克風陣列。</p>
+      </div>
+      <div class="diagram" aria-label="手機透過無線配對並一起開始錄音">
+        <div class="ph win"><b>iPhone · 主控</b>你<div class="bars"><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i></div>已配對 · 錄音</div>
+        <div class="ph win"><b>iPhone · 受訪</b>來賓<div class="bars"><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i></div>已配對 · 錄音</div>
+        <div class="diagram-note">點對點配對 · 同步開始 · 停止即合併各軌。</div>
       </div>
     </div>
   </section>

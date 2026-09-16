@@ -109,7 +109,7 @@
     .feature p { font-size: 0.94rem; color: var(--muted); }
 
     section.next { max-width: 1080px; margin: 4.6rem auto 0; padding: 0 1.5rem; }
-    .next-card { background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 2.4rem; display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center; }
+    .next-card { margin-bottom: 1.1rem; background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 2.4rem; display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center; }
     @media (max-width: 800px) { .next-card { grid-template-columns: 1fr; } }
     .next-card .tag { display: inline-block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal-deep); background: var(--teal-tint); border-radius: 999px; padding: 0.3rem 0.8rem; margin-bottom: 0.9rem; }
     .next-card h2 { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 1.8rem; letter-spacing: -0.02em; margin-bottom: 0.8rem; }
@@ -361,6 +361,21 @@
         <div class="ph win"><b>Phone B</b>Bob<div class="bars"><i style="height:70%"></i><i style="height:100%"></i><i style="height:85%"></i><i style="height:95%"></i></div>speaking</div>
         <div class="ph"><b>Phone C</b>Chen<div class="bars"><i style="height:25%"></i><i style="height:35%"></i><i style="height:20%"></i><i style="height:30%"></i></div>−16 dB</div>
         <div class="diagram-note">Loudest track per 200 ms window → speaker. Near-100% attribution, crosstalk preserved.</div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <div>
+        <span class="tag">Coming soon</span>
+        <h2>An iPhone array, recording in sync.</h2>
+        <p>Interviewing someone? Put one iPhone in front of each person. OdiMeet pairs them over Wi-Fi and Bluetooth — no network, no account — starts every phone recording at the same instant, and keeps their clocks aligned.</p>
+        <p>Stop, and the tracks come back to one phone and merge automatically into a single conversation, already labelled by who sat where. You know exactly who said what, because each voice had its own microphone.</p>
+        <p>Two phones for a one-on-one, more for a round table. The recorder you already own, turned into a microphone array.</p>
+      </div>
+      <div class="diagram" aria-label="Phones pairing over the air and starting to record together">
+        <div class="ph win"><b>iPhone · host</b>You<div class="bars"><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i></div>paired · REC</div>
+        <div class="ph win"><b>iPhone · guest</b>Guest<div class="bars"><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i><i style="height:20%"></i></div>paired · REC</div>
+        <div class="diagram-note">Paired peer-to-peer · synchronized start · tracks merged on stop.</div>
       </div>
     </div>
   </section>

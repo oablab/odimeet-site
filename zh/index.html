@@ -154,6 +154,17 @@
     footer { border-top: 1px solid var(--border); padding: 2.2rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; }
     footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.2rem; }
 
+    /* Three-phone attribution mini-array (physics card) */
+    .attr-demo { display: flex; gap: 12px; align-items: flex-end; justify-content: center; padding: 6px 0 2px; }
+    .attr-demo .mini { width: 62px; height: 126px; }
+    .attr-demo .mini .who { font-size: 9px; }
+    .attr-demo .mini .lvl { display: flex; gap: 2px; align-items: flex-end; height: 34px; }
+    .attr-demo .mini .lvl i { width: 4px; border-radius: 2px; background: rgba(255,255,255,.28); }
+    .attr-demo .mini.win .lvl i { background: #4FB3A9; }
+    .attr-demo .mini .db { font-size: 9px; color: #6F7E8C; }
+    .attr-demo .mini.win .db { color: #4FB3A9; font-weight: 700; }
+    .attr-note { text-align: center; font-size: .82rem; color: var(--muted); margin-top: .6rem; }
+
     /* Mini iPhone-array demo (Coming-soon array card) */
     .array-demo { display: flex; gap: 18px; align-items: center; justify-content: center; padding: 8px 0 4px; }
     .mini { width: 78px; height: 158px; border-radius: 18px; background: #1c1e22; padding: 6px;
@@ -363,12 +374,12 @@
         <p>每支手機聽到自己面前的人，比其他人大 15–20 dB。每一個瞬間，最大聲的那一軌就是正在說話的人。歸屬變成量測而不是預測——兩個人同時講話時，兩邊都保留。</p>
         <p>不用買任何硬體。同樣的方法也適用於 Insta360 Mic Pro、DJI Mic 這類多發射器無線麥克風。</p>
       </div>
-      <div class="diagram" aria-label="桌上三支手機；離說話者最近的那支訊號最強">
-        <div class="ph"><b>手機 A</b>小美<div class="bars"><i style="height:30%"></i><i style="height:40%"></i><i style="height:25%"></i><i style="height:35%"></i></div>−18 dB</div>
-        <div class="ph win"><b>手機 B</b>阿明<div class="bars"><i style="height:70%"></i><i style="height:100%"></i><i style="height:85%"></i><i style="height:95%"></i></div>正在說話</div>
-        <div class="ph"><b>手機 C</b>陳老師<div class="bars"><i style="height:25%"></i><i style="height:35%"></i><i style="height:20%"></i><i style="height:30%"></i></div>−16 dB</div>
-        <div class="diagram-note">每 200 毫秒取最大聲的一軌 → 說話者。接近 100% 的歸屬，重疊對話完整保留。</div>
+      <div class="attr-demo" aria-label="三支小 iPhone；離說話者最近的那支訊號最強">
+        <div class="mini"><div class="isl"></div><div class="scr"><span class="who">小美</span><div class="lvl"><i style="height:30%"></i><i style="height:42%"></i><i style="height:26%"></i><i style="height:36%"></i></div><span class="db">−18 dB</span></div></div>
+        <div class="mini win"><div class="isl"></div><div class="scr"><span class="who">阿明</span><div class="lvl"><i style="height:72%"></i><i style="height:100%"></i><i style="height:86%"></i><i style="height:94%"></i></div><span class="db">正在說話</span></div></div>
+        <div class="mini"><div class="isl"></div><div class="scr"><span class="who">陳老師</span><div class="lvl"><i style="height:24%"></i><i style="height:34%"></i><i style="height:20%"></i><i style="height:30%"></i></div><span class="db">−16 dB</span></div></div>
       </div>
+      <div class="attr-note">每 200 毫秒取最大聲的那支手機 → 說話者。接近 100% 的歸屬，重疊對話完整保留。</div>
     </div>
 
     <div class="next-card">

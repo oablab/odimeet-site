@@ -154,6 +154,17 @@
     footer { border-top: 1px solid var(--border); padding: 2.2rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; }
     footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.2rem; }
 
+    /* Three-phone attribution mini-array (physics card) */
+    .attr-demo { display: flex; gap: 12px; align-items: flex-end; justify-content: center; padding: 6px 0 2px; }
+    .attr-demo .mini { width: 62px; height: 126px; }
+    .attr-demo .mini .who { font-size: 9px; }
+    .attr-demo .mini .lvl { display: flex; gap: 2px; align-items: flex-end; height: 34px; }
+    .attr-demo .mini .lvl i { width: 4px; border-radius: 2px; background: rgba(255,255,255,.28); }
+    .attr-demo .mini.win .lvl i { background: #4FB3A9; }
+    .attr-demo .mini .db { font-size: 9px; color: #6F7E8C; }
+    .attr-demo .mini.win .db { color: #4FB3A9; font-weight: 700; }
+    .attr-note { text-align: center; font-size: .82rem; color: var(--muted); margin-top: .6rem; }
+
     /* Mini iPhone-array demo (Coming-soon array card) */
     .array-demo { display: flex; gap: 18px; align-items: center; justify-content: center; padding: 8px 0 4px; }
     .mini { width: 78px; height: 158px; border-radius: 18px; background: #1c1e22; padding: 6px;
@@ -372,12 +383,12 @@
         <p>Each phone hears its own speaker 15–20 dB louder than anyone else. For every fraction of a second, the loudest track is the person talking. Attribution becomes a measurement, not a prediction — and when two people talk over each other, both are kept.</p>
         <p>No hardware to buy. The same trick works with multi-transmitter wireless mics such as the Insta360 Mic Pro or DJI Mic.</p>
       </div>
-      <div class="diagram" aria-label="Three phones on a table; the one nearest the speaker has the loudest signal">
-        <div class="ph"><b>Phone A</b>Alice<div class="bars"><i style="height:30%"></i><i style="height:40%"></i><i style="height:25%"></i><i style="height:35%"></i></div>−18 dB</div>
-        <div class="ph win"><b>Phone B</b>Bob<div class="bars"><i style="height:70%"></i><i style="height:100%"></i><i style="height:85%"></i><i style="height:95%"></i></div>speaking</div>
-        <div class="ph"><b>Phone C</b>Chen<div class="bars"><i style="height:25%"></i><i style="height:35%"></i><i style="height:20%"></i><i style="height:30%"></i></div>−16 dB</div>
-        <div class="diagram-note">Loudest track per 200 ms window → speaker. Near-100% attribution, crosstalk preserved.</div>
+      <div class="attr-demo" aria-label="Three small iPhones; the one nearest the speaker shows the strongest signal">
+        <div class="mini"><div class="isl"></div><div class="scr"><span class="who">Alice</span><div class="lvl"><i style="height:30%"></i><i style="height:42%"></i><i style="height:26%"></i><i style="height:36%"></i></div><span class="db">−18 dB</span></div></div>
+        <div class="mini win"><div class="isl"></div><div class="scr"><span class="who">Bob</span><div class="lvl"><i style="height:72%"></i><i style="height:100%"></i><i style="height:86%"></i><i style="height:94%"></i></div><span class="db">speaking</span></div></div>
+        <div class="mini"><div class="isl"></div><div class="scr"><span class="who">Chen</span><div class="lvl"><i style="height:24%"></i><i style="height:34%"></i><i style="height:20%"></i><i style="height:30%"></i></div><span class="db">−16 dB</span></div></div>
       </div>
+      <div class="attr-note">Loudest phone per 200 ms window → the speaker. Near-100% attribution, crosstalk preserved.</div>
     </div>
 
     <div class="next-card">

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OdiMeet — Privacy Policy</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <style>
+    :root { --ink: #13302C; --muted: #5E7773; --bg: #F5F9F8; --teal: #2F8C83; }
+    @media (prefers-color-scheme: dark) { :root { --ink: #E8EEF5; --muted: #9AA7B5; --bg: #0F1720; --teal: #7FD1C8; } }
+    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); line-height: 1.7; max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    h1 { font-family: "New York", Georgia, serif; letter-spacing: -0.02em; }
+    h2 { margin-top: 2rem; font-size: 1.15rem; }
+    p, li { color: var(--muted); }
+    a { color: var(--teal); }
+  </style>
+</head>
+<body>
+  <p><a href="/">← OdiMeet</a></p>
+  <h1>Privacy Policy</h1>
+  <p><em>Last updated: September 15, 2026</em></p>
+
+  <h2>The short version</h2>
+  <p>OdiMeet has no servers and no accounts. Your recordings and transcripts stay on your iPhone. We do not collect, receive, or have access to any of your data. The App Store privacy label for OdiMeet is "Data Not Collected".</p>
+
+  <h2>Recordings and transcripts</h2>
+  <p>Audio you record or import is stored in the app's container on your device (and is visible in the Files app). Transcription runs entirely on the device using Apple's speech frameworks or a Whisper model you download. Nothing is uploaded by these features.</p>
+
+  <h2>Optional: summaries with your own Gemini API key</h2>
+  <p>If you add a Google Gemini API key and turn on summaries, the app sends transcript <strong>text</strong> (never audio) directly from your device to Google's Generative Language API using your key. There is no OdiMeet server in between; Google's terms and privacy policy govern that processing. If you enable Google Search grounding, specific claims from the transcript may be sent to Google as search queries. Both features are off by default and are enabled per recording. Your key is stored in the iOS Keychain on this device only and is never synced or logged.</p>
+
+  <h2>Optional: Whisper model download</h2>
+  <p>Downloading a Whisper model fetches model files from Hugging Face (repository <code>argmaxinc/whisperkit-coreml</code>). This is the only other network access the app makes, and it transfers no data about you or your recordings.</p>
+
+  <h2>Analytics and crash reports</h2>
+  <p>OdiMeet contains no analytics SDKs and collects no usage data. Crash reports are shared with the developer only if you have enabled "Share with App Developers" in iOS Settings, in which case Apple provides them in anonymized form.</p>
+
+  <h2>Recording consent</h2>
+  <p>Laws about recording conversations vary by jurisdiction. You are responsible for obtaining any consent required where you record. OdiMeet does not market or design features for covert recording.</p>
+
+  <h2>Contact</h2>
+  <p><a href="mailto:tautiu.dev+odimeet@gmail.com">tautiu.dev+odimeet@gmail.com</a></p>
+</body>
+</html>

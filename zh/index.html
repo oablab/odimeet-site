@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OdiMeet — 每一支錄音筆都值得一份逐字稿。就在你的 iPhone 上。</title>
+  <meta name="description" content="把備用 iPhone 變成私密的 AI 錄音筆，或匯入你手上任何錄音筆的檔案。轉錄在手機上完成；摘要用你自己的 Gemini 金鑰。不上傳、不用帳號、不計分鐘。">
+  <meta property="og:title" content="OdiMeet — 每一支錄音筆都值得一份逐字稿。">
+  <meta property="og:description" content="你的備用 iPhone 現在是一支 AI 錄音筆——而且什麼都不會離開它。裝置端轉錄、用自己金鑰的即時摘要、沒有帳號、沒有分鐘表。">
+  <meta property="og:image" content="https://odimeet.app/zh/og.png">
+  <meta property="og:url" content="https://odimeet.app/zh/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" hreflang="en" href="https://odimeet.app/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://odimeet.app/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://odimeet.app/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#4FB3A9">
+  <style>
+    :root {
+      --teal: #4FB3A9;
+      --teal-deep: #2F8C83;
+      --teal-tint: #DDF0ED;
+      --ink: #13302C;
+      --muted: #5E7773;
+      --bg: #F5F9F8;
+      --card: #EAF2F0;
+      --border: rgba(47, 140, 131, 0.18);
+      --shadow: 0 24px 80px rgba(19, 48, 44, 0.18);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --teal: #4FB3A9;
+        --teal-deep: #7FD1C8;
+        --teal-tint: #15302E;
+        --ink: #E8EEF5;
+        --muted: #9AA7B5;
+        --bg: #0F1720;
+        --card: #16222B;
+        --border: rgba(79, 179, 169, 0.22);
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "PingFang TC", sans-serif;
+      color: var(--ink); background: var(--bg); line-height: 1.65; -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1080px; margin: 0 auto; padding: 0.9rem 1.5rem;
+      backdrop-filter: saturate(180%) blur(16px);
+    }
+    nav .brand { display: flex; align-items: center; gap: 0.55rem; font-weight: 700; font-size: 1.05rem; text-decoration: none; color: var(--ink); }
+    nav .brand img { width: 28px; height: 28px; border-radius: 7px; }
+    nav .links { display: flex; align-items: center; flex-wrap: wrap; }
+    nav .links a { color: var(--muted); text-decoration: none; margin-left: 1.4rem; font-size: 0.92rem; }
+    nav .links a:hover { color: var(--teal-deep); }
+    nav .lang { margin-left: 1.4rem; font-size: 0.9rem; color: var(--muted); }
+    nav .lang a { margin: 0 0.15rem; text-decoration: none; color: var(--muted); }
+    nav .lang a.active { color: var(--ink); font-weight: 700; }
+    @media (max-width: 720px) {
+      nav { flex-direction: column; gap: 0.45rem; padding: 0.7rem 1rem 0.65rem; }
+      nav .links { justify-content: center; gap: 0.2rem 1rem; }
+      nav .links a { margin-left: 0; font-size: 0.86rem; }
+      nav .lang { margin-left: 0; }
+      .hero { padding-top: 2.6rem; }
+    }
+    .hero { max-width: 1080px; margin: 0 auto; padding: 4.2rem 1.5rem 0; text-align: center; }
+    .hero .app-icon { width: 108px; height: 108px; border-radius: 24px; box-shadow: 0 12px 36px rgba(19, 48, 44, 0.25); margin-bottom: 1.6rem; }
+    .hero h1 {
+      font-family: "New York", Georgia, "Times New Roman", serif;
+      font-size: clamp(2.2rem, 6vw, 3.4rem); line-height: 1.18; letter-spacing: -0.02em; font-weight: 700;
+      max-width: 860px; margin: 0 auto;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(transparent 58%, rgba(79, 179, 169, 0.5) 58%, rgba(79, 179, 169, 0.5) 94%, transparent 94%);
+      padding: 0 0.06em;
+    }
+    .hero p.sub { color: var(--muted); font-size: 1.16rem; max-width: 720px; margin: 1.2rem auto 0; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1.8rem;
+      font-size: 0.88rem; font-weight: 600; color: var(--teal-deep);
+      background: var(--teal-tint); border: 1px solid var(--border); padding: 0.45rem 1rem; border-radius: 999px;
+    }
+    .badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); animation: pulse 2.4s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    .hero .phone-shot { display: block; margin: 3rem auto 0; width: min(300px, 70vw); height: auto; }
+    .hero .caption { color: var(--muted); font-size: 0.86rem; margin-top: 0.8rem; }
+
+    section.features { max-width: 1080px; margin: 0 auto; padding: 4.6rem 1.5rem 1rem; }
+    h2.section-title { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 1.9rem; letter-spacing: -0.02em; margin-bottom: 1.6rem; text-align: center; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; }
+    .feature { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.6rem; }
+    .feature .icon { width: 42px; height: 42px; border-radius: 11px; background: var(--teal-tint); display: flex; align-items: center; justify-content: center; margin-bottom: 0.9rem; }
+    .feature .icon svg { width: 22px; height: 22px; stroke: var(--teal-deep); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .feature h3 { font-size: 1.04rem; margin-bottom: 0.35rem; }
+    .feature p { font-size: 0.94rem; color: var(--muted); }
+
+    section.next { max-width: 1080px; margin: 4.6rem auto 0; padding: 0 1.5rem; }
+    .next-card { background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 2.4rem; display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center; }
+    @media (max-width: 800px) { .next-card { grid-template-columns: 1fr; } }
+    .next-card .tag { display: inline-block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal-deep); background: var(--teal-tint); border-radius: 999px; padding: 0.3rem 0.8rem; margin-bottom: 0.9rem; }
+    .next-card h2 { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 1.8rem; letter-spacing: -0.02em; margin-bottom: 0.8rem; }
+    .next-card p { color: var(--muted); font-size: 0.98rem; margin-bottom: 0.7rem; }
+    .diagram { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; align-items: end; }
+    .diagram .ph { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 0.8rem 0.6rem; text-align: center; font-size: 0.8rem; color: var(--muted); }
+    .diagram .ph b { display: block; color: var(--ink); font-size: 0.9rem; margin-bottom: 0.3rem; }
+    .diagram .bars { display: flex; gap: 3px; justify-content: center; align-items: flex-end; height: 34px; margin: 0.4rem 0; }
+    .diagram .bars i { display: block; width: 6px; background: var(--border); border-radius: 3px; }
+    .diagram .ph.win .bars i { background: var(--teal); }
+    .diagram .ph.win { border-color: var(--teal); }
+    .diagram-note { grid-column: 1 / -1; text-align: center; font-size: 0.82rem; color: var(--muted); margin-top: 0.4rem; }
+
+    section.how { max-width: 880px; margin: 0 auto; padding: 4.2rem 1.5rem 1rem; text-align: center; }
+    p.section-sub { color: var(--muted); max-width: 560px; margin: -0.8rem auto 2.4rem; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.6rem; text-align: left; }
+    .step .num { font-size: 0.8rem; font-weight: 700; color: var(--teal-deep); background: var(--teal-tint); border-radius: 999px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.7rem; }
+    .step h3 { font-size: 1rem; margin-bottom: 0.3rem; }
+    .step p { font-size: 0.92rem; color: var(--muted); }
+
+    section.privacy { max-width: 780px; margin: 4.2rem auto 0; padding: 0 1.5rem; }
+    .privacy-card { background: var(--teal-tint); border: 1px solid var(--border); border-radius: 20px; padding: 2.2rem; text-align: center; }
+    .privacy-card h2 { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 1.5rem; letter-spacing: -0.02em; margin-bottom: 0.7rem; }
+    .privacy-card p { color: var(--muted); font-size: 0.98rem; max-width: 640px; margin: 0 auto; }
+    .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1.6rem; text-align: left; }
+    .pillar { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 1rem; font-size: 0.9rem; }
+    .pillar b { display: block; margin-bottom: 0.25rem; color: var(--ink); }
+    .pillar span { color: var(--muted); }
+
+    section.faq { max-width: 720px; margin: 0 auto; padding: 4.2rem 1.5rem 2rem; }
+    .faq details { border-bottom: 1px solid var(--border); padding: 1rem 0.2rem; }
+    .faq summary { cursor: pointer; font-weight: 600; font-size: 1rem; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
+    .faq summary::after { content: "+"; color: var(--teal-deep); font-size: 1.3rem; font-weight: 400; flex-shrink: 0; }
+    .faq details[open] summary::after { content: "–"; }
+    .faq details p { color: var(--muted); font-size: 0.95rem; padding-top: 0.6rem; }
+
+    .bottom-cta { text-align: center; padding: 4.5rem 1.5rem; background: linear-gradient(180deg, transparent, var(--teal-tint)); }
+    .bottom-cta h2 { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 1.8rem; letter-spacing: -0.02em; margin-bottom: 1.4rem; }
+    .cta { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--teal-deep); color: #fff; border: none; border-radius: 12px; padding: 0.9rem 1.6rem; font-weight: 700; font-size: 1rem; text-decoration: none; box-shadow: 0 6px 20px rgba(47, 140, 131, 0.3); }
+    @media (prefers-color-scheme: dark) { .cta { color: #0F1720; } }
+    .cta.pending { background: transparent; color: var(--muted); border: 1.5px dashed var(--border); box-shadow: none; font-weight: 600; margin-left: 0.6rem; }
+    footer { border-top: 1px solid var(--border); padding: 2.2rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; }
+    footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.2rem; }
+
+    /* Traditional Chinese — same convention as rocketbucket.app: PingFang TC body,
+       display headings inherit the sans (the serif New York has no CJK glyphs). */
+    html[lang="zh-Hant"] body {
+      font-family: "PingFang TC", "SF Pro TC", -apple-system, BlinkMacSystemFont, "Heiti TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.75;
+    }
+    html[lang="zh-Hant"] .hero h1,
+    html[lang="zh-Hant"] h2.section-title,
+    html[lang="zh-Hant"] .next-card h2,
+    html[lang="zh-Hant"] .privacy-card h2,
+    html[lang="zh-Hant"] .bottom-cta h2 {
+      font-family: inherit;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+    html[lang="zh-Hant"] .hero h1 { line-height: 1.25; }
+    html[lang="zh-Hant"] .hero h1 em { font-style: normal; }
+    html[lang="zh-Hant"] .hero p.sub, html[lang="zh-Hant"] .feature p, html[lang="zh-Hant"] .faq details p { letter-spacing: 0.01em; }
+  </style>
+  <script>
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest(".lang a");
+      if (!link) return;
+      try { localStorage.setItem("odimeet-lang", link.getAttribute("href")); } catch (e) {}
+    });
+  </script>
+  <script>
+    (function () {
+      return;
+    })();
+  </script>
+</head>
+<body>
+  <nav>
+    <a class="brand" href="/"><img src="/icon.png" alt="" width="28" height="28">OdiMeet</a>
+    <div class="links">
+      <a href="#features">功能</a>
+      <a href="#next">即將推出</a>
+      <a href="#how">怎麼用</a>
+      <a href="#faq">常見問題</a>
+      <a href="mailto:tautiu.dev+odimeet@gmail.com">支援</a>
+      <span class="lang"><a class="active" href="/zh/">中文</a>|<a href="/?lang=en">EN</a></span>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <img class="app-icon" src="/icon.png" alt="OdiMeet app icon" width="108" height="108">
+    <h1>你的備用 iPhone，現在是一支 AI 錄音筆。<br><em>而且什麼都不會離開它。</em></h1>
+    <p class="sub">用任何一支 iPhone 錄下會議——或匯入你手上錄音筆的檔案——就能得到逐字稿、即時筆記和最終摘要。轉錄在手機上完成，摘要用你自己的 Gemini 金鑰。沒有帳號、沒有伺服器、沒有分鐘表。</p>
+    <div class="badge">封測中 · 2026 上架 App Store</div>
+    <img class="phone-shot" src="/hero-phone.webp" alt="一支放在桌上的 iPhone，處於 OdiMeet 隱形錄音模式：黑色螢幕上只有微弱的白色呼吸光" width="1100" height="1600" fetchpriority="high">
+    <p class="caption">隱形模式：手機放在桌上像睡著了。微弱的呼吸光代表正在錄音。</p>
+  </header>
+
+  <section class="features" id="features">
+    <h2 class="section-title">你已經擁有的錄音筆。一份真正屬於你的逐字稿。</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><circle cx="12" cy="18" r="1"/></svg></div>
+        <h3>錄音筆模式</h3>
+        <p>抽屜裡那支 iPhone SE 就是會議錄音筆：48 kHz WAV，鎖屏繼續錄，來電與中斷後自動接續。一毛錢都不用買。</p>
+      </div>
+      <div class="feature">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></div>
+        <h3>隱形模式</h3>
+        <p>螢幕降到最低亮度、全黑，只剩緩慢的白色呼吸光。看起來像睡著，其實在錄音。點一下顯示計時與控制項，幾秒後再淡出。</p>
+      </div>
+      <div class="feature">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><rect x="3" y="15" width="18" height="6" rx="2"/></svg></div>
+        <h3>匯入任何錄音筆</h3>
+        <p>Sony、Olympus、Tascam、Zoom、無線麥克風發射器、語音備忘錄、任何 App 匯出的檔案。錄音筆插上 USB-C，在「檔案」裡選檔即可。</p>
+      </div>
+      <div class="feature">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h2M7 8v8M11 4v16M15 7v10M19 10v4"/></svg></div>
+        <h3>兩個裝置端引擎</h3>
+        <p>即時文字用 Apple iOS 26 語音引擎；定稿用 Whisper large-v3-turbo（下載一次）。99 種語言、自動偵測，中英夾雜也處理得當。</p>
+      </div>
+      <div class="feature">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></div>
+        <h3>即時文字</h3>
+        <p>邊講邊看逐字稿出現。向左滑一次是全螢幕文字，再滑一次是摘要。</p>
+      </div>
+      <div class="feature">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="m12 3 1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4z"/><path d="M19 16l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></div>
+        <h3>即時摘要，用你的金鑰</h3>
+        <p>每 30 秒更新筆記；每 5 分鐘用原始逐字稿重寫摘要。由你自己的 Gemini 金鑰驅動——逐字稿文字直送 Google，音訊永遠不會。</p>
+      </div>
+      <div class="feature">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <h3>最終摘要，可選查核</h3>
+        <p>完整品質的逐字稿完成後，再呼叫一次產生定稿摘要。打開 Google 搜尋查核，可疑的說法會被核對並標記為已修正。</p>
+      </div>
+      <div class="feature">
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="8" y="2" width="12" height="14" rx="2"/><path d="M16 16v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h2"/></svg></div>
+        <h3>全部帶得走</h3>
+        <p>任何分頁一鍵複製全文。匯出 TXT、Markdown、SRT、VTT 或 JSON。錄音以純 WAV 放在「檔案」App 裡——沒有綁定、沒有私有格式。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="next" id="next">
+    <div class="next-card">
+      <div>
+        <span class="tag">即將推出</span>
+        <h2>誰說了什麼——靠物理，不靠猜。</h2>
+        <p>所有 AI 會議記錄都靠聲紋猜說話者，而且每一家都承認不可靠。OdiMeet 走另一條路：<strong>每一支舊 iPhone 都是一支麥克風</strong>。每位與會者面前放一支，各自錄音，會後一起匯入。</p>
+        <p>每支手機聽到自己面前的人，比其他人大 15–20 dB。每一個瞬間，最大聲的那一軌就是正在說話的人。歸屬變成量測而不是預測——兩個人同時講話時，兩邊都保留。</p>
+        <p>不用買任何硬體。同樣的方法也適用於 Insta360 Mic Pro、DJI Mic 這類多發射器無線麥克風。</p>
+      </div>
+      <div class="diagram" aria-label="桌上三支手機；離說話者最近的那支訊號最強">
+        <div class="ph"><b>手機 A</b>小美<div class="bars"><i style="height:30%"></i><i style="height:40%"></i><i style="height:25%"></i><i style="height:35%"></i></div>−18 dB</div>
+        <div class="ph win"><b>手機 B</b>阿明<div class="bars"><i style="height:70%"></i><i style="height:100%"></i><i style="height:85%"></i><i style="height:95%"></i></div>正在說話</div>
+        <div class="ph"><b>手機 C</b>陳老師<div class="bars"><i style="height:25%"></i><i style="height:35%"></i><i style="height:20%"></i><i style="height:30%"></i></div>−16 dB</div>
+        <div class="diagram-note">每 200 毫秒取最大聲的一軌 → 說話者。接近 100% 的歸屬，重疊對話完整保留。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how" id="how">
+    <h2 class="section-title">三步，不用設定</h2>
+    <p class="section-sub">不用建帳號、不用信任伺服器、不用數分鐘。</p>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>錄音或匯入</h3><p>在任何 iOS 26 的 iPhone 上按下錄音——或插上錄音筆選檔。從語音備忘錄分享過來也可以。</p></div>
+      <div class="step"><div class="num">2</div><h3>在手機上轉錄</h3><p>錄音時即時文字就出現。停止後跑完整品質的轉錄——下載了 Whisper 就用 Whisper，否則用 Apple 引擎。什麼都不上傳。</p></div>
+      <div class="step"><div class="num">3</div><h3>用你的金鑰做摘要</h3><p>選用。加一次 Gemini 金鑰，錄音時有即時筆記、錄完有最終摘要。你看得到模型、token 數，而且每個請求都從手機直送 Google。</p></div>
+    </div>
+  </section>
+
+  <section class="privacy">
+    <div class="privacy-card">
+      <h2>沒有帳號。沒有伺服器。沒有分鐘表。</h2>
+      <p>相信架構，不要相信承諾。下面每一點都是你自己能驗證的，不是要你相信的。</p>
+      <div class="pillars">
+        <div class="pillar"><b>Apple 審核</b><span>沙盒化的 iOS App，App Store 隱私標籤是「未收集資料」。標籤由 Apple 強制執行，任何人都看得到。</span></div>
+        <div class="pillar"><b>裝置端處理</b><span>音訊和逐字稿永遠不離開 iPhone。沒有 OdiMeet 伺服器——沒東西可被入侵，也沒東西可被傳喚。</span></div>
+        <div class="pillar"><b>你的 AI，你的帳號</b><span>摘要用你的金鑰從手機直達你自己的 Google 帳號，沒有中繼。開個網路監控看就知道。</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <h2 class="section-title">常見問題</h2>
+    <details>
+      <summary>跟 Plaud、Otter 這些 AI 會議記錄有什麼不同？</summary>
+      <p>三點。<strong>硬體：</strong>他們賣你一台錄音機；OdiMeet 用你已有的 iPhone，或抽屜裡的錄音筆。<strong>音訊去哪：</strong>他們上傳到自家雲端、按分鐘計費；OdiMeet 在手機上轉錄，沒有帳號、沒有分鐘表。<strong>誰的 AI：</strong>他們選模型、每月收費；OdiMeet 用你自己的 Gemini 金鑰，你付 Google 的實際價格，每個請求都看得見。</p>
+    </details>
+    <details>
+      <summary>有任何東西會離開我的手機嗎？</summary>
+      <p>音訊永遠不會。只有在你開啟 Gemini 摘要時，逐字稿「文字」才會離開——而且是用你的金鑰從手機直送 Google，中間沒有 OdiMeet 的伺服器。若再開啟 Google 搜尋查核，逐字稿中的具體說法會成為搜尋查詢。兩者預設關閉，每次錄音單獨開啟。</p>
+    </details>
+    <details>
+      <summary>哪些 iPhone 可以用？</summary>
+      <p>能跑 iOS 26 的都行——iPhone SE（第 2 代）、iPhone 11 以後。Apple 即時引擎在這些機型上都很輕鬆。Whisper large-v3-turbo 也都能跑，但在 SE 等級的手機上較慢、第一次載入要幾分鐘，那類機型更適合較小的 Whisper 模型。OLED 螢幕的新機型還能讓隱形模式真正全黑。</p>
+    </details>
+    <details>
+      <summary>為什麼第一次用 Whisper 要等好幾分鐘？</summary>
+      <p>Whisper 模型第一次載入時，iOS 會針對你手機的 Neural Engine 編譯。OdiMeet 在下載完成後就在設定裡先做這一步、有計時可看，之後第一次正式錄音能立刻開始。結果會被快取，之後載入只要幾秒。</p>
+    </details>
+    <details>
+      <summary>中英夾雜的會議怎麼辦？</summary>
+      <p>轉錄語言設為中文時，Whisper 對句內夾雜處理得很好——英文詞以英文寫在中文句子裡。台灣式的混合會議我們建議就這樣設。自動偵測會聽開頭 30 秒決定一種語言，適合不知道內容語言的匯入檔。</p>
+    </details>
+    <details>
+      <summary>會分辨說話者嗎？</summary>
+      <p>還沒有。下一版會加入上面說的多手機歸屬——每位與會者的手機各錄一軌，每個瞬間最大聲的那軌勝出。這是我們所知唯一不靠 AI 猜聲紋、又不需要硬體的做法。單麥克風的說話者標記另行評估，若推出會明確標示為估計值。</p>
+    </details>
+    <details>
+      <summary>可以搭配無線麥克風嗎？</summary>
+      <p>可以。接收器插上 USB-C 就會自動成為輸入，48 kHz。能內錄的發射器（Insta360 Mic Pro、DJI Mic）會以儲存裝置出現——像任何錄音筆一樣匯入即可。多發射器的組合走的是和多手機相同的說話者歸屬流程。</p>
+    </details>
+    <details>
+      <summary>多少錢？</summary>
+      <p>一次買斷，沒有訂閱——因為我們這邊沒有任何持續成本。Gemini 的用量你直接付給 Google，開著即時摘要的兩小時會議通常遠低於一美元。價格在上架時公布；封測免費。</p>
+    </details>
+    <details>
+      <summary>什麼時候能用？</summary>
+      <p>OdiMeet 目前在 iOS 26 上封測。如果你常錄會議、訪談或筆錄，寫信給我們。預計 2026 年上架 App Store。</p>
+    </details>
+  </section>
+
+  <div class="bottom-cta">
+    <h2>你的錄音筆早就錄下來了。</h2>
+    <a class="cta" href="mailto:tautiu.dev+odimeet@gmail.com?subject=OdiMeet%20beta">申請封測</a>
+    <a class="cta pending" href="#">App Store · 2026 年</a>
+  </div>
+
+  <footer>
+    <div>來自 <a href="https://lossic.app">Lossic</a> 與 <a href="https://foldic.app">Foldic</a> 的製作者 · <a href="https://tautiu.dev">tautiu</a> 出品。</div>
+    <div><a href="/privacy/">隱私權政策</a></div>
+    <div>© 2026 OdiMeet</div>
+  </footer>
+</body>
+</html>

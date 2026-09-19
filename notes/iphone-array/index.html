@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How the iPhone recording array works — OdiMeet Notes</title>
-  <meta name="description" content="A phone in front of each speaker, and the loudest track is the person talking. How OdiMeet's Precision Mode went from idea to working — including the two times my own measurements lied to me.">
+  <meta name="description" content="Privacy-first meeting summaries need to know who said what. Instead of guessing speakers from voice-prints, OdiMeet uses a phone per speaker and lets physics decide — here is how, with two real recordings and the two times my own measurements lied to me.">
   <meta property="og:title" content="How the iPhone recording array works">
   <meta property="og:description" content="A phone in front of each speaker; the loudest track is the person talking. Two real recordings, three traps, one lesson about trusting a measurement.">
   <meta property="og:type" content="article">
@@ -120,7 +120,50 @@
       color: var(--muted); font-size: 0.88rem;
     }
     footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.4rem; }
+
+    /* Storyboard: two iPhones pair → sync → count down → record → send track → merge → labelled transcript */
+    .story { margin-top: 1.8rem; background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.2rem 1rem 0.9rem; }
+    .story .stage { display: flex; gap: 14px; align-items: center; justify-content: center; }
+    .story .mini { width: 112px; height: 226px; border-radius: 22px; background: #1c1e22; padding: 7px; box-shadow: 0 10px 26px rgba(19,48,44,.28); position: relative; flex: 0 0 auto; }
+    .story .mini .scr { width: 100%; height: 100%; border-radius: 16px; background: #06080b; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 42px 7px 10px; position: relative; }
+    .story .mini .isl { position: absolute; top: 13px; left: 50%; transform: translateX(-50%); width: 34%; height: 6px; border-radius: 99px; background: #1c1e22; z-index: 2; }
+    .story .mini .who { font-size: 11px; color: #9AA7B5; font-weight: 700; position: absolute; top: 24px; }
+    .story .mini.host .who { color: #4FB3A9; }
+    .story .mini.guest .who { color: #E7B75F; }
+    .story .mini .count { font: 300 40px/1 -apple-system, sans-serif; color: #E8EEF5; font-variant-numeric: tabular-nums; display: none; }
+    .story .mini .rec { display: none; align-items: center; gap: 5px; font-size: 11px; color: #ff5a5f; font-weight: 700; }
+    .story .mini .rec .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff5a5f; animation: recpulse 1.4s ease-in-out infinite; }
+    .story .mini .clock { font: 500 15px/1 -apple-system, sans-serif; color: #E8EEF5; font-variant-numeric: tabular-nums; display: none; }
+    .story .mini .lvl { display: none; gap: 3px; align-items: flex-end; height: 34px; }
+    .story .mini .lvl i { width: 6px; border-radius: 3px; background: rgba(255,255,255,.22); height: 100%; transform: scaleY(.3); transform-origin: bottom; transition: transform .35s; }
+    .story .mini.loud .lvl i { background: #4FB3A9; animation: vu 1s ease-in-out infinite; }
+    .story .mini.guest.loud .lvl i { background: #E7B75F; }
+    .story .mini.loud .lvl i:nth-child(2) { animation-duration: .85s; animation-delay: .2s; }
+    .story .mini.loud .lvl i:nth-child(3) { animation-duration: 1.25s; animation-delay: .1s; }
+    .story .mini.loud .lvl i:nth-child(4) { animation-duration: .95s; animation-delay: .3s; }
+    .story .mini .db { display: none; font-size: 10px; color: #6F7E8C; font-variant-numeric: tabular-nums; }
+    .story .mini.loud .db { color: #E8EEF5; font-weight: 700; }
+    .story .mini .xfer { display: none; flex-direction: column; align-items: center; gap: 6px; width: 100%; }
+    .story .mini .xfer .bar { width: 80%; height: 5px; border-radius: 99px; background: rgba(255,255,255,.14); overflow: hidden; }
+    .story .mini .xfer .bar i { display: block; height: 100%; width: 0; background: #E7B75F; border-radius: 99px; transition: width 1.6s linear; }
+    .story .mini .xfer .lbl { font-size: 10px; color: #9AA7B5; font-weight: 600; }
+    .story .mini .tx { display: none; flex-direction: column; gap: 5px; width: 100%; }
+    .story .mini .tx .meta { font-size: 9px; color: #6F7E8C; text-align: center; }
+    .story .mini .tx .line { font-size: 9px; line-height: 1.3; color: #C9D2DC; opacity: 0; transform: translateY(4px); transition: opacity .4s, transform .4s; }
+    .story .mini .tx .line.on { opacity: 1; transform: none; }
+    .story .mini .tx .line b { display: block; font-size: 9px; }
+    .story .mini .tx .line.a b { color: #4FB3A9; } .story .mini .tx .line.b b { color: #E7B75F; }
+    .story .mini .sent { display: none; font-size: 11px; color: #4FB3A9; font-weight: 700; }
+    .story .link { width: 58px; text-align: center; color: var(--teal-deep); font-size: 11px; font-weight: 700; line-height: 1.3; }
+    .story .link .arrow { display: none; font-size: 18px; animation: slide 1s ease-in-out infinite; }
+    @keyframes slide { 0%,100% { transform: translateX(6px); opacity: .4 } 50% { transform: translateX(-6px); opacity: 1 } }
+    @keyframes recpulse { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
+    @keyframes vu { 0%,100% { transform: scaleY(.55) } 30% { transform: scaleY(1) } 60% { transform: scaleY(.4) } 80% { transform: scaleY(.85) } }
+    .story .cap { text-align: center; font-size: .9rem; color: var(--muted); margin-top: .9rem; min-height: 1.5em; }
+    .story .cap b { color: var(--teal-deep); }
+    @media (prefers-reduced-motion: reduce) { .story .mini .lvl i, .story .mini .rec .dot, .story .link .arrow { animation: none !important; } }
   </style>
+
 </head>
 <body>
   <nav>
@@ -137,10 +180,17 @@
     <h1>How the iPhone recording array works</h1>
     <p class="byline">September 19, 2026 · OdiMeet development notes</p>
 
-    <p class="lede">Every AI note-taker guesses who is speaking from the sound of their voice, and every one of them admits the guess is unreliable. OdiMeet doesn't guess. Put an iPhone in front of each person, record one track per phone, and whichever phone is loudest is the person talking. This is the story of getting that from an idea to something that works on two real recordings — including the two times my own measurements lied to me.</p>
+    <div class="story" data-lang="en" data-cap-pairing="&lt;b&gt;Pair&lt;/b&gt;: Wi‑Fi + Bluetooth, six-digit code." data-cap-synced="&lt;b&gt;Sync&lt;/b&gt;: a few pings estimate the clock offset." data-cap-count="&lt;b&gt;Count down&lt;/b&gt;: the host calls 3‑2‑1." data-cap-rec="&lt;b&gt;Record&lt;/b&gt;: one track each — the louder phone is the one talking." data-cap-send="&lt;b&gt;Stop&lt;/b&gt;: the guest’s track comes back to the host on its own." data-cap-merge="&lt;b&gt;Merge&lt;/b&gt;: align, then every 200 ms goes to the loudest track." data-cap-done="&lt;b&gt;Result&lt;/b&gt;: a transcript with names — measured, not guessed." data-link-pairing="Pairing…" data-link-synced="In sync" data-link-track="track" aria-label="storyboard">
+      <div class="stage"><div class="mini host"><div class="isl"></div><div class="scr"><span class="who">Alice</span><span class="count">3</span><span class="rec"><span class="dot"></span>REC</span><span class="clock">00:00</span><div class="lvl"><i></i><i></i><i></i><i></i></div><span class="db"></span><div class="xfer"><span class="bar"><i></i></span><span class="lbl">Receiving</span></div><div class="tx"><div class="meta">aligned · offset 0.11 s</div><div class="line a"><b>Alice</b>Align the two tracks first.</div><div class="line b"><b>Ben</b>Then see who is louder.</div><div class="line a"><b>Alice</b>Cross-talk keeps both.</div></div><span class="sent">Sent ✓</span></div></div><div class="link"><span class="txt">Pairing…</span><span class="arrow">◀</span></div><div class="mini guest"><div class="isl"></div><div class="scr"><span class="who">Ben</span><span class="count">3</span><span class="rec"><span class="dot"></span>REC</span><span class="clock">00:00</span><div class="lvl"><i></i><i></i><i></i><i></i></div><span class="db"></span><div class="xfer"><span class="bar"><i></i></span><span class="lbl">Sending</span></div><div class="tx"></div><span class="sent">Sent ✓</span></div></div></div>
+      <div class="cap"><b>Pair</b>: Wi‑Fi + Bluetooth, six-digit code.</div>
+    </div>
+
+    <p class="lede">Interviews, meetings, podcast field recordings, consultations — when one of those ends, what you actually want is not an audio file but a summary that answers questions: who said what, what the key points were, which action items came out of it, what was stated as fact, which moments are worth replaying. And that material is often sensitive enough that it should never leave your phone, so the tool has to be privacy-first.</p>
+    <p>"Who said what" needs speaker diarization first. The mainstream way is algorithmic: slice the audio into short segments, extract a voice-print embedding for each with a model such as an x-vector or ECAPA-TDNN, then cluster similar segments into the same speaker — pyannote.audio, NVIDIA NeMo and WhisperX all work this way; the newer EEND family trains one network to output "who is talking now" end to end. All of them are clever, and all of them share a weakness: at bottom they are <em>guessing</em>. Similar voices, two people talking over each other, someone leaning into the microphone — the guess breaks, and every vendor's documentation says so.</p>
+    <p>OdiMeet wants to explore a different route: several iPhones as a microphone array, one in front of each speaker, deciding who is talking by <strong>physics</strong> rather than judgement — whoever is closest is loudest on their own phone. This note is the story of getting that from an idea to something that works on two real recordings, including the two times my own measurements lied to me. So how is it actually done?</p>
 
     <h2>Physics instead of a model</h2>
-    <p>Speaker diarization models try to tell voices apart. They fail on similar voices, on cross-talk, on people who lean in. Distance doesn't fail. A phone 40 cm from its speaker and 1.5–2 m from everyone else hears its own person <strong>ten to twenty decibels louder</strong> — the inverse-square law, doing the work a neural network can't do reliably.</p>
+    <p>Distance doesn't fail the way voice-prints do. A phone 40 cm from its speaker and 1.5–2 m from everyone else hears its own person <strong>ten to twenty decibels louder</strong> — the inverse-square law, doing the work a neural network can't do reliably.</p>
     <p>So the pipeline is deliberately dumb: align the tracks, keep only the voice band (300–3400 Hz), measure each track's energy every 200 ms, and hand the moment to the loudest track. If two tracks are both loud and close, both people are talking, and both are kept. Then each speaker is transcribed <em>from their own microphone</em> — the closest, cleanest one — and the pieces are merged by time.</p>
 
     <h2>Two phones, one start</h2>
@@ -179,10 +229,17 @@
     <h1>iPhone 錄音陣列怎麼做到的</h1>
     <p class="byline">2026 年 9 月 19 日 · OdiMeet 開發筆記</p>
 
-    <p class="lede">每一個 AI 會議記錄都在用聲音猜誰在說話，而且每一家都承認猜不準。OdiMeet 不猜：每個人面前放一支 iPhone，各錄一軌，哪支手機最大聲，就是誰在講。這篇記錄它從想法變成在兩段真實錄音上能用的東西——中間我踩了三個坑，其中兩個是我自己的量測騙了我。</p>
+    <div class="story" data-lang="zh" data-cap-pairing="&lt;b&gt;配對&lt;/b&gt;：Wi‑Fi ＋ 藍牙，六位數配對碼。" data-cap-synced="&lt;b&gt;同步&lt;/b&gt;：互相 ping 幾次，估出時鐘差。" data-cap-count="&lt;b&gt;倒數&lt;/b&gt;：主控喊 3‑2‑1。" data-cap-rec="&lt;b&gt;錄音&lt;/b&gt;：各錄一軌——誰的手機大聲，就是誰在講。" data-cap-send="&lt;b&gt;停止&lt;/b&gt;：來賓的音軌自動傳回主控。" data-cap-merge="&lt;b&gt;合併&lt;/b&gt;：對齊兩軌，每 200 毫秒判給最大聲的一軌。" data-cap-done="&lt;b&gt;結果&lt;/b&gt;：帶名字的逐字稿——量出來的，不是猜的。" data-link-pairing="配對中…" data-link-synced="已同步" data-link-track="音軌" aria-label="storyboard">
+      <div class="stage"><div class="mini host"><div class="isl"></div><div class="scr"><span class="who">小美</span><span class="count">3</span><span class="rec"><span class="dot"></span>錄音</span><span class="clock">00:00</span><div class="lvl"><i></i><i></i><i></i><i></i></div><span class="db"></span><div class="xfer"><span class="bar"><i></i></span><span class="lbl">接收中</span></div><div class="tx"><div class="meta">已對齊 · 偏移 0.11 s</div><div class="line a"><b>小美</b>先把兩軌對齊。</div><div class="line b"><b>阿明</b>再比哪一支大聲。</div><div class="line a"><b>小美</b>同時講就兩邊都留。</div></div><span class="sent">已傳送 ✓</span></div></div><div class="link"><span class="txt">配對中…</span><span class="arrow">◀</span></div><div class="mini guest"><div class="isl"></div><div class="scr"><span class="who">阿明</span><span class="count">3</span><span class="rec"><span class="dot"></span>錄音</span><span class="clock">00:00</span><div class="lvl"><i></i><i></i><i></i><i></i></div><span class="db"></span><div class="xfer"><span class="bar"><i></i></span><span class="lbl">傳送中</span></div><div class="tx"></div><span class="sent">已傳送 ✓</span></div></div></div>
+      <div class="cap"><b>配對</b>：Wi‑Fi ＋ 藍牙，六位數配對碼。</div>
+    </div>
+
+    <p class="lede">訪談、開會、podcast 現場錄音、諮詢——這些場合結束之後，你真正想要的不是一個音檔，而是一份能回答問題的摘要：誰說了什麼、重點是什麼、有哪些 action items、哪些是事實、哪些是值得回頭聽的 highlights。而且這些內容常常敏感到不該離開你的手機，所以這個工具必須是隱私優先的。</p>
+    <p>要做到「誰說了什麼」，就得先做人聲分離（speaker diarization）。主流做法是演算法：先把聲音切成小段，用 x-vector 或 ECAPA-TDNN 這類模型抽出每段的「聲紋」向量，再用聚類把相似的段落歸為同一個人——pyannote.audio、NVIDIA NeMo、WhisperX 走的都是這條路；更新的 EEND 系列則試著讓一個神經網路端到端直接輸出「此刻誰在講」。它們都很聰明，也都有同一個弱點：本質上是在<em>猜</em>——聲音相近、兩人搶話、有人靠近麥克風，猜就會錯，而且每一家的文件都承認這點。</p>
+    <p>OdiMeet 想探索的是另一條路：用多支 iPhone 組成一組麥克風陣列，每位講者面前一支，用<strong>物理</strong>而不是判斷來決定誰在講——離誰近，誰的手機就大聲。這篇筆記記錄它從想法變成在兩段真實錄音上能用的東西；中間我踩了三個坑，其中兩個是我自己的量測騙了我。那它到底是怎麼做到的？</p>
 
     <h2>用物理，不用模型</h2>
-    <p>說話者分離模型靠聲紋分辨人。聲音相近、同時搶話、有人湊近麥克風，它就錯。距離不會錯：一支手機離自己的講者 40 公分、離其他人 1.5–2 公尺，聽到自己面前的人會<strong>大十到二十分貝</strong>——反平方律替我們做了神經網路做不穩的事。</p>
+    <p>聲紋會錯的地方，距離不會錯：一支手機離自己的講者 40 公分、離其他人 1.5–2 公尺，聽到自己面前的人會<strong>大十到二十分貝</strong>——反平方律替我們做了神經網路做不穩的事。</p>
     <p>所以整條流程刻意做得很笨：先對齊兩軌，只留人聲頻帶（300–3400 Hz），每 200 毫秒量一次各軌的能量，把那個瞬間判給最大聲的一軌。兩軌都大聲又差不多，就是兩個人同時在講，兩邊都保留。然後每位講者<em>用自己那支麥克風</em>轉錄——最近、最乾淨的那支——再按時間合併。</p>
 
     <h2>兩支手機，同一個開始</h2>
@@ -219,6 +276,81 @@
     © 2026 OdiMeet · <a href="/">odimeet.app</a> · <a href="/notes/">Notes</a> · <a href="/privacy/">Privacy</a> · <a href="mailto:tautiu.dev+odimeet@gmail.com">Support</a>
   </footer>
 
+  <script>
+    (function () {
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.querySelectorAll(".story").forEach(function (st) {
+        var host = st.querySelector(".mini.host"), guest = st.querySelector(".mini.guest");
+        var phones = [host, guest];
+        var linkTxt = st.querySelector(".link .txt"), arrow = st.querySelector(".link .arrow"), cap = st.querySelector(".cap");
+        var timers = [];
+        function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+        function q(el, sel) { return el.querySelector(sel); }
+        function show(el, sel, disp) { var n = q(el, sel); if (n) n.style.display = disp; }
+        function two(n) { return n < 10 ? "0" + n : "" + n; }
+        function setCap(k) { cap.innerHTML = st.getAttribute("data-cap-" + k); }
+        function reset() {
+          phones.forEach(function (p) {
+            p.classList.remove("loud");
+            ["count","rec","clock","lvl","db","xfer","tx","sent"].forEach(function (c) { show(p, "." + c, "none"); });
+            q(p, ".xfer .bar i").style.width = "0";
+            p.querySelectorAll(".tx .line").forEach(function (l) { l.classList.remove("on"); });
+            q(p, ".clock").textContent = "00:00";
+          });
+          arrow.style.display = "none"; linkTxt.style.display = "block";
+          linkTxt.textContent = st.getAttribute("data-link-pairing"); setCap("pairing");
+        }
+        function finalState() {
+          reset();
+          show(guest, ".sent", "block"); show(host, ".tx", "flex");
+          host.querySelectorAll(".tx .line").forEach(function (l) { l.classList.add("on"); });
+          linkTxt.textContent = st.getAttribute("data-link-synced"); setCap("done");
+        }
+        function run() {
+          timers.forEach(clearTimeout); timers = []; reset();
+          var t = 1600;
+          at(t, function () { linkTxt.textContent = st.getAttribute("data-link-synced"); setCap("synced"); });
+          t += 1400;
+          at(t, function () { setCap("count"); phones.forEach(function (p) { show(p, ".count", "block"); q(p, ".count").textContent = "3"; }); });
+          at(t + 700, function () { phones.forEach(function (p) { q(p, ".count").textContent = "2"; }); });
+          at(t + 1400, function () { phones.forEach(function (p) { q(p, ".count").textContent = "1"; }); });
+          t += 2100;
+          at(t, function () {
+            setCap("rec");
+            phones.forEach(function (p) { show(p, ".count", "none"); show(p, ".rec", "flex"); show(p, ".clock", "block"); show(p, ".lvl", "flex"); show(p, ".db", "block"); });
+          });
+          var pattern = [["h", "−24 dB", "−39 dB"], ["g", "−41 dB", "−26 dB"], ["h", "−23 dB", "−36 dB"], ["hg", "−27 dB", "−29 dB"], ["g", "−44 dB", "−25 dB"], ["h", "−25 dB", "−40 dB"]];
+          pattern.forEach(function (step, i) {
+            at(t + i * 1100, function () {
+              host.classList.toggle("loud", step[0].indexOf("h") >= 0); guest.classList.toggle("loud", step[0].indexOf("g") >= 0);
+              q(host, ".db").textContent = step[1]; q(guest, ".db").textContent = step[2];
+            });
+          });
+          for (var s = 1; s <= 6; s++) (function (s) { at(t + s * 1000, function () { phones.forEach(function (p) { q(p, ".clock").textContent = "00:" + two(s); }); }); })(s);
+          t += pattern.length * 1100;
+          at(t, function () {
+            setCap("send");
+            phones.forEach(function (p) { p.classList.remove("loud"); ["rec","lvl","db"].forEach(function (c) { show(p, "." + c, "none"); }); show(p, ".xfer", "flex"); });
+            linkTxt.style.display = "none"; arrow.style.display = "block";
+            requestAnimationFrame(function () { phones.forEach(function (p) { q(p, ".xfer .bar i").style.width = "100%"; }); });
+          });
+          t += 2000;
+          at(t, function () {
+            setCap("merge");
+            arrow.style.display = "none"; linkTxt.style.display = "block"; linkTxt.textContent = st.getAttribute("data-link-synced");
+            phones.forEach(function (p) { show(p, ".xfer", "none"); show(p, ".clock", "none"); });
+            show(guest, ".sent", "block"); show(host, ".tx", "flex");
+          });
+          var lines = host.querySelectorAll(".tx .line");
+          lines.forEach(function (l, i) { at(t + 900 + i * 800, function () { l.classList.add("on"); }); });
+          t += 900 + lines.length * 800 + 400;
+          at(t, function () { setCap("done"); });
+          at(t + 3200, run);
+        }
+        if (reduce) finalState(); else run();
+      });
+    })();
+  </script>
   <script>
     (function () {
       var LANGS = ["en", "zh"];

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OdiMeet Notes</title>
+  <meta name="description" content="OdiMeet development notes — what broke, what we measured, what changed.">
+  <meta property="og:title" content="OdiMeet Notes">
+  <meta property="og:description" content="What broke, what we measured, what changed.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://odimeet.app/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:image" content="https://odimeet.app/og.png">
+  <meta property="og:url" content="https://odimeet.app/notes/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:site_name" content="OdiMeet">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:title" content="OdiMeet Notes">
+  <meta name="twitter:description" content="What broke, what we measured, what changed.">
+  <link rel="canonical" href="https://odimeet.app/notes/">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    :root {
+      --teal: #4FB3A9;
+      --teal-deep: #2F8C83;
+      --teal-tint: #DDF0ED;
+      --ink: #13302C;
+      --muted: #5E7773;
+      --bg: #F5F9F8;
+      --card: #EAF2F0;
+      --border: rgba(47, 140, 131, 0.18);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --teal: #4FB3A9;
+        --teal-deep: #7FD1C8;
+        --teal-tint: #15302E;
+        --ink: #E8EEF5;
+        --muted: #9AA7B5;
+        --bg: #0F1720;
+        --card: #16222B;
+        --border: rgba(79, 179, 169, 0.22);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "PingFang TC", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.72;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 860px; margin: 0 auto; padding: 0.9rem 1.5rem;
+      backdrop-filter: saturate(180%) blur(16px);
+      gap: 0.75rem; flex-wrap: wrap;
+    }
+    nav .brand { display: flex; align-items: center; gap: 0.55rem; font-weight: 700; font-size: 1.05rem; text-decoration: none; color: var(--ink); }
+    nav .brand img { width: 28px; height: 28px; border-radius: 7px; }
+    .lang-switch {
+      display: inline-flex; gap: 0.25rem;
+      padding: 0.22rem; border-radius: 999px;
+      background: var(--card); border: 1px solid var(--border);
+    }
+    .lang-switch button {
+      font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--muted);
+      background: none; border: 0; cursor: pointer;
+      padding: 0.3rem 0.75rem; border-radius: 999px;
+    }
+    .lang-switch button[aria-selected="true"] {
+      background: var(--bg); color: var(--ink);
+      box-shadow: 0 1px 3px rgba(19, 48, 44, 0.14);
+    }
+    main { max-width: 680px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    main[hidden] { display: none; }
+    .back { display: inline-block; color: var(--muted); text-decoration: none; font-size: 0.88rem; margin-bottom: 1.6rem; }
+    .back:hover { color: var(--teal-deep); }
+    h1 {
+      font-size: clamp(1.9rem, 4.6vw, 2.5rem);
+      line-height: 1.15; letter-spacing: -0.015em; font-weight: 800;
+    }
+    .byline { color: var(--muted); font-size: 0.9rem; margin-top: 0.7rem; }
+    h2 {
+      font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em;
+      margin: 2.6rem 0 0.8rem;
+    }
+    p { margin-top: 1rem; font-size: 1.02rem; }
+    .lede { font-size: 1.1rem; }
+    ul { margin-top: 0.8rem; padding-left: 1.3rem; }
+    li { margin-bottom: 0.6rem; }
+    li::marker { color: var(--teal); }
+    strong { color: var(--teal-deep); }
+    code {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.86em; background: var(--card);
+      border: 1px solid var(--border); border-radius: 5px; padding: 0.08em 0.35em;
+    }
+    .numbers {
+      margin-top: 1.2rem; background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 0.9rem 1.2rem; font-size: 0.95rem;
+    }
+    .numbers div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.3rem 0; border-bottom: 1px solid var(--border); }
+    .numbers div:last-child { border-bottom: 0; }
+    .numbers b { font-variant-numeric: tabular-nums; color: var(--teal-deep); white-space: nowrap; }
+    .callout {
+      background: var(--teal-tint); border-radius: 14px;
+      padding: 1.1rem 1.4rem; margin-top: 2.4rem;
+      font-size: 1.02rem;
+    }
+    .callout strong { color: var(--teal-deep); }
+    .outro { color: var(--muted); font-size: 0.95rem; }
+    .outro a { color: var(--teal-deep); }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.2rem 1.5rem; text-align: center;
+      color: var(--muted); font-size: 0.88rem;
+    }
+    footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.4rem; }
+    .sub { color: var(--muted); font-size: 1.05rem; margin-top: 0.5rem; }
+    .note-list { margin-top: 2.2rem; display: flex; flex-direction: column; gap: 1rem; }
+    a.note { display: block; text-decoration: none; color: inherit; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.1rem 1.3rem; transition: transform 0.15s, border-color 0.15s; }
+    a.note:hover { transform: translateY(-1px); border-color: var(--teal); }
+    .note .when { color: var(--muted); font-size: 0.85rem; }
+    .note .title { font-weight: 800; font-size: 1.12rem; letter-spacing: -0.01em; margin-top: 0.15rem; }
+    .note .blurb { color: var(--muted); font-size: 0.93rem; margin-top: 0.35rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="brand" href="/"><img src="/icon.png" alt="" width="28" height="28">OdiMeet</a>
+    <div class="lang-switch" role="tablist" aria-label="Language">
+      <button type="button" role="tab" data-lang-tab="en" aria-selected="true">EN</button>
+      <button type="button" role="tab" data-lang-tab="zh" aria-selected="false">中文</button>
+    </div>
+  </nav>
+
+  <main data-lang-page="en">
+    <h1>Notes</h1>
+    <p class="sub">What broke, what we measured, what changed.</p>
+    <div class="note-list">
+      <a class="note" href="/notes/iphone-array/">
+        <div class="when">September 19, 2026</div>
+        <div class="title">How the iPhone recording array works</div>
+        <p class="blurb">A phone in front of each speaker, and the loudest track is the person talking. Two real recordings, three traps — two of them my own measurements lying to me — and one lesson about trusting an estimator.</p>
+      </a>
+    </div>
+  </main>
+
+  <main data-lang-page="zh" hidden>
+    <h1>開發筆記</h1>
+    <p class="sub">壞了什麼、量了什麼、改了什麼。</p>
+    <div class="note-list">
+      <a class="note" href="/notes/iphone-array/?lang=zh">
+        <div class="when">2026 年 9 月 19 日</div>
+        <div class="title">iPhone 錄音陣列怎麼做到的</div>
+        <p class="blurb">每個人面前放一支 iPhone，哪支最大聲就是誰在講。兩段真實錄音、三個坑——其中兩個是我自己的量測騙了我——和一個關於相信估計器的教訓。</p>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 OdiMeet · <a href="/">odimeet.app</a> · <a href="/notes/">Notes</a> · <a href="/privacy/">Privacy</a> · <a href="mailto:tautiu.dev+odimeet@gmail.com">Support</a>
+  </footer>
+
+  <script>
+    (function () {
+      var LANGS = ["en", "zh"];
+      var HTML_LANG = { en: "en", zh: "zh-Hant" };
+      var TITLES = {
+        en: "OdiMeet Notes",
+        zh: "OdiMeet 開發筆記",
+      };
+
+      function setLang(lang, remember) {
+        if (LANGS.indexOf(lang) === -1) lang = "en";
+        document.documentElement.lang = HTML_LANG[lang];
+        document.title = TITLES[lang];
+        document.querySelectorAll("[data-lang-page]").forEach(function (page) {
+          page.hidden = page.getAttribute("data-lang-page") !== lang;
+        });
+        document.querySelectorAll("[data-lang-tab]").forEach(function (tab) {
+          tab.setAttribute("aria-selected", String(tab.getAttribute("data-lang-tab") === lang));
+        });
+        if (remember) {
+          try { localStorage.setItem("odimeet-notes-lang", lang); } catch (e) {}
+        }
+      }
+
+      document.querySelectorAll("[data-lang-tab]").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          setLang(tab.getAttribute("data-lang-tab"), true);
+        });
+      });
+
+      var initial = null;
+      var param = new URLSearchParams(location.search).get("lang");
+      if (param && LANGS.indexOf(param) !== -1) initial = param;
+      if (!initial) {
+        try { initial = localStorage.getItem("odimeet-notes-lang"); } catch (e) {}
+      }
+      if (!initial) {
+        var sitePath = null;
+        try { sitePath = localStorage.getItem("odimeet-lang"); } catch (e) {}
+        if (sitePath === "/zh/") initial = "zh";
+        else if (sitePath === "/") initial = "en";
+      }
+      if (!initial) {
+        var langs = navigator.languages && navigator.languages.length
+          ? navigator.languages : [navigator.language || ""];
+        for (var i = 0; i < langs.length && !initial; i++) {
+          if (/^zh/i.test(langs[i])) initial = "zh";
+          else if (/^en/i.test(langs[i])) initial = "en";
+        }
+      }
+      setLang(initial || "en", false);
+    })();
+  </script>
+</body>
+</html>

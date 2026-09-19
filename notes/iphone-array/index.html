@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How the iPhone recording array works — OdiMeet Notes</title>
+  <meta name="description" content="A phone in front of each speaker, and the loudest track is the person talking. How OdiMeet's Precision Mode went from idea to working — including the two times my own measurements lied to me.">
+  <meta property="og:title" content="How the iPhone recording array works">
+  <meta property="og:description" content="A phone in front of each speaker; the loudest track is the person talking. Two real recordings, three traps, one lesson about trusting a measurement.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://odimeet.app/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:image" content="https://odimeet.app/og.png">
+  <meta property="og:url" content="https://odimeet.app/notes/iphone-array/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:site_name" content="OdiMeet">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:title" content="How the iPhone recording array works">
+  <meta name="twitter:description" content="A phone in front of each speaker; the loudest track is the person talking. Two real recordings, three traps, one lesson.">
+  <link rel="canonical" href="https://odimeet.app/notes/iphone-array/">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    :root {
+      --teal: #4FB3A9;
+      --teal-deep: #2F8C83;
+      --teal-tint: #DDF0ED;
+      --ink: #13302C;
+      --muted: #5E7773;
+      --bg: #F5F9F8;
+      --card: #EAF2F0;
+      --border: rgba(47, 140, 131, 0.18);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --teal: #4FB3A9;
+        --teal-deep: #7FD1C8;
+        --teal-tint: #15302E;
+        --ink: #E8EEF5;
+        --muted: #9AA7B5;
+        --bg: #0F1720;
+        --card: #16222B;
+        --border: rgba(79, 179, 169, 0.22);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "PingFang TC", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.72;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 860px; margin: 0 auto; padding: 0.9rem 1.5rem;
+      backdrop-filter: saturate(180%) blur(16px);
+      gap: 0.75rem; flex-wrap: wrap;
+    }
+    nav .brand { display: flex; align-items: center; gap: 0.55rem; font-weight: 700; font-size: 1.05rem; text-decoration: none; color: var(--ink); }
+    nav .brand img { width: 28px; height: 28px; border-radius: 7px; }
+    .lang-switch {
+      display: inline-flex; gap: 0.25rem;
+      padding: 0.22rem; border-radius: 999px;
+      background: var(--card); border: 1px solid var(--border);
+    }
+    .lang-switch button {
+      font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--muted);
+      background: none; border: 0; cursor: pointer;
+      padding: 0.3rem 0.75rem; border-radius: 999px;
+    }
+    .lang-switch button[aria-selected="true"] {
+      background: var(--bg); color: var(--ink);
+      box-shadow: 0 1px 3px rgba(19, 48, 44, 0.14);
+    }
+    main { max-width: 680px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    main[hidden] { display: none; }
+    .back { display: inline-block; color: var(--muted); text-decoration: none; font-size: 0.88rem; margin-bottom: 1.6rem; }
+    .back:hover { color: var(--teal-deep); }
+    h1 {
+      font-size: clamp(1.9rem, 4.6vw, 2.5rem);
+      line-height: 1.15; letter-spacing: -0.015em; font-weight: 800;
+    }
+    .byline { color: var(--muted); font-size: 0.9rem; margin-top: 0.7rem; }
+    h2 {
+      font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em;
+      margin: 2.6rem 0 0.8rem;
+    }
+    p { margin-top: 1rem; font-size: 1.02rem; }
+    .lede { font-size: 1.1rem; }
+    ul { margin-top: 0.8rem; padding-left: 1.3rem; }
+    li { margin-bottom: 0.6rem; }
+    li::marker { color: var(--teal); }
+    strong { color: var(--teal-deep); }
+    code {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.86em; background: var(--card);
+      border: 1px solid var(--border); border-radius: 5px; padding: 0.08em 0.35em;
+    }
+    .numbers {
+      margin-top: 1.2rem; background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 0.9rem 1.2rem; font-size: 0.95rem;
+    }
+    .numbers div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.3rem 0; border-bottom: 1px solid var(--border); }
+    .numbers div:last-child { border-bottom: 0; }
+    .numbers b { font-variant-numeric: tabular-nums; color: var(--teal-deep); white-space: nowrap; }
+    .callout {
+      background: var(--teal-tint); border-radius: 14px;
+      padding: 1.1rem 1.4rem; margin-top: 2.4rem;
+      font-size: 1.02rem;
+    }
+    .callout strong { color: var(--teal-deep); }
+    .outro { color: var(--muted); font-size: 0.95rem; }
+    .outro a { color: var(--teal-deep); }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.2rem 1.5rem; text-align: center;
+      color: var(--muted); font-size: 0.88rem;
+    }
+    footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.4rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="brand" href="/"><img src="/icon.png" alt="" width="28" height="28">OdiMeet</a>
+    <div class="lang-switch" role="tablist" aria-label="Language">
+      <button type="button" role="tab" data-lang-tab="en" aria-selected="true">EN</button>
+      <button type="button" role="tab" data-lang-tab="zh" aria-selected="false">中文</button>
+    </div>
+  </nav>
+
+  <!-- ============================== EN ============================== -->
+  <main data-lang-page="en">
+    <a class="back" href="/notes/">← Notes</a>
+    <h1>How the iPhone recording array works</h1>
+    <p class="byline">September 19, 2026 · OdiMeet development notes</p>
+
+    <p class="lede">Every AI note-taker guesses who is speaking from the sound of their voice, and every one of them admits the guess is unreliable. OdiMeet doesn't guess. Put an iPhone in front of each person, record one track per phone, and whichever phone is loudest is the person talking. This is the story of getting that from an idea to something that works on two real recordings — including the two times my own measurements lied to me.</p>
+
+    <h2>Physics instead of a model</h2>
+    <p>Speaker diarization models try to tell voices apart. They fail on similar voices, on cross-talk, on people who lean in. Distance doesn't fail. A phone 40 cm from its speaker and 1.5–2 m from everyone else hears its own person <strong>ten to twenty decibels louder</strong> — the inverse-square law, doing the work a neural network can't do reliably.</p>
+    <p>So the pipeline is deliberately dumb: align the tracks, keep only the voice band (300–3400 Hz), measure each track's energy every 200 ms, and hand the moment to the loudest track. If two tracks are both loud and close, both people are talking, and both are kept. Then each speaker is transcribed <em>from their own microphone</em> — the closest, cleanest one — and the pieces are merged by time.</p>
+
+    <h2>Two phones, one start</h2>
+    <p>The phones pair over Multipeer Connectivity — Wi‑Fi and Bluetooth, no network, no account — gated by a six-digit code. They ping each other to estimate the clock offset, the host counts down 3‑2‑1, and both start recording 48 kHz WAV at the agreed instant. When the host stops, the guest sends its track back automatically, so the host holds both and can merge them with one tap.</p>
+    <p>The first real take was 14 seconds: two phones about 1.5 m apart on a table, each 40 cm from its speaker, two people alternating. I pulled the two WAV files off and looked at the numbers before writing another line of app code.</p>
+
+    <h2>Trap one: I found a bug that didn't exist</h2>
+    <p>The energy numbers were good news: on windows with speech, the two tracks differed by a <strong>median 10.6 dB</strong>. But the alignment step said the tracks were <strong>2.83 seconds</strong> apart. A synchronized start that misses by three seconds is broken, so I went hunting in the clock code — rewrote the calibration, switched to absolute timestamps, added a spin-wait to the exact instant. The next take came back "3.90 seconds off". Worse.</p>
+    <p>The clock was fine. My aligner was wrong. I was cross-correlating the two tracks' <em>loudness envelopes</em> — and when two people alternate, the envelopes are <strong>anti-correlated</strong> at the true offset (A loud while B quiet), so the search locks onto some other lag where A's speech happens to line up with B's. The method that works is GCC‑PHAT on the waveforms: the same words reach both microphones a few milliseconds apart, so the phase correlation peaks at the true offset regardless of who is talking. The real number was <strong>88 ms</strong>. The synchronized start had been good all along.</p>
+
+    <h2>Trap two: a suspiciously perfect 0.00 s</h2>
+    <p>Next take, 20 seconds, with names entered this time. The app reported an alignment offset of <strong>0.00 s</strong>. Two independent phones do not land within one sample of each other; the previous take had been 88 ms. I looked at every segment separately: 0.000 ms, every time, with a correlation peak <strong>530 times</strong> its background. And the per-frequency coherence between the tracks was <strong>0.004</strong>. The "perfect" peak had no acoustic content at all.</p>
+    <p>The cause was a step I'd added for good reasons. Before correlating, I band-passed both tracks by zeroing FFT bins outside 300–3400 Hz — a brick-wall filter. That stamps identical Gibbs ringing onto both tracks at identical sample positions, and the correlator found it and called it a match. Band-limiting inside the cross-spectrum instead, with no filter on the time signals, gave the real offset: <strong>106 ms</strong>, with a clean 61× peak.</p>
+    <p>That one now has a regression test with the structure of the real failure: two independent alternating talkers, only −16 dB of bleed between them, one started 106 ms late. The old code returns 0. The new code returns 106.</p>
+
+    <h2>Once the alignment was right</h2>
+    <div class="numbers">
+      <div><span>Sync-start error, two real takes</span><b>88 ms · 106 ms</b></div>
+      <div><span>Speaker separation, median over speech windows</span><b>12.1 dB · 13.7 dB</b></div>
+      <div><span>Windows attributed with ≥ 6 dB margin</span><b>93 % · 97 %</b></div>
+      <div><span>Cross-talk windows</span><b>kept for both</b></div>
+    </div>
+    <p>The merged transcript labels each line with the name entered before pairing, and the tester's verdict on the second take was "separated, quite good". Two smaller traps on the way there, for completeness: a merged conversation borrows track A's audio file and session id, so the next "combine" paired A with itself (offset 0.00, separation 0.0 dB — the same tell); and iOS returns the literal string "iPhone" as the device name to apps, so both speakers were called iPhone until we asked for a name up front.</p>
+
+    <h2>What I'm keeping from this</h2>
+    <p>My aligner passed a synthetic test — one signal delayed by 1.234 s — perfectly, then failed on real audio twice. The synthetic case shared none of the real case's structure: two independent talkers, faint bleed, alternation. <strong>Validate an estimator on the case it will actually see.</strong></p>
+    <p>And an answer that is too good is the instrument talking about itself. Two phones aligned to 0.02 ms, a peak 500 times its background, an offset landing exactly on the search boundary — each of those was the estimator, not the room. The check that settled it was asking <em>what</em> was coherent, and finding nothing was.</p>
+
+    <div class="callout">This ships as <strong>Precision Mode</strong> in OdiMeet 1.1: pair two iPhones, record together, tap Combine. Version 1.0 — recording, importing from any voice recorder, on-device transcription and Gemini summaries with your own key — is in App Store review now.</div>
+    <p class="outro">OdiMeet is free for seven days, then $2.99 a month, $29.99 a year, or $39.99 once. Follow <a href="/">odimeet.app</a> for the App Store link.</p>
+  </main>
+
+  <!-- ============================== ZH ============================== -->
+  <main data-lang-page="zh" hidden>
+    <a class="back" href="/notes/">← 開發筆記</a>
+    <h1>iPhone 錄音陣列怎麼做到的</h1>
+    <p class="byline">2026 年 9 月 19 日 · OdiMeet 開發筆記</p>
+
+    <p class="lede">每一個 AI 會議記錄都在用聲音猜誰在說話，而且每一家都承認猜不準。OdiMeet 不猜：每個人面前放一支 iPhone，各錄一軌，哪支手機最大聲，就是誰在講。這篇記錄它從想法變成在兩段真實錄音上能用的東西——中間我踩了三個坑，其中兩個是我自己的量測騙了我。</p>
+
+    <h2>用物理，不用模型</h2>
+    <p>說話者分離模型靠聲紋分辨人。聲音相近、同時搶話、有人湊近麥克風，它就錯。距離不會錯：一支手機離自己的講者 40 公分、離其他人 1.5–2 公尺，聽到自己面前的人會<strong>大十到二十分貝</strong>——反平方律替我們做了神經網路做不穩的事。</p>
+    <p>所以整條流程刻意做得很笨：先對齊兩軌，只留人聲頻帶（300–3400 Hz），每 200 毫秒量一次各軌的能量，把那個瞬間判給最大聲的一軌。兩軌都大聲又差不多，就是兩個人同時在講，兩邊都保留。然後每位講者<em>用自己那支麥克風</em>轉錄——最近、最乾淨的那支——再按時間合併。</p>
+
+    <h2>兩支手機，同一個開始</h2>
+    <p>手機之間用 Multipeer Connectivity 配對——Wi‑Fi 加藍牙，不用網路、不用帳號——以六位數配對碼把關。互相 ping 幾次估出時鐘差，主控倒數 3‑2‑1，兩支在約好的瞬間同時開始錄 48 kHz WAV。主控按停止，來賓那支會自動把它的音軌傳回來，主控手上就有兩軌，按一下就能合併。</p>
+    <p>第一段真實錄音 14 秒：兩支手機在桌上隔約 1.5 公尺，各離講者 40 公分，兩個人輪流講。我把兩個 WAV 拉出來先看數字，再決定要不要往 app 裡寫。</p>
+
+    <h2>第一個坑：我「發現」了一個不存在的 bug</h2>
+    <p>能量的數字是好消息：有人講話的窗，兩軌相差<strong>中位數 10.6 dB</strong>。但對齊那一步說兩軌差了 <strong>2.83 秒</strong>。同步開始差三秒，那就是壞了——於是我鑽進時鐘的程式碼：重寫校時、改成絕對時刻、加上等到精確瞬間的 spin-wait。下一段錄音回來：「差 3.90 秒」。更糟。</p>
+    <p>時鐘沒問題，是我的對齊器錯了。我拿兩軌的<em>音量包絡</em>做互相關——但兩個人輪流講話時，包絡在真實偏移處是<strong>反相關</strong>的（A 大聲時 B 正好小聲），演算法就鎖到某個 A 的講話剛好對上 B 講話的假 lag。對的方法是對波形做 GCC‑PHAT：同一句話會進到兩支麥克風，只差幾毫秒，所以相位互相關不管誰在講都會在真實偏移處出現峰值。真實數字是 <strong>88 毫秒</strong>。同步開始從頭到尾都是好的。</p>
+
+    <h2>第二個坑：完美得可疑的 0.00 秒</h2>
+    <p>再錄一段，20 秒，這次先填了名字。App 顯示對齊偏移 <strong>0.00 秒</strong>。兩支獨立的手機不會對到一個 sample 都不差，上一段還是 88 毫秒。我把每個片段分開算：每一段都是 0.000 毫秒，相關峰值是背景的 <strong>530 倍</strong>。可是兩軌的逐頻率相干性只有 <strong>0.004</strong>——那個「完美」的峰值裡沒有任何聲學內容。</p>
+    <p>原因是我為了正確理由加的一步。互相關之前，我先把兩軌都做了帶通：直接把 300–3400 Hz 以外的 FFT bin 歸零，一個硬切濾波器。這會在兩軌相同的取樣位置留下一模一樣的 Gibbs 振鈴，互相關找到它，說「對上了」。改成在互相關頻譜裡限制頻帶、完全不動時域訊號，真實偏移就出來了：<strong>106 毫秒</strong>，峰值乾淨的 61 倍。</p>
+    <p>這個坑現在有一個回歸測試，結構照著真實的失敗案例做：兩個獨立、輪流講話的合成講者，彼此只有 −16 dB 的微弱串音，其中一個晚 106 毫秒開始。舊程式回 0，新程式回 106。</p>
+
+    <h2>對齊對了之後</h2>
+    <div class="numbers">
+      <div><span>同步開始的誤差，兩段真實錄音</span><b>88 ms · 106 ms</b></div>
+      <div><span>講者分離度，語音窗中位數</span><b>12.1 dB · 13.7 dB</b></div>
+      <div><span>以 ≥ 6 dB 差距判定的窗</span><b>93 % · 97 %</b></div>
+      <div><span>同時講話的窗</span><b>兩邊都保留</b></div>
+    </div>
+    <p>合併出來的逐字稿，每一句前面是配對前填的名字；第二段錄音測試者的評語是「分離了，相當好」。順帶記兩個小坑：合併結果借用 A 軌的音檔、又帶著同一個 session id，下一次「合併」就把 A 和它自己合併了（偏移 0.00、分離 0.0 dB——同一種徵兆）；還有 iOS 給 app 的裝置名稱就是字面上的「iPhone」，兩位講者都叫 iPhone，直到我們改成配對前先問名字。</p>
+
+    <h2>我要留下的教訓</h2>
+    <p>我的對齊器通過了一個合成測試——一段訊號延遲 1.234 秒——完美無缺，然後在真實音檔上敗了兩次。合成案例沒有真實案例的任何結構：兩個獨立講者、微弱串音、輪流發言。<strong>估計器要用它真正會遇到的案例來驗證。</strong></p>
+    <p>還有，好到不像真的答案，是儀器在講它自己。兩支手機對齊到 0.02 毫秒、峰值是背景的五百倍、偏移剛好落在搜尋邊界——每一個都是估計器，不是那間房間。最後把事情定下來的，是去問<em>什麼東西</em>是相干的，然後發現什麼都不是。</p>
+
+    <div class="callout">這會以 <strong>精準模式</strong> 隨 OdiMeet 1.1 推出：兩支 iPhone 配對、一起錄、按一下合併。1.0 版——錄音、匯入任何錄音筆的檔案、裝置端轉錄、用自己金鑰的 Gemini 摘要——正在 App Store 審核中。</div>
+    <p class="outro">OdiMeet 免費試用 7 天，之後月費 $2.99、年費 $29.99，或一次買斷 $39.99。App Store 連結會放在 <a href="/zh/">odimeet.app</a>。</p>
+  </main>
+
+  <footer>
+    © 2026 OdiMeet · <a href="/">odimeet.app</a> · <a href="/notes/">Notes</a> · <a href="/privacy/">Privacy</a> · <a href="mailto:tautiu.dev+odimeet@gmail.com">Support</a>
+  </footer>
+
+  <script>
+    (function () {
+      var LANGS = ["en", "zh"];
+      var HTML_LANG = { en: "en", zh: "zh-Hant" };
+      var TITLES = {
+        en: "How the iPhone recording array works — OdiMeet Notes",
+        zh: "iPhone 錄音陣列怎麼做到的 — OdiMeet 開發筆記",
+      };
+
+      function setLang(lang, remember) {
+        if (LANGS.indexOf(lang) === -1) lang = "en";
+        document.documentElement.lang = HTML_LANG[lang];
+        document.title = TITLES[lang];
+        document.querySelectorAll("[data-lang-page]").forEach(function (page) {
+          page.hidden = page.getAttribute("data-lang-page") !== lang;
+        });
+        document.querySelectorAll("[data-lang-tab]").forEach(function (tab) {
+          tab.setAttribute("aria-selected", String(tab.getAttribute("data-lang-tab") === lang));
+        });
+        if (remember) {
+          try { localStorage.setItem("odimeet-notes-lang", lang); } catch (e) {}
+        }
+      }
+
+      document.querySelectorAll("[data-lang-tab]").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          setLang(tab.getAttribute("data-lang-tab"), true);
+        });
+      });
+
+      var initial = null;
+      var param = new URLSearchParams(location.search).get("lang");
+      if (param && LANGS.indexOf(param) !== -1) initial = param;
+      if (!initial) {
+        try { initial = localStorage.getItem("odimeet-notes-lang"); } catch (e) {}
+      }
+      if (!initial) {
+        var sitePath = null;
+        try { sitePath = localStorage.getItem("odimeet-lang"); } catch (e) {}
+        if (sitePath === "/zh/") initial = "zh";
+        else if (sitePath === "/") initial = "en";
+      }
+      if (!initial) {
+        var langs = navigator.languages && navigator.languages.length
+          ? navigator.languages : [navigator.language || ""];
+        for (var i = 0; i < langs.length && !initial; i++) {
+          if (/^zh/i.test(langs[i])) initial = "zh";
+          else if (/^en/i.test(langs[i])) initial = "en";
+        }
+      }
+      setLang(initial || "en", false);
+    })();
+  </script>
+</body>
+</html>

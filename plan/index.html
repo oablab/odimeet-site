@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OdiMeet — Plans</title>
+  <meta name="description" content="Seven days free, then $2.99 a month, $29.99 a year, or $39.99 once. Every plan includes everything; no per-minute meter.">
+  <meta property="og:title" content="OdiMeet — Plans">
+  <meta property="og:description" content="Seven days free, then $2.99 a month, $29.99 a year, or $39.99 once. Every plan includes everything; no per-minute meter.">
+  <meta property="og:image" content="https://odimeet.app/og.png">
+  <meta property="og:url" content="https://odimeet.app/plan/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OdiMeet">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" hreflang="en" href="https://odimeet.app/plan/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://odimeet.app/zh/plan/">
+  <link rel="alternate" hreflang="x-default" href="https://odimeet.app/plan/">
+  <link rel="canonical" href="https://odimeet.app/plan/">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    :root {
+      --teal: #4FB3A9;
+      --teal-deep: #2F8C83;
+      --teal-tint: #DDF0ED;
+      --ink: #13302C;
+      --muted: #5E7773;
+      --bg: #F5F9F8;
+      --card: #EAF2F0;
+      --border: rgba(47, 140, 131, 0.18);
+      --shadow: 0 24px 80px rgba(19, 48, 44, 0.18);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --teal: #4FB3A9;
+        --teal-deep: #7FD1C8;
+        --teal-tint: #15302E;
+        --ink: #E8EEF5;
+        --muted: #9AA7B5;
+        --bg: #0F1720;
+        --card: #16222B;
+        --border: rgba(79, 179, 169, 0.22);
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "PingFang TC", sans-serif;
+      color: var(--ink); background: var(--bg); line-height: 1.65; -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1080px; margin: 0 auto; padding: 0.9rem 1.5rem;
+      backdrop-filter: saturate(180%) blur(16px);
+    }
+    nav .brand { display: flex; align-items: center; gap: 0.55rem; font-weight: 700; font-size: 1.05rem; text-decoration: none; color: var(--ink); }
+    nav .brand img { width: 28px; height: 28px; border-radius: 7px; }
+    nav .links { display: flex; align-items: center; flex-wrap: wrap; }
+    nav .links a { color: var(--muted); text-decoration: none; margin-left: 1.4rem; font-size: 0.92rem; }
+    nav .links a:hover { color: var(--teal-deep); }
+    nav .lang { margin-left: 1.4rem; font-size: 0.9rem; color: var(--muted); }
+    nav .lang a { margin: 0 0.15rem; text-decoration: none; color: var(--muted); }
+    nav .lang a.active { color: var(--ink); font-weight: 700; }
+    @media (max-width: 720px) {
+      nav { flex-direction: column; gap: 0.45rem; padding: 0.7rem 1rem 0.65rem; }
+      nav .links { justify-content: center; gap: 0.2rem 1rem; }
+      nav .links a { margin-left: 0; font-size: 0.86rem; }
+      nav .lang { margin-left: 0; }
+      .hero { padding-top: 2.6rem; }
+    }
+    .hero { max-width: 1080px; margin: 0 auto; padding: 4.2rem 1.5rem 0; text-align: center; }
+    .hero .app-icon { width: 108px; height: 108px; border-radius: 24px; box-shadow: 0 12px 36px rgba(19, 48, 44, 0.25); margin-bottom: 1.6rem; }
+    .hero h1 {
+      font-family: "New York", Georgia, "Times New Roman", serif;
+      font-size: clamp(2.2rem, 6vw, 3.4rem); line-height: 1.18; letter-spacing: -0.02em; font-weight: 700;
+      max-width: 860px; margin: 0 auto;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(transparent 58%, rgba(79, 179, 169, 0.5) 58%, rgba(79, 179, 169, 0.5) 94%, transparent 94%);
+      padding: 0 0.06em;
+    }
+    .hero p.sub { color: var(--muted); font-size: 1.16rem; max-width: 720px; margin: 1.2rem auto 0; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1.8rem;
+      font-size: 0.88rem; font-weight: 600; color: var(--teal-deep);
+      background: var(--teal-tint); border: 1px solid var(--border); padding: 0.45rem 1rem; border-radius: 999px;
+    }
+    .badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); animation: pulse 2.4s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    .hero .phone-shot { display: block; margin: 3rem auto 0; width: min(300px, 70vw); height: auto; }
+    .hero .caption { color: var(--muted); font-size: 0.86rem; margin-top: 0.8rem; }
+
+    section.features { max-width: 1080px; margin: 0 auto; padding: 4.6rem 1.5rem 1rem; }
+    h2.section-title { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 1.9rem; letter-spacing: -0.02em; margin-bottom: 1.6rem; text-align: center; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; }
+    .feature { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.6rem; }
+    .feature .icon { width: 42px; height: 42px; border-radius: 11px; background: var(--teal-tint); display: flex; align-items: center; justify-content: center; margin-bottom: 0.9rem; }
+    .feature .icon svg { width: 22px; height: 22px; stroke: var(--teal-deep); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .feature h3 { font-size: 1.04rem; margin-bottom: 0.35rem; }
+    .feature p { font-size: 0.94rem; color: var(--muted); }
+
+    section.next { max-width: 1080px; margin: 4.6rem auto 0; padding: 0 1.5rem; }
+    .next-card { margin-bottom: 1.1rem; background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 2.4rem; display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center; }
+    @media (max-width: 800px) { .next-card { grid-template-columns: 1fr; } }
+    .next-card .tag { display: inline-block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal-deep); background: var(--teal-tint); border-radius: 999px; padding: 0.3rem 0.8rem; margin-bottom: 0.9rem; }
+    .next-card h2 { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 1.8rem; letter-spacing: -0.02em; margin-bottom: 0.8rem; }
+    .next-card p { color: var(--muted); font-size: 0.98rem; margin-bottom: 0.7rem; }
+    .diagram { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; align-items: end; }
+    .diagram .ph { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 0.8rem 0.6rem; text-align: center; font-size: 0.8rem; color: var(--muted); }
+    .diagram .ph b { display: block; color: var(--ink); font-size: 0.9rem; margin-bottom: 0.3rem; }
+    .diagram .bars { display: flex; gap: 3px; justify-content: center; align-items: flex-end; height: 34px; margin: 0.4rem 0; }
+    .diagram .bars i { display: block; width: 6px; background: var(--border); border-radius: 3px; }
+    .diagram .ph.win .bars i { background: var(--teal); }
+    .diagram .ph.win { border-color: var(--teal); }
+    .diagram-note { grid-column: 1 / -1; text-align: center; font-size: 0.82rem; color: var(--muted); margin-top: 0.4rem; }
+
+    section.how { max-width: 880px; margin: 0 auto; padding: 4.2rem 1.5rem 1rem; text-align: center; }
+    p.section-sub { color: var(--muted); max-width: 560px; margin: -0.8rem auto 2.4rem; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.6rem; text-align: left; }
+    .step .num { font-size: 0.8rem; font-weight: 700; color: var(--teal-deep); background: var(--teal-tint); border-radius: 999px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.7rem; }
+    .step h3 { font-size: 1rem; margin-bottom: 0.3rem; }
+    .step p { font-size: 0.92rem; color: var(--muted); }
+
+    section.privacy { max-width: 780px; margin: 4.2rem auto 0; padding: 0 1.5rem; }
+    .privacy-card { background: var(--teal-tint); border: 1px solid var(--border); border-radius: 20px; padding: 2.2rem; text-align: center; }
+    .privacy-card h2 { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 1.5rem; letter-spacing: -0.02em; margin-bottom: 0.7rem; }
+    .privacy-card p { color: var(--muted); font-size: 0.98rem; max-width: 640px; margin: 0 auto; }
+    .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1.6rem; text-align: left; }
+    .pillar { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 1rem; font-size: 0.9rem; }
+    .pillar b { display: block; margin-bottom: 0.25rem; color: var(--ink); }
+    .pillar span { color: var(--muted); }
+
+    section.faq { max-width: 720px; margin: 0 auto; padding: 4.2rem 1.5rem 2rem; }
+    .faq details { border-bottom: 1px solid var(--border); padding: 1rem 0.2rem; }
+    .faq summary { cursor: pointer; font-weight: 600; font-size: 1rem; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
+    .faq summary::after { content: "+"; color: var(--teal-deep); font-size: 1.3rem; font-weight: 400; flex-shrink: 0; }
+    .faq details[open] summary::after { content: "–"; }
+    .faq details p { color: var(--muted); font-size: 0.95rem; padding-top: 0.6rem; }
+
+    .bottom-cta { text-align: center; padding: 4.5rem 1.5rem; background: linear-gradient(180deg, transparent, var(--teal-tint)); }
+    .bottom-cta h2 { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 1.8rem; letter-spacing: -0.02em; margin-bottom: 1.4rem; }
+    .cta { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--teal-deep); color: #fff; border: none; border-radius: 12px; padding: 0.9rem 1.6rem; font-weight: 700; font-size: 1rem; text-decoration: none; box-shadow: 0 6px 20px rgba(47, 140, 131, 0.3); }
+    @media (prefers-color-scheme: dark) { .cta { color: #0F1720; } }
+    .cta.pending { background: transparent; color: var(--muted); border: 1.5px dashed var(--border); box-shadow: none; font-weight: 600; margin-left: 0.6rem; }
+    footer { border-top: 1px solid var(--border); padding: 2.2rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; }
+    footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.2rem; }
+
+    /* Three-phone attribution mini-array (physics card) */
+    .attr-demo { display: flex; gap: 12px; align-items: flex-end; justify-content: center; padding: 6px 0 2px; }
+    .attr-demo .mini { width: 62px; height: 126px; }
+    .attr-demo .mini .who { font-size: 9px; }
+    .attr-demo .mini .lvl { display: flex; gap: 2px; align-items: flex-end; height: 34px; }
+    .attr-demo .mini .lvl i { width: 4px; border-radius: 2px; background: rgba(255,255,255,.28); }
+    .attr-demo .mini.win .lvl i { background: #4FB3A9; }
+    .attr-demo .mini .db { font-size: 9px; color: #6F7E8C; }
+    .attr-demo .mini.win .db { color: #4FB3A9; font-weight: 700; }
+    .attr-note { text-align: center; font-size: .82rem; color: var(--muted); margin-top: .6rem; }
+
+    /* Live jitter on the speaking phone's bars */
+    .attr-demo .mini.win .lvl i { animation: vu 1s ease-in-out infinite; transform-origin: bottom; }
+    .attr-demo .mini.win .lvl i:nth-child(1) { animation-duration: 1.1s; animation-delay: 0s; }
+    .attr-demo .mini.win .lvl i:nth-child(2) { animation-duration: 0.85s; animation-delay: 0.2s; }
+    .attr-demo .mini.win .lvl i:nth-child(3) { animation-duration: 1.25s; animation-delay: 0.1s; }
+    .attr-demo .mini.win .lvl i:nth-child(4) { animation-duration: 0.95s; animation-delay: 0.3s; }
+    @keyframes vu { 0%,100% { transform: scaleY(0.55); } 30% { transform: scaleY(1); } 60% { transform: scaleY(0.4); } 80% { transform: scaleY(0.85); } }
+    /* the quiet phones breathe very slightly so they don't look dead */
+    .attr-demo .mini:not(.win) .lvl i { animation: vuq 1.8s ease-in-out infinite; transform-origin: bottom; }
+    .attr-demo .mini:not(.win) .lvl i:nth-child(even) { animation-delay: 0.6s; }
+    @keyframes vuq { 0%,100% { transform: scaleY(0.8); } 50% { transform: scaleY(1.1); } }
+    @media (prefers-reduced-motion: reduce) {
+      .attr-demo .mini .lvl i { animation: none !important; }
+    }
+
+    /* Mini iPhone-array demo (Coming-soon array card) */
+    .array-demo { display: flex; gap: 18px; align-items: center; justify-content: center; padding: 8px 0 4px; }
+    .mini { width: 78px; height: 158px; border-radius: 18px; background: #1c1e22; padding: 6px;
+            box-shadow: 0 8px 22px rgba(19,48,44,.25); position: relative; flex: 0 0 auto; }
+    .mini .scr { width: 100%; height: 100%; border-radius: 13px; background: #06080b; overflow: hidden;
+                 display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+    .mini .isl { position: absolute; top: 11px; left: 50%; transform: translateX(-50%); width: 34%; height: 6px; border-radius: 99px; background: #1c1e22; }
+    .mini .who { font-size: 10px; color: #9AA7B5; font-weight: 600; }
+    .mini .count { font: 300 30px/1 -apple-system, sans-serif; color: #E8EEF5; font-variant-numeric: tabular-nums; }
+    .mini .rec { display: none; align-items: center; gap: 5px; font-size: 11px; color: #ff5a5f; font-weight: 700; }
+    .mini .rec .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff5a5f; animation: recpulse 1.4s ease-in-out infinite; }
+    .mini .clock { font: 500 13px/1 -apple-system, sans-serif; color: #E8EEF5; font-variant-numeric: tabular-nums; display: none; }
+    @keyframes recpulse { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
+    .array-demo .link { align-self: center; color: var(--teal-deep); font-size: 11px; font-weight: 700; text-align: center; width: 46px; line-height: 1.3; }
+    .array-note { text-align: center; font-size: .82rem; color: var(--muted); margin-top: .6rem; }
+
+    /* Swipeable demo inside the phone: stealth · live text · live summary */
+    .phone .pages { position: absolute; inset: 0; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .phone .pages::-webkit-scrollbar { display: none; }
+    .phone .page { flex: 0 0 100%; height: 100%; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; }
+    .phone .page.stealth { align-items: center; justify-content: center; }
+    .phone .page.text, .phone .page.summary { padding: 13% 7% 12%; color: #E8EEF5; font: 400 clamp(0.62rem, 2.6vw, 0.8rem)/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", sans-serif; text-align: left; }
+    .phone .ph-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; color: #9AA7B5; margin-bottom: 0.6em; }
+    .phone .ph-head b { color: #E8EEF5; font-variant-numeric: tabular-nums; }
+    .phone .ph-head .pill { color: #4FB3A9; border: 1px solid rgba(79,179,169,.4); border-radius: 999px; padding: 0.1em 0.6em; font-size: 0.85em; }
+    .phone .lines { flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 0.45em; }
+    .phone .line { display: flex; gap: 0.5em; animation: rise 0.35s ease-out; }
+    .phone .line .t { color: #6F7E8C; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .phone .line.volatile { color: #8E9BA8; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .phone .sum { flex: 1; overflow: hidden; }
+    .phone .sum h4 { font-size: 0.9em; color: #4FB3A9; margin: 0.7em 0 0.2em; font-weight: 700; }
+    .phone .sum h4:first-child { margin-top: 0; }
+    .phone .sum li { list-style: none; padding-left: 0.9em; position: relative; animation: rise 0.4s ease-out; margin: 0.15em 0; }
+    .phone .sum li::before { content: "•"; position: absolute; left: 0; color: #6F7E8C; }
+    .phone .sum li.todo::before { content: "☐"; }
+    .phone .sum .empty { color: #6F7E8C; }
+    .phone .dots { position: absolute; bottom: 4%; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; pointer-events: none; }
+    .phone .dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.22); }
+    .phone .dots i.on { background: rgba(255,255,255,.85); }
+    .swipe-hint { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; color: var(--teal-deep); font-size: 0.9rem; font-weight: 600; }
+    .swipe-hint .arrow { display: inline-block; animation: nudge 1.6s ease-in-out infinite; }
+    @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+    .swipe-hint.done .arrow { animation: none; }
+
+    /* Live hero: a phone in stealth mode. Glow breathes; timer counts from page load. */
+    .phone {
+      position: relative; margin: 3rem auto 0;
+      width: min(280px, 68vw); aspect-ratio: 9 / 19.2;
+      border-radius: 44px; background: #1c1e22;
+      box-shadow: 0 30px 60px rgba(19, 48, 44, 0.32), inset 0 0 0 2px #2a2d33;
+      padding: 12px;
+    }
+    .phone .screen {
+      position: relative; width: 100%; height: 100%; border-radius: 34px; background: #06080b; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .phone .island { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 34%; height: 5.5%; border-radius: 999px; background: #1c1e22; }
+    .phone .glow {
+      width: 46%; aspect-ratio: 1; border-radius: 50%; background: #fff;
+      filter: blur(28px); opacity: 0.12;
+      animation: breathe 4.4s ease-in-out infinite;
+    }
+    @keyframes breathe { 0%, 100% { opacity: 0.14; transform: scale(0.9); } 50% { opacity: 0.72; transform: scale(1.08); } }
+    .phone .timer {
+      position: absolute; bottom: 12%; left: 0; right: 0; text-align: center;
+      font: 500 clamp(1rem, 4.2vw, 1.3rem) -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, 0.28); letter-spacing: 0.04em;
+    }
+    @media (prefers-reduced-motion: reduce) { .phone .glow { animation: none; opacity: 0.35; } }
+
+    section.plans { max-width: 1080px; margin: 0 auto; padding: 4.6rem 1.5rem 1rem; text-align: center; }
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.1rem; margin-top: 0.6rem; }
+    .plan { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.7rem 1.5rem; text-align: left; position: relative; }
+    .plan.featured { border-color: var(--teal); box-shadow: 0 12px 40px rgba(47, 140, 131, 0.15); }
+    .plan .ribbon { position: absolute; top: -0.7rem; left: 1.2rem; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; background: var(--teal-deep); border-radius: 999px; padding: 0.2rem 0.7rem; }
+    @media (prefers-color-scheme: dark) { .plan .ribbon { color: #0F1720; } }
+    .plan h3 { font-size: 1.05rem; margin-bottom: 0.2rem; }
+    .plan .price { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 2.3rem; letter-spacing: -0.02em; line-height: 1.1; margin: 0.4rem 0 0.1rem; }
+    .plan .price small { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; font-size: 0.9rem; color: var(--muted); letter-spacing: 0; margin-left: 0.2rem; }
+    .plan .per { color: var(--muted); font-size: 0.88rem; min-height: 1.4em; }
+    .plan ul { list-style: none; margin-top: 1rem; padding: 0; }
+    .plan li { font-size: 0.92rem; color: var(--muted); padding: 0.28rem 0 0.28rem 1.4rem; position: relative; }
+    .plan li::before { content: "✓"; position: absolute; left: 0; color: var(--teal-deep); font-weight: 700; }
+    .plans-note { color: var(--muted); font-size: 0.9rem; max-width: 620px; margin: 1.6rem auto 0; }
+    html[lang="zh-Hant"] .plan .price { font-family: inherit; font-weight: 800; }
+
+    /* Traditional Chinese — same convention as rocketbucket.app: PingFang TC body,
+       display headings inherit the sans (the serif New York has no CJK glyphs). */
+    html[lang="zh-Hant"] body {
+      font-family: "PingFang TC", "SF Pro TC", -apple-system, BlinkMacSystemFont, "Heiti TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.75;
+    }
+    html[lang="zh-Hant"] .hero h1,
+    html[lang="zh-Hant"] h2.section-title,
+    html[lang="zh-Hant"] .next-card h2,
+    html[lang="zh-Hant"] .privacy-card h2,
+    html[lang="zh-Hant"] .bottom-cta h2 {
+      font-family: inherit;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+    html[lang="zh-Hant"] .hero h1 { line-height: 1.25; }
+    .hero h1, h2.section-title, .next-card h2, .privacy-card h2, .bottom-cta h2 { text-wrap: balance; }
+    html[lang="zh-Hant"] .hero h1 em { font-style: normal; }
+    html[lang="zh-Hant"] .hero p.sub, html[lang="zh-Hant"] .feature p, html[lang="zh-Hant"] .faq details p { letter-spacing: 0.01em; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="brand" href="/"><img src="/icon.png" alt="" width="28" height="28">OdiMeet</a>
+    <div class="links">
+      <a href="/#features">Features</a>
+      <a href="/#next">Coming next</a>
+      <a href="/#how">How it works</a>
+      <a href="/plan/">Plans</a>
+      <a href="/notes/">Notes</a>
+      <a href="/#faq">FAQ</a>
+      <a href="mailto:tautiu.dev+odimeet@gmail.com">Support</a>
+      <span class="lang"><a href="/zh/plan/">中文</a>|<a class="active" href="/plan/">EN</a></span>
+    </div>
+  </nav>
+
+  <section class="plans" id="plans" style="padding-top:3rem">
+    <h2 class="section-title">Plans</h2>
+    <p class="section-sub">Every plan starts with seven days free and includes everything. Subscribe only for the months you need — or buy once and keep it.</p>
+    <div class="plans-grid">
+      <div class="plan">
+        <h3>Monthly</h3>
+        <div class="price">$2.99<small>/ month</small></div>
+        <div class="per">Cancel any time</div>
+        <ul><li>Recorder, stealth and live-text modes</li><li>Import from any recorder</li><li>Apple + SenseVoice on-device engines</li><li>Live &amp; final summaries with your Gemini key</li><li>All export formats</li></ul>
+      </div>
+      <div class="plan featured">
+        <span class="ribbon">Best value</span>
+        <h3>Yearly</h3>
+        <div class="price">$29.99<small>/ year</small></div>
+        <div class="per">About $2.50 a month</div>
+        <ul><li>Everything in Monthly</li><li>Two months free versus monthly</li><li>Speaker attribution when it ships</li></ul>
+      </div>
+      <div class="plan featured">
+        <span class="ribbon">Best deal</span>
+        <h3>Lifetime</h3>
+        <div class="price">$39.99<small>once</small></div>
+        <div class="per">No subscription, ever</div>
+        <ul><li>Everything, forever, on this Apple ID</li><li>Pays for itself in 16 months versus yearly</li><li>All future updates included</li><li>For people who hate meters as much as we do</li></ul>
+      </div>
+    </div>
+    <p class="plans-note">Prices in USD; local pricing follows Apple's tiers. Gemini usage is billed by Google to your own account — typically well under a dollar for a two-hour meeting with live summaries on. No plan ever includes a per-minute meter.</p>
+  </section>
+
+  <section class="bottom-cta">
+    <h2>Every plan starts with seven days free.</h2>
+    <a class="cta pending" href="/">Coming to the App Store in 2026</a>
+  </section>
+
+  <footer>
+    <div>From the makers of <a href="https://lossic.app">Lossic</a> and <a href="https://foldic.app">Foldic</a> · a <a href="https://tautiu.dev">tautiu</a> app.</div>
+    <div><a href="/privacy/">Privacy</a></div>
+    <div>© 2026 OdiMeet</div>
+  </footer>
+</body>
+</html>

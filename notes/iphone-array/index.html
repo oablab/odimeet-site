@@ -257,6 +257,19 @@
     <p>Told "two speakers" and given the track where both voices are reasonably audible (B, the less sensitive microphone, where the far person is relatively less faint), it reaches <strong>90%</strong> — 19 utterances with a single extra cut, an honestly good result. On the other track the far speaker is so faint that the segmentation model <em>drops nearly half the speech</em>, and what remains is clustered by time rather than by person: 37%. And in the room you don't know which kind of track you are holding. More practically: nobody types in a speaker count before a real meeting — left to guess, the algorithm found <strong>1 person on one track and 8 on the other</strong>.</p>
     <p>The array needs no speaker count and doesn't care how clear anyone's voice is; it only looks at distance. So OdiMeet ships both, in a clear order: Precision Mode with two iPhones is <em>measured</em>; single-phone speaker separation is <em>an estimate for when there is no second phone</em>, off by default and labelled that way.</p>
 
+    <h2>So, can a three-iPhone array reconstruct the room?</h2>
+    <p>By this point a question suggests itself: if the array knows who is talking, and measures when each phone hears it, can we run it backwards and draw the room — who sits where, next to whom, across from whom?</p>
+    <p>Physically it is the same data. Sound travels at 343 m/s, so two metres is 5.8 ms, and the phase correlation we already use for alignment resolves well under a millisecond. And a sentence comes out of one mouth: when A talks, A's phone hears it first and B's a little later; when B talks, the other way round. The <em>average</em> of the two lags is the clock offset; <em>half the difference</em> is the extra distance the sound travelled. So I re-measured all three takes utterance by utterance, tapering each span with a Hann window (so the cut edges don't stamp identical clicks on both tracks — a cousin of the earlier trap):</p>
+    <div class="numbers">
+      <div><span>Spread of per-utterance lags for the same speaker</span><b>± 0.1 ms ≈ 3 cm</b></div>
+      <div><span>Take 1 (1.5 m): extra path to the far phone, recovered</span><b>1.0 m (expected ≈ 1.1 m)</b></div>
+      <div><span>Take 3 (2 m): the same calculation</span><b>9.5 m (impossible)</b></div>
+    </div>
+    <p>The first two rows are good news: the measurement is stable to three centimetres, and the first take's distance comes out right. The third row is an open puzzle: every one of B's utterances arrives at A's phone exactly 27.7 ms late — far too consistent for noise, far too long for the direct path. Most likely A's phone never got B's direct sound (blocked, or too faint) and the correlation locked onto a strong reflection with a round trip of about 9.5 m. It is also a reminder that geometry may only trust physically possible lags; a two-metre table does not produce 27 ms.</p>
+    <p>A useful by-product fell out: the single whole-file alignment <strong>leans toward whoever talked more</strong> — take 3's "53 ms" was really A's value, and the true clock offset is about 66 ms. Harmless for 200 ms attribution windows, but geometry needs the average of both speakers.</p>
+    <p>And three phones? Two phones yield one distance. With three, each speaker's words give three pairwise lags, which is the distance between each pair of phones — a triangle, and with it who is adjacent to whom and who sits opposite. What distances alone cannot give is <strong>left versus right</strong>: a mirrored triangle has the same sides. Breaking the mirror needs one directional reference, and an iPhone carries two ready-made: each phone's compass heading (read once at pairing; 5–15° of error is plenty to tell left from right), or stereo recording, available since the iPhone XS.</p>
+    <p>None of this is in the app yet. It is an exploration — but the raw material is already inside every array recording, with nothing extra to capture. If it holds up, a meeting would end with a transcript and a small top-down sketch: who sat where, who spoke to whom and how much. A product with one microphone cannot draw that picture.</p>
+
     <h2>What I'm keeping from this</h2>
     <p>My aligner passed a synthetic test — one signal delayed by 1.234 s — perfectly, then failed on real audio twice. The synthetic case shared none of the real case's structure: two independent talkers, faint bleed, alternation. <strong>Validate an estimator on the case it will actually see.</strong></p>
     <p>And an answer that is too good is the instrument talking about itself. Two phones aligned to 0.02 ms, a peak 500 times its background, an offset landing exactly on the search boundary — each of those was the estimator, not the room. The check that settled it was asking <em>what</em> was coherent, and finding nothing was.</p>
@@ -326,6 +339,19 @@
 
     <p>告訴它「兩個人」、又拿到兩人都夠清楚的那一軌（B，麥克風較不靈敏，遠端的人相對沒那麼小），它做到 <strong>90%</strong>，19 句只多切了一刀——這是誠實的好成績。但在另一軌上，遠端講者小到分段模型直接<em>漏掉近半的語音</em>，剩下的還按時間前後分群而不是按人，只剩 37%。而現場你不會知道自己手上是哪一種軌。更實際的一點：真實會議裡沒人先輸入人數——不告訴它幾個人，它在兩軌上分別猜了 <strong>1 個人和 8 個人</strong>。</p>
     <p>陣列不需要知道人數，也不在乎誰的聲音清不清楚，它只看距離。所以 OdiMeet 兩個都做，排序很清楚：兩支 iPhone 的精準模式是「量出來的」；單機的說話者分離是「沒有第二支手機時的估計」，預設關閉，介面上也這樣標。</p>
+
+    <h2>那麼，三支 iPhone 陣列有辦法重建空間嗎？</h2>
+    <p>寫到這裡，一個自然的問題冒出來：既然陣列知道誰在講、又量得到聲音到每支手機的時間差，能不能反過來畫出房間——誰坐哪、誰在誰旁邊、誰對面？</p>
+    <p>物理上是同一份資料。聲速 343 m/s，兩公尺差 5.8 毫秒；我們對齊用的相位互相關解析度在毫秒以下。而且一句話只從一個人的嘴出來：A 講話時，A 的手機先收到、B 的手機晚一點；B 講話時反過來。兩者的<em>平均</em>是時鐘偏移，<em>差的一半</em>是聲音多走的路。所以我把三段錄音逐句重算，兩端用 Hann 窗漸變（免得切口在兩軌相同的位置留下一樣的 click——上一個坑的變體）：</p>
+    <div class="numbers">
+      <div><span>同一講者、逐句量到的時間差，離散度</span><b>± 0.1 ms ≈ 3 cm</b></div>
+      <div><span>第一段（1.5 m）：換算「到遠端手機多走的路」</span><b>1.0 m（預期 ≈ 1.1 m）</b></div>
+      <div><span>第三段（2 m）：同樣的換算</span><b>9.5 m（不可能）</b></div>
+    </div>
+    <p>前兩行是好消息：量測本身穩到 3 公分，第一段的距離也對上了。第三行是一個還沒解開的謎：B 講話時，每一句在 A 的手機上都晚了整整 27.7 毫秒——太一致了不像雜訊，太長了不像直達聲。最可能是 A 那支手機沒收到 B 的直達聲（被擋住或太弱），互相關鎖到了一個往返約 9.5 m 的強反射。這也提醒我：做幾何時只能採信物理上可能的時間差，一張 2 公尺的桌子不會出現 27 毫秒。</p>
+    <p>順帶抓到一個對現有功能有用的副產品：整檔一次算出的對齊值會<strong>偏向講話多的那個人</strong>——第三段的「53 毫秒」其實是 A 的值，真正的時鐘偏移約 66 毫秒。對 200 毫秒的歸屬窗無傷，但要量幾何就得改用兩位講者的平均。</p>
+    <p>那三支呢？兩支手機只能量出一個距離。三支手機，每位講者的話給出三組時間差，就是三支手機兩兩之間的距離——一個三角形，誰和誰相鄰、誰對面就出來了。差在<strong>左右</strong>：光靠距離，鏡像分不出來，三角形翻過來所有邊長都一樣。要打破鏡像需要一個方向參考，而 iPhone 剛好有兩個現成的：每支手機的羅盤方位（配對時順手讀一次，5–15° 的誤差足夠分左右），或是 iPhone XS 起支援的立體聲錄音。</p>
+    <p>這些都還沒寫進 app。它是一個探索，但探索的材料已經躺在每一次陣列錄音裡，不用多錄任何東西。如果它成立，會後除了逐字稿，還能多一張小小的俯視圖：誰坐哪、誰對誰講了多少話——只有一支麥克風的產品，做不出這張圖。</p>
 
     <h2>我要留下的教訓</h2>
     <p>我的對齊器通過了一個合成測試——一段訊號延遲 1.234 秒——完美無缺，然後在真實音檔上敗了兩次。合成案例沒有真實案例的任何結構：兩個獨立講者、微弱串音、輪流發言。<strong>估計器要用它真正會遇到的案例來驗證。</strong></p>

@@ -183,6 +183,34 @@
       .chart .row .bar i { transform-origin: left; animation: grow .9s cubic-bezier(.2,.7,.2,1) both; }
       @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
     }
+    /* Room reconstruction sketch */
+    .recon { margin: 1.4rem 0 0; background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 0.8rem 0.8rem 0.6rem; }
+    .recon svg { width: 100%; height: auto; display: block; }
+    .recon .room { fill: none; stroke: var(--muted); stroke-opacity: .35; stroke-width: 1.2; stroke-dasharray: 6 6; }
+    .recon .table { fill: var(--teal); fill-opacity: .07; stroke: var(--teal-deep); stroke-opacity: .35; stroke-width: 1.2; }
+    .recon .ph { fill: #1c1e22; stroke: rgba(255,255,255,.12); }
+    .recon .ph-scr { fill: #06080b; }
+    @media (prefers-color-scheme: dark) { .recon .ph { fill: #2a2f36; stroke: var(--teal); stroke-opacity: .7; stroke-width: 1.2; } .recon .ph-scr { fill: #0b0f14; } }
+    .recon .head { fill: var(--muted); fill-opacity: .55; }
+    .recon .body { fill: var(--muted); fill-opacity: .35; }
+    .recon .name { font: 700 13px -apple-system, BlinkMacSystemFont, "PingFang TC", sans-serif; fill: var(--ink); }
+    .recon .share { font: 600 11px -apple-system, BlinkMacSystemFont, sans-serif; fill: var(--muted); }
+    .recon .dist { fill: none; stroke: var(--teal-deep); stroke-width: 1.6; stroke-dasharray: 4 5; opacity: .85; }
+    .recon .dlab { font: 600 12px ui-monospace, "SF Mono", Menlo, monospace; fill: var(--teal-deep); }
+    .recon .dlab-bg { fill: var(--card); }
+    .recon .compass { fill: none; stroke: var(--muted); stroke-opacity: .6; stroke-width: 1.2; }
+    .recon .compass-n { font: 700 11px -apple-system, sans-serif; fill: var(--muted); }
+    .recon .glow { fill: var(--teal); opacity: 0; }
+    .recon .cap { text-align: center; font-size: .82rem; color: var(--muted); margin-top: .5rem; line-height: 1.5; }
+    @media (prefers-reduced-motion: no-preference) {
+      .recon .dist { stroke-dasharray: 4 5; animation: reconDraw 1.6s ease-out both; }
+      .recon .dist.d2 { animation-delay: .5s; } .recon .dist.d3 { animation-delay: 1s; }
+      @keyframes reconDraw { from { opacity: 0; stroke-dashoffset: 120; } to { opacity: .85; stroke-dashoffset: 0; } }
+      .recon .glow { animation: reconGlow 7.5s ease-in-out infinite; }
+      .recon .glow.g2 { animation-delay: 2.5s; } .recon .glow.g3 { animation-delay: 5s; }
+      @keyframes reconGlow { 0%, 30%, 100% { opacity: 0; transform: scale(.8); } 12% { opacity: .35; transform: scale(1.15); } }
+      .recon .glow { transform-box: fill-box; transform-origin: center; }
+    }
   </style>
 
 </head>
@@ -268,6 +296,17 @@
     <p>The first two rows are good news: the measurement is stable to three centimetres, and the first take's distance comes out right. The third row is an open puzzle: every one of B's utterances arrives at A's phone exactly 27.7 ms late — far too consistent for noise, far too long for the direct path. Most likely A's phone never got B's direct sound (blocked, or too faint) and the correlation locked onto a strong reflection with a round trip of about 9.5 m. It is also a reminder that geometry may only trust physically possible lags; a two-metre table does not produce 27 ms.</p>
     <p>A useful by-product fell out: the single whole-file alignment <strong>leans toward whoever talked more</strong> — take 3's "53 ms" was really A's value, and the true clock offset is about 66 ms. Harmless for 200 ms attribution windows, but geometry needs the average of both speakers.</p>
     <p>And three phones? Two phones yield one distance. With three, each speaker's words give three pairwise lags, which is the distance between each pair of phones — a triangle, and with it who is adjacent to whom and who sits opposite. What distances alone cannot give is <strong>left versus right</strong>: a mirrored triangle has the same sides. Breaking the mirror needs one directional reference, and an iPhone carries two ready-made: each phone's compass heading (read once at pairing; 5–15° of error is plenty to tell left from right), or stereo recording, available since the iPhone XS.</p>
+    <figure class="recon" role="img" aria-label="Sketch: a meeting room seen from above, three people around a table each with an iPhone, dashed lines between the phones marking reconstructed distances">
+      <svg viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg">
+        <rect class="room" x="22" y="18" width="556" height="304" rx="10"/>
+        <rect class="table" x="150" y="130" width="300" height="120" rx="60"/>
+        <line class="dist d1" x1="196" y1="222" x2="404" y2="222"/><rect class="dlab-bg" x="278.0" y="213.0" width="44" height="16" rx="4"/><text class="dlab" x="300.0" y="225.0" text-anchor="middle">2.1 m</text><line class="dist d2" x1="196" y1="222" x2="300" y2="148"/><rect class="dlab-bg" x="226.0" y="176.0" width="44" height="16" rx="4"/><text class="dlab" x="248.0" y="188.0" text-anchor="middle">1.6 m</text><line class="dist d3" x1="404" y1="222" x2="300" y2="148"/><rect class="dlab-bg" x="330.0" y="176.0" width="44" height="16" rx="4"/><text class="dlab" x="352.0" y="188.0" text-anchor="middle">1.7 m</text>
+        <g transform="translate(196 222) rotate(-20)"><rect class="ph" x="-9" y="-16" width="18" height="32" rx="4"/><rect class="ph-scr" x="-7" y="-13" width="14" height="26" rx="3"/></g><g transform="translate(404 222) rotate(20)"><rect class="ph" x="-9" y="-16" width="18" height="32" rx="4"/><rect class="ph-scr" x="-7" y="-13" width="14" height="26" rx="3"/></g><g transform="translate(300 148) rotate(90)"><rect class="ph" x="-9" y="-16" width="18" height="32" rx="4"/><rect class="ph-scr" x="-7" y="-13" width="14" height="26" rx="3"/></g>
+        <circle class="glow g1" cx="150" cy="256" r="26"/><circle class="head" cx="150" cy="250" r="9"/><path class="body" d="M133 274 q17 -22 34 0 z"/><text class="name" x="150" y="292" text-anchor="middle">Alice</text><text class="share" x="150" y="307" text-anchor="middle">spoke 42%</text><circle class="glow g2" cx="450" cy="256" r="26"/><circle class="head" cx="450" cy="250" r="9"/><path class="body" d="M433 274 q17 -22 34 0 z"/><text class="name" x="450" y="292" text-anchor="middle">Ben</text><text class="share" x="450" y="307" text-anchor="middle">35%</text><circle class="glow g3" cx="300" cy="82" r="26"/><circle class="head" cx="300" cy="76" r="9"/><path class="body" d="M283 100 q17 -22 34 0 z"/><text class="name" x="336" y="118" text-anchor="start">Chen</text><text class="share" x="336" y="133" text-anchor="start">23%</text>
+        <g transform="translate(548 52)"><circle class="compass" r="16"/><path class="compass" d="M0 -12 L5 4 L0 0 L-5 4 Z" fill="currentColor"/><text class="compass-n" x="0" y="-20" text-anchor="middle">N</text></g>
+      </svg>
+      <figcaption class="cap">Reconstruction sketch (not built yet): the distances between the three phones come from the arrival-time differences of each speaker’s words; left/right comes from the compass heading read at pairing; the glow marks who is talking. The outline is illustrative, not measured.</figcaption>
+    </figure>
     <p>None of this is in the app yet. It is an exploration — but the raw material is already inside every array recording, with nothing extra to capture. If it holds up, a meeting would end with a transcript and a small top-down sketch: who sat where, who spoke to whom and how much. A product with one microphone cannot draw that picture.</p>
 
     <h2>What I'm keeping from this</h2>
@@ -351,6 +390,17 @@
     <p>前兩行是好消息：量測本身穩到 3 公分，第一段的距離也對上了。第三行是一個還沒解開的謎：B 講話時，每一句在 A 的手機上都晚了整整 27.7 毫秒——太一致了不像雜訊，太長了不像直達聲。最可能是 A 那支手機沒收到 B 的直達聲（被擋住或太弱），互相關鎖到了一個往返約 9.5 m 的強反射。這也提醒我：做幾何時只能採信物理上可能的時間差，一張 2 公尺的桌子不會出現 27 毫秒。</p>
     <p>順帶抓到一個對現有功能有用的副產品：整檔一次算出的對齊值會<strong>偏向講話多的那個人</strong>——第三段的「53 毫秒」其實是 A 的值，真正的時鐘偏移約 66 毫秒。對 200 毫秒的歸屬窗無傷，但要量幾何就得改用兩位講者的平均。</p>
     <p>那三支呢？兩支手機只能量出一個距離。三支手機，每位講者的話給出三組時間差，就是三支手機兩兩之間的距離——一個三角形，誰和誰相鄰、誰對面就出來了。差在<strong>左右</strong>：光靠距離，鏡像分不出來，三角形翻過來所有邊長都一樣。要打破鏡像需要一個方向參考，而 iPhone 剛好有兩個現成的：每支手機的羅盤方位（配對時順手讀一次，5–15° 的誤差足夠分左右），或是 iPhone XS 起支援的立體聲錄音。</p>
+    <figure class="recon" role="img" aria-label="示意圖：俯視一間會議室，桌子周圍三個人各有一支 iPhone，手機之間以虛線標出重建出的距離">
+      <svg viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg">
+        <rect class="room" x="22" y="18" width="556" height="304" rx="10"/>
+        <rect class="table" x="150" y="130" width="300" height="120" rx="60"/>
+        <line class="dist d1" x1="196" y1="222" x2="404" y2="222"/><rect class="dlab-bg" x="278.0" y="213.0" width="44" height="16" rx="4"/><text class="dlab" x="300.0" y="225.0" text-anchor="middle">2.1 m</text><line class="dist d2" x1="196" y1="222" x2="300" y2="148"/><rect class="dlab-bg" x="226.0" y="176.0" width="44" height="16" rx="4"/><text class="dlab" x="248.0" y="188.0" text-anchor="middle">1.6 m</text><line class="dist d3" x1="404" y1="222" x2="300" y2="148"/><rect class="dlab-bg" x="330.0" y="176.0" width="44" height="16" rx="4"/><text class="dlab" x="352.0" y="188.0" text-anchor="middle">1.7 m</text>
+        <g transform="translate(196 222) rotate(-20)"><rect class="ph" x="-9" y="-16" width="18" height="32" rx="4"/><rect class="ph-scr" x="-7" y="-13" width="14" height="26" rx="3"/></g><g transform="translate(404 222) rotate(20)"><rect class="ph" x="-9" y="-16" width="18" height="32" rx="4"/><rect class="ph-scr" x="-7" y="-13" width="14" height="26" rx="3"/></g><g transform="translate(300 148) rotate(90)"><rect class="ph" x="-9" y="-16" width="18" height="32" rx="4"/><rect class="ph-scr" x="-7" y="-13" width="14" height="26" rx="3"/></g>
+        <circle class="glow g1" cx="150" cy="256" r="26"/><circle class="head" cx="150" cy="250" r="9"/><path class="body" d="M133 274 q17 -22 34 0 z"/><text class="name" x="150" y="292" text-anchor="middle">小美</text><text class="share" x="150" y="307" text-anchor="middle">說了 42%</text><circle class="glow g2" cx="450" cy="256" r="26"/><circle class="head" cx="450" cy="250" r="9"/><path class="body" d="M433 274 q17 -22 34 0 z"/><text class="name" x="450" y="292" text-anchor="middle">阿明</text><text class="share" x="450" y="307" text-anchor="middle">35%</text><circle class="glow g3" cx="300" cy="82" r="26"/><circle class="head" cx="300" cy="76" r="9"/><path class="body" d="M283 100 q17 -22 34 0 z"/><text class="name" x="336" y="118" text-anchor="start">陳老師</text><text class="share" x="336" y="133" text-anchor="start">23%</text>
+        <g transform="translate(548 52)"><circle class="compass" r="16"/><path class="compass" d="M0 -12 L5 4 L0 0 L-5 4 Z" fill="currentColor"/><text class="compass-n" x="0" y="-20" text-anchor="middle">北</text></g>
+      </svg>
+      <figcaption class="cap">重建示意（尚未實作）：三支手機兩兩的距離由各講者話語的到達時間差算出，左右由配對時讀到的羅盤方位定向；發光代表當下誰在講。輪廓是示意，不是量測。</figcaption>
+    </figure>
     <p>這些都還沒寫進 app。它是一個探索，但探索的材料已經躺在每一次陣列錄音裡，不用多錄任何東西。如果它成立，會後除了逐字稿，還能多一張小小的俯視圖：誰坐哪、誰對誰講了多少話——只有一支麥克風的產品，做不出這張圖。</p>
 
     <h2>我要留下的教訓</h2>

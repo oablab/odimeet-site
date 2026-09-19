@@ -233,17 +233,29 @@
 
     <h2>Once the alignment was right</h2>
     <div class="numbers">
-      <div><span>Sync-start error, two real takes</span><b>88 ms · 106 ms</b></div>
-      <div><span>Speaker separation, median over speech windows</span><b>12.1 dB · 13.7 dB</b></div>
-      <div><span>Windows attributed with ≥ 6 dB margin</span><b>93 % · 97 %</b></div>
+      <div><span>Sync-start error, three real takes</span><b>88 · 106 · 53 ms</b></div>
+      <div><span>Speaker separation, median over speech windows (1.5 m · 1.5 m · 2 m)</span><b>12.1 · 13.7 · 17.2 dB</b></div>
+      <div><span>Windows attributed with ≥ 6 dB margin</span><b>93 · 97 · 96 %</b></div>
       <div><span>Cross-talk windows</span><b>kept for both</b></div>
     </div>
     <p>The merged transcript labels each line with the name entered before pairing, and the tester's verdict on the second take was "separated, quite good". Two smaller traps on the way there, for completeness: a merged conversation borrows track A's audio file and session id, so the next "combine" paired A with itself (offset 0.00, separation 0.0 dB — the same tell); and iOS returns the literal string "iPhone" as the device name to apps, so both speakers were called iPhone until we asked for a name up front.</p>
 
-    <h2>So how good is the algorithm, really? We ran it too — and were first schooled by our own test data</h2>
-    <p>Earlier I called the mainstream approach a guess, citing other people's documentation. With recordings in hand, I took the same audio, <em>one track only</em>, and ran the route a single phone can run: pyannote segmentation‑3.0, 3D‑Speaker voice-print embeddings, clustering — the whole chain on device through sherpa‑onnx, about 40 MB of models. I compared its speaker labels against the array's, wrote up a set of numbers, and published them.</p>
-    <p>A few hours later I learned that the 20‑second take was <strong>one person</strong>, taking turns speaking toward each phone. That changes nothing for the array — it measures which phone the voice is closest to, all seven A/B/A/B positions were right, and one seat per person is the product's premise anyway. But for a voice-print algorithm the correct answer is "one speaker"; so the track I had scored as "wrong speaker, 46%" was the <em>only one that got it right</em>, recognising a single person throughout. The track I had scored "mostly right, 82%" had split one person into two, fooled by the acoustic difference between near and far. Using the array as the answer key, I had been comparing position, not identity — and reached the opposite conclusion.</p>
-    <p>Those numbers are withdrawn. Two things stay. One: <strong>distance leaks into voice-prints</strong> — the same person at 40 cm and at 1.5 m looks like two people to the algorithm, a systematic weakness of voice-print methods on a real table. Two: comparing the methods needs an <em>independent</em> answer key; neither side can be the standard. The next recording will be two different people, two to three minutes, with deliberate interruptions, and a third phone in the middle of the table as the fairest placement for the algorithm. The numbers will be filled in here.</p>
+    <h2>So how good is the algorithm, really? We ran it too — after being schooled by our own data</h2>
+    <p>Earlier I called the mainstream approach a guess, citing other people's documentation. I took a recording, <em>one track only</em>, and ran the route a single phone can run: pyannote segmentation‑3.0, 3D‑Speaker voice-print embeddings, clustering — the whole chain on device through sherpa‑onnx, about 40 MB of models. My first comparison used the array as the answer key, produced a set of numbers, and went live; hours later I learned that the 20‑second take had been <strong>one person</strong> taking turns toward each phone. The array was fine — it measures position, and all seven turns were right — but for a voice-print algorithm the correct answer was "one speaker", and my conclusion was backwards. One thing learned in passing: <strong>distance leaks into voice-prints</strong>; the same person at 40 cm and at 1.5 m looks like two people to the algorithm.</p>
+    <p>So we recorded again: two different people, 2 metres apart, 41 seconds, strict turn-taking with a few deliberate interruptions at the end — this time the answer key is the <em>known order</em>, not either method's output.</p>
+    <p><strong>The array</strong>: alignment error 53 ms; across 28 seconds of speech the two tracks differ by a median <strong>17.2 dB</strong>, with 96% of windows decided by a ≥ 6 dB margin; <strong>18 utterances, strictly alternating, 18 of 18</strong>; three 200 ms windows flagged as both speaking, all between 30.8 and 31.6 s — exactly where the interruptions were. Moving from 1.5 to 2 metres made separation better, not worse.</p>
+    <p><strong>The algorithm</strong> depends on which track it gets and on whether someone tells it how many people there are:</p>
+    <div class="chart" role="img" aria-label="Bar chart: array 96%; algorithm track B 90%, track A 37%">
+      <div class="grp">Array · windows decided with a ≥ 6 dB margin</div>
+      <div class="row array"><span class="lbl">Take 3 · 2 m · two people</span><span class="bar"><i style="--v:96%"></i></span><span class="val">96%</span></div>
+      <div class="grp">Algorithm (single track, told 2 speakers) · windows matching the key</div>
+      <div class="row algo"><span class="lbl">Track B (quiet mic)</span><span class="bar"><i style="--v:90%"></i></span><span class="val">90%</span></div>
+      <div class="row algo bad"><span class="lbl">Track A (sensitive mic)</span><span class="bar"><i style="--v:37%"></i></span><span class="val">37%</span></div>
+      <div class="note">Same 41‑second recording, 200 ms windows; the answer key is the known strict turn order. Of track A’s 63% disagreement, 46 points are windows with no speaker at all. Left to guess the speaker count, the algorithm found 1 person on one track and 8 on the other.</div>
+    </div>
+
+    <p>Told "two speakers" and given the track where both voices are reasonably audible (B, the less sensitive microphone, where the far person is relatively less faint), it reaches <strong>90%</strong> — 19 utterances with a single extra cut, an honestly good result. On the other track the far speaker is so faint that the segmentation model <em>drops nearly half the speech</em>, and what remains is clustered by time rather than by person: 37%. And in the room you don't know which kind of track you are holding. More practically: nobody types in a speaker count before a real meeting — left to guess, the algorithm found <strong>1 person on one track and 8 on the other</strong>.</p>
+    <p>The array needs no speaker count and doesn't care how clear anyone's voice is; it only looks at distance. So OdiMeet ships both, in a clear order: Precision Mode with two iPhones is <em>measured</em>; single-phone speaker separation is <em>an estimate for when there is no second phone</em>, off by default and labelled that way.</p>
 
     <h2>What I'm keeping from this</h2>
     <p>My aligner passed a synthetic test — one signal delayed by 1.234 s — perfectly, then failed on real audio twice. The synthetic case shared none of the real case's structure: two independent talkers, faint bleed, alternation. <strong>Validate an estimator on the case it will actually see.</strong></p>
@@ -291,17 +303,29 @@
 
     <h2>對齊對了之後</h2>
     <div class="numbers">
-      <div><span>同步開始的誤差，兩段真實錄音</span><b>88 ms · 106 ms</b></div>
-      <div><span>講者分離度，語音窗中位數</span><b>12.1 dB · 13.7 dB</b></div>
-      <div><span>以 ≥ 6 dB 差距判定的窗</span><b>93 % · 97 %</b></div>
+      <div><span>同步開始的誤差，三段真實錄音</span><b>88 · 106 · 53 ms</b></div>
+      <div><span>講者分離度，語音窗中位數（1.5 m · 1.5 m · 2 m）</span><b>12.1 · 13.7 · 17.2 dB</b></div>
+      <div><span>以 ≥ 6 dB 差距判定的窗</span><b>93 · 97 · 96 %</b></div>
       <div><span>同時講話的窗</span><b>兩邊都保留</b></div>
     </div>
     <p>合併出來的逐字稿，每一句前面是配對前填的名字；第二段錄音測試者的評語是「分離了，相當好」。順帶記兩個小坑：合併結果借用 A 軌的音檔、又帶著同一個 session id，下一次「合併」就把 A 和它自己合併了（偏移 0.00、分離 0.0 dB——同一種徵兆）；還有 iOS 給 app 的裝置名稱就是字面上的「iPhone」，兩位講者都叫 iPhone，直到我們改成配對前先問名字。</p>
 
-    <h2>那演算法到底能做到多好？我們也跑了——然後先被自己的測試資料教了一課</h2>
-    <p>前面說主流做法是「猜」，但那是引用別人的文件。既然手上有錄音，我就把同樣的音檔<em>只取一軌</em>，丟給單支手機能跑的演算法路線：pyannote segmentation‑3.0 分段、3D‑Speaker 聲紋向量、再聚類——整條鏈透過 sherpa‑onnx 在裝置上跑，兩個模型合計約 40 MB。然後拿它的講者標記跟陣列的比對，寫出一組數字，發了上去。</p>
-    <p>幾個小時後我才知道那 20 秒的錄音<strong>其實是同一個人</strong>，輪流對著兩支手機講。這對陣列沒有影響——它量的是「聲音離哪支手機近」，7 句 A/B/A/B 的位置全對，而產品前提本來就是一個座位一個人。但對聲紋演算法來說，正確答案是「一個講者」；於是我原本判為「認錯人、46%」的那一軌，其實是<em>唯一答對的</em>：它認出全程是同一個人。而我判為「大多正確、82%」的另一軌，其實把同一個人拆成了兩個——被近、遠兩處的聲學差異騙了。我拿陣列當答案卷，在這段錄音上比的是位置，不是身分，結論正好相反。</p>
-    <p>那組數字已經撤下。留下來的是兩件事：一，<strong>距離會滲進聲紋向量</strong>——同一個人在 40 cm 和 1.5 m 兩處，對演算法來說像兩個人，這是聲紋方法在真實桌面上的一個系統性弱點；二，比較兩種方法需要一份<em>獨立</em>的答案卷，不能拿其中一方當標準。下一次錄音會是兩個不同的人、兩三分鐘、含刻意插話，另外在桌子正中央放第三支手機當演算法最公平的擺法。數字會補在這裡。</p>
+    <h2>那演算法到底能做到多好？我們也跑了——先被自己的資料教了一課</h2>
+    <p>前面說主流做法是「猜」，但那是引用別人的文件。我把錄音<em>只取一軌</em>，丟給單支手機能跑的演算法路線：pyannote segmentation‑3.0 分段、3D‑Speaker 聲紋向量、再聚類——整條鏈透過 sherpa‑onnx 在裝置上跑，兩個模型合計約 40 MB。第一次比對我拿陣列當答案卷、寫了一組數字發上去，幾小時後才知道那 20 秒<strong>其實是同一個人</strong>輪流對著兩支手機講。陣列沒事——它量的是位置，7 句全對——但對聲紋演算法來說正確答案是「一個人」，我的結論剛好反了。順帶學到一件事：<strong>距離會滲進聲紋向量</strong>，同一個人在 40 cm 和 1.5 m 兩處，演算法看成兩個人。</p>
+    <p>所以重錄：兩個不同的人，相距 2 公尺，41 秒，嚴格輪流講、最後幾句刻意插話——這次的答案卷是<em>已知的順序</em>，不是任何一方的輸出。</p>
+    <p><strong>陣列</strong>：對齊誤差 53 毫秒；有聲的 28 秒裡，兩軌能量差中位數 <strong>17.2 dB</strong>，96% 的窗以 ≥ 6 dB 清楚判定；切出 <strong>18 句，A/B 嚴格交替，18/18</strong>；三個 200 毫秒的窗判為兩人同時講，全落在 30.8–31.6 秒——正是插話的地方。距離從 1.5 拉到 2 公尺，分離度反而更好。</p>
+    <p><strong>演算法</strong>就看它拿到哪一軌、以及有沒有人告訴它幾個人：</p>
+    <div class="chart" role="img" aria-label="長條圖：陣列 96%；演算法 B 軌 90%、A 軌 37%">
+      <div class="grp">陣列 · 以 ≥ 6 dB 差距清楚判定的窗</div>
+      <div class="row array"><span class="lbl">第三段錄音 · 2 m · 兩人</span><span class="bar"><i style="--v:96%"></i></span><span class="val">96%</span></div>
+      <div class="grp">演算法（單軌，已告知 2 人） · 與答案一致的窗</div>
+      <div class="row algo"><span class="lbl">B 軌（安靜的麥克風）</span><span class="bar"><i style="--v:90%"></i></span><span class="val">90%</span></div>
+      <div class="row algo bad"><span class="lbl">A 軌（靈敏的麥克風）</span><span class="bar"><i style="--v:37%"></i></span><span class="val">37%</span></div>
+      <div class="note">同一段 41 秒錄音、每 200 毫秒一窗；答案卷是已知的嚴格輪流順序。演算法在 A 軌的 63% 不一致裡，46 個百分點是完全沒標到講者。若不告知人數，演算法在兩軌分別找到 1 人和 8 人。</div>
+    </div>
+
+    <p>告訴它「兩個人」、又拿到兩人都夠清楚的那一軌（B，麥克風較不靈敏，遠端的人相對沒那麼小），它做到 <strong>90%</strong>，19 句只多切了一刀——這是誠實的好成績。但在另一軌上，遠端講者小到分段模型直接<em>漏掉近半的語音</em>，剩下的還按時間前後分群而不是按人，只剩 37%。而現場你不會知道自己手上是哪一種軌。更實際的一點：真實會議裡沒人先輸入人數——不告訴它幾個人，它在兩軌上分別猜了 <strong>1 個人和 8 個人</strong>。</p>
+    <p>陣列不需要知道人數，也不在乎誰的聲音清不清楚，它只看距離。所以 OdiMeet 兩個都做，排序很清楚：兩支 iPhone 的精準模式是「量出來的」；單機的說話者分離是「沒有第二支手機時的估計」，預設關閉，介面上也這樣標。</p>
 
     <h2>我要留下的教訓</h2>
     <p>我的對齊器通過了一個合成測試——一段訊號延遲 1.234 秒——完美無缺，然後在真實音檔上敗了兩次。合成案例沒有真實案例的任何結構：兩個獨立講者、微弱串音、輪流發言。<strong>估計器要用它真正會遇到的案例來驗證。</strong></p>

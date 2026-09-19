@@ -165,7 +165,7 @@
     @media (prefers-reduced-motion: reduce) { .story .mini .lvl i, .story .mini .rec .dot, .story .link .arrow { animation: none !important; } }
     /* Bar chart: array vs algorithm */
     .chart { margin-top: 1.4rem; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.2rem 0.9rem; }
-    .chart .grp { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; color: var(--muted); margin: 0.6rem 0 0.35rem; }
+    .chart .grp { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.01em; color: var(--muted); margin: 0.6rem 0 0.35rem; }
     .chart .grp:first-child { margin-top: 0; }
     .chart .row { display: grid; grid-template-columns: minmax(6.5rem, 34%) 1fr 3.2rem; align-items: center; gap: 0.6rem; padding: 0.22rem 0; font-size: 0.9rem; }
     .chart .row .lbl { color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -249,10 +249,10 @@
     </div>
 
     <div class="chart" role="img" aria-label="Bar chart: array 97% and 93%; algorithm 79%, 87%, 82%, 46%">
-      <div class="grp">Array · measured</div>
+      <div class="grp">Array · windows decided with a ≥ 6 dB margin</div>
       <div class="row array"><span class="lbl">Take 1</span><span class="bar"><i style="--v:97%"></i></span><span class="val">97%</span></div>
       <div class="row array"><span class="lbl">Take 2</span><span class="bar"><i style="--v:93%"></i></span><span class="val">93%</span></div>
-      <div class="grp">Algorithm · estimated (single track)</div>
+      <div class="grp">Algorithm (single track) · windows agreeing with the array</div>
       <div class="row algo"><span class="lbl">Take 1 · track A</span><span class="bar"><i style="--v:79%"></i></span><span class="val">79%</span></div>
       <div class="row algo"><span class="lbl">Take 1 · track B</span><span class="bar"><i style="--v:87%"></i></span><span class="val">87%</span></div>
       <div class="row algo"><span class="lbl">Take 2 · track A</span><span class="bar"><i style="--v:82%"></i></span><span class="val">82%</span></div>
@@ -324,10 +324,10 @@
     </div>
 
     <div class="chart" role="img" aria-label="長條圖：陣列 97% 與 93%；演算法 79%、87%、82%、46%">
-      <div class="grp">陣列 · 量測</div>
+      <div class="grp">陣列 · 以 ≥ 6 dB 差距清楚判定的窗</div>
       <div class="row array"><span class="lbl">第一段錄音</span><span class="bar"><i style="--v:97%"></i></span><span class="val">97%</span></div>
       <div class="row array"><span class="lbl">第二段錄音</span><span class="bar"><i style="--v:93%"></i></span><span class="val">93%</span></div>
-      <div class="grp">演算法 · 估計（單軌）</div>
+      <div class="grp">演算法（單軌） · 與陣列判定一致的窗</div>
       <div class="row algo"><span class="lbl">第一段 · A 軌</span><span class="bar"><i style="--v:79%"></i></span><span class="val">79%</span></div>
       <div class="row algo"><span class="lbl">第一段 · B 軌</span><span class="bar"><i style="--v:87%"></i></span><span class="val">87%</span></div>
       <div class="row algo"><span class="lbl">第二段 · A 軌</span><span class="bar"><i style="--v:82%"></i></span><span class="val">82%</span></div>

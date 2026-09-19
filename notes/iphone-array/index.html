@@ -220,11 +220,21 @@
     </div>
     <p>The merged transcript labels each line with the name entered before pairing, and the tester's verdict on the second take was "separated, quite good". Two smaller traps on the way there, for completeness: a merged conversation borrows track A's audio file and session id, so the next "combine" paired A with itself (offset 0.00, separation 0.0 dB — the same tell); and iOS returns the literal string "iPhone" as the device name to apps, so both speakers were called iPhone until we asked for a name up front.</p>
 
+    <h2>So how good is the algorithm, really? We ran it too</h2>
+    <p>Earlier I called the mainstream approach a guess, citing other people's documentation. With two real recordings in hand and the array's attribution as a trustworthy answer key, I took the same audio, <em>one track only</em>, and ran the route a single phone can run: pyannote segmentation‑3.0, 3D‑Speaker voice-print embeddings, clustering — the whole chain on device through sherpa‑onnx, about 40 MB of models. Then I compared its speaker labels against the array's, window by window.</p>
+    <div class="numbers">
+      <div><span>Algorithm vs array, speech windows in agreement (four single tracks)</span><b>79% · 87% · 82% · 46%</b></div>
+      <div><span>Speech windows left without a speaker</span><b>13–15%</b></div>
+      <div><span>The array itself, windows decided with ≥ 6 dB margin</span><b>93% · 97%</b></div>
+    </div>
+    <p>Three tracks land around eighty percent; the fourth is a coin flip — that is the track where the far speaker sits 15 dB down, their voice-print smears, and clustering folds two people into one. To be fair, that placement is the worst case for a voice-print method; one phone in the middle of the table with two similar-volume speakers would probably reach the high eighties. But that is exactly the difference: <strong>the algorithm's accuracy depends on placement, on how alike the voices are, on cross-talk; the array's depends on distance alone</strong>, and distance is settled the moment you put the phones down. The algorithm also fails unpredictably — two people merged into one, one split into two — and nothing in the transcript tells you where.</p>
+    <p>So OdiMeet ships both, with a clear order: Precision Mode with two iPhones is <em>measured</em>; single-phone speaker separation is <em>an estimate for when there is no second phone</em>, off by default in Settings and labelled that way in the interface.</p>
+
     <h2>What I'm keeping from this</h2>
     <p>My aligner passed a synthetic test — one signal delayed by 1.234 s — perfectly, then failed on real audio twice. The synthetic case shared none of the real case's structure: two independent talkers, faint bleed, alternation. <strong>Validate an estimator on the case it will actually see.</strong></p>
     <p>And an answer that is too good is the instrument talking about itself. Two phones aligned to 0.02 ms, a peak 500 times its background, an offset landing exactly on the search boundary — each of those was the estimator, not the room. The check that settled it was asking <em>what</em> was coherent, and finding nothing was.</p>
 
-    <div class="callout">This ships as <strong>Precision Mode</strong> in OdiMeet 1.1: pair two iPhones, record together, tap Combine. Version 1.0 — recording, importing from any voice recorder, on-device transcription and Gemini summaries with your own key — is in App Store review now.</div>
+    <div class="callout">This ships as <strong>Precision Mode</strong> in OdiMeet 1.1: pair two iPhones, record together, tap Combine. With a single phone, optional on-device speaker separation gives you labels marked as estimates. Version 1.0 — recording, importing from any voice recorder, on-device transcription and Gemini summaries with your own key — is in App Store review now.</div>
     <p class="outro">OdiMeet is free for seven days, then $2.99 a month, $29.99 a year, or $39.99 once. Follow <a href="/">odimeet.app</a> for the App Store link.</p>
   </main>
 
@@ -273,11 +283,21 @@
     </div>
     <p>合併出來的逐字稿，每一句前面是配對前填的名字；第二段錄音測試者的評語是「分離了，相當好」。順帶記兩個小坑：合併結果借用 A 軌的音檔、又帶著同一個 session id，下一次「合併」就把 A 和它自己合併了（偏移 0.00、分離 0.0 dB——同一種徵兆）；還有 iOS 給 app 的裝置名稱就是字面上的「iPhone」，兩位講者都叫 iPhone，直到我們改成配對前先問名字。</p>
 
+    <h2>那演算法到底能做到多好？我們也跑了</h2>
+    <p>前面說主流做法是「猜」，但那是引用別人的文件。既然手上有兩段真實錄音、而且陣列已經給了可信的答案，我就把同樣的音檔<em>只取一軌</em>，丟給單支手機能跑的演算法路線：pyannote segmentation‑3.0 分段、3D‑Speaker 聲紋向量、再聚類——整條鏈透過 sherpa‑onnx 在裝置上跑，兩個模型合計約 40 MB。然後拿它的講者標記，跟陣列量出來的逐窗比對。</p>
+    <div class="numbers">
+      <div><span>演算法 vs 陣列，一致的語音窗（四條單軌）</span><b>79% · 87% · 82% · 46%</b></div>
+      <div><span>沒被標到講者的語音窗</span><b>13–15%</b></div>
+      <div><span>陣列本身，≥ 6 dB 清楚判定的窗</span><b>93% · 97%</b></div>
+    </div>
+    <p>三軌落在八成上下，第四軌等於亂猜——那是遠端講者在那支麥克風上小了 15 dB 的一軌，聲紋糊掉，聚類就把兩個人揉成一團。要公平地說，這對聲紋方法是最不利的擺法；一支手機放桌子中央、兩人音量相近，它大概能到八九成。但這正是差別所在：<strong>演算法的準確度取決於擺法、聲音像不像、有沒有搶話；陣列的準確度只取決於距離</strong>，而距離是你放手機的那一刻就決定好的。演算法錯的方式也不可預測——兩個人被合成一個、一個人被拆成兩個——事後看逐字稿看不出哪裡錯了。</p>
+    <p>所以 OdiMeet 兩個都做，但排序很清楚：兩支 iPhone 的精準模式是「量出來的」；單機的說話者分離是「沒有第二支手機時的估計」，設定裡預設關閉，介面上也這樣標。</p>
+
     <h2>我要留下的教訓</h2>
     <p>我的對齊器通過了一個合成測試——一段訊號延遲 1.234 秒——完美無缺，然後在真實音檔上敗了兩次。合成案例沒有真實案例的任何結構：兩個獨立講者、微弱串音、輪流發言。<strong>估計器要用它真正會遇到的案例來驗證。</strong></p>
     <p>還有，好到不像真的答案，是儀器在講它自己。兩支手機對齊到 0.02 毫秒、峰值是背景的五百倍、偏移剛好落在搜尋邊界——每一個都是估計器，不是那間房間。最後把事情定下來的，是去問<em>什麼東西</em>是相干的，然後發現什麼都不是。</p>
 
-    <div class="callout">這會以 <strong>精準模式</strong> 隨 OdiMeet 1.1 推出：兩支 iPhone 配對、一起錄、按一下合併。1.0 版——錄音、匯入任何錄音筆的檔案、裝置端轉錄、用自己金鑰的 Gemini 摘要——正在 App Store 審核中。</div>
+    <div class="callout">這會以 <strong>精準模式</strong> 隨 OdiMeet 1.1 推出：兩支 iPhone 配對、一起錄、按一下合併；只有一支手機時，可選的裝置端說話者分離會給你標示為估計的講者標記。1.0 版——錄音、匯入任何錄音筆的檔案、裝置端轉錄、用自己金鑰的 Gemini 摘要——正在 App Store 審核中。</div>
     <p class="outro">OdiMeet 免費試用 7 天，之後月費 $2.99、年費 $29.99，或一次買斷 $39.99。App Store 連結會放在 <a href="/zh/">odimeet.app</a>。</p>
   </main>
 

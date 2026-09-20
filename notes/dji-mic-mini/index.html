@@ -256,20 +256,16 @@
     <p>The two-iPhone array relies on physics: whoever is closer is louder on their phone, 12–17 dB in our measurements. A wireless mic set is more direct still — <strong>each transmitter is its own track</strong>. The receiver puts TX1 on the left channel and TX2 on the right, on one clock, into one iPhone. Nothing to estimate, no two clocks to align: the voices are separated in hardware before the app ever sees them. What remains is splitting left and right into two tracks, transcribing each, merging by time, and putting names on the lines.</p>
     <p>So inside OdiMeet it runs the exact Precision Mode pipeline with one switch flipped: the alignment step is forced to zero. That is not just a shortcut — bleed between lavalier mics is faint, and a cross-correlation search could lock onto a spurious peak; the two channels share a clock, so there is no offset to find.</p>
 
-    <h2>Attempt one: the app didn't see the receiver</h2>
-    <p>After the first take, the input line on screen said just "Microphone". iOS had kept the phone's own mic as the input; the receiver was never used, and that take was whatever the iPhone heard from the table. I had planned to recognise DJI by device name. The receiver reports its USB product string to iOS as "Wireless Mic Rx" — not a mention of DJI anywhere.</p>
-    <p>Instead of guessing further, I made the app list everything it can see: every available input, its type, whether it is external, which one is active — and in this mode, actively select the external one. Then one more line, which can only appear once an input is active, because iOS reveals a device's channel capability only for the route in use.</p>
+    <h2>The one thing you have to do: switch the receiver to Stereo in DJI Mimo</h2>
+    <p>The receiver has three channel modes. Mono mixes both transmitters into one channel; Safety Track is the same mix plus a copy 6 dB lower; only <strong>Stereo</strong> gives one transmitter per channel. That setting lives in DJI's own Mimo app (the receiver connects to it over Bluetooth) and OdiMeet cannot change it for you — so it is the <strong>only step in the whole flow that needs your hands</strong>. Once set, plug the receiver into the iPhone and OdiMeet's recording screen shows that it recognised a DJI Mic and is getting two channels.</p>
     <div class="pair">
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4623.png" alt="" loading="lazy"><figcaption>The third card in New recording: one iPhone + wireless mic set.</figcaption></figure>
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4624.png" alt="" loading="lazy"><figcaption>The recorder lists what iOS sees: DJI Mic (Wireless Mic Rx) · USBAudio · max 2 ch, 2 ch configured.</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4618.png" alt="" loading="lazy"><figcaption>DJI Mimo → RX Settings → Audio Channel: Stereo.</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4624.png" alt="" loading="lazy"><figcaption>OdiMeet's recorder: DJI Mic (Wireless Mic Rx) · 2 ch configured / 2 ch max.</figcaption></figure>
     </div>
+    <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4623.png" alt="" loading="lazy"><figcaption>The third card in New recording: one iPhone + wireless mic set.</figcaption></figure>
 
-    <h2>Attempt two: Stereo mode</h2>
-    <p>The receiver has three channel modes. Mono mixes both transmitters into one channel; Safety Track is the same mix plus a copy 6 dB lower; only <strong>Stereo</strong> gives one transmitter per channel. It is set in DJI's own Mimo app, which talks to the receiver over Bluetooth. With that done, OdiMeet's line turned green: "iOS: 2 ch configured / 2 ch max".</p>
-    <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4618.png" alt="" loading="lazy"><figcaption>DJI Mimo → RX Settings → Audio Channel: Stereo.</figcaption></figure>
-
-    <h2>Attempt three: done — then a crash</h2>
-    <p>Record, split, combine — and the app died. I pulled the crash log from the iPhone 16e over Wi‑Fi straight onto the Mac: main thread, a Swift runtime trap, in the line that builds the engine label after the merge. The cause was dumb. Because this mode skips the alignment search, I had set the "alignment lock" value to infinity, and the label converts it to an integer — Swift stops dead on <code>Int(∞)</code>. A finite value, a label that now reads "same clock", and a test so it cannot come back.</p>
+    <h2>Then it crashed, once</h2>
+    <p>First full run: record, split, combine — and the app died. I pulled the crash log from the iPhone 16e over Wi‑Fi straight onto the Mac: main thread, a Swift runtime trap, in the line that builds the engine label after the merge. The cause was dumb. Because this mode skips the alignment search, I had set the "alignment lock" value to infinity, and the label converts it to an integer — Swift stops dead on <code>Int(∞)</code>. A finite value, a label that now reads "same clock", and a test so it cannot come back.</p>
 
     <h2>The result</h2>
     <div class="pair">
@@ -288,7 +284,7 @@
     <p>Three cards in New recording, swiped left and right: <strong>One iPhone</strong> (simplest; speaker labels estimated from voice-prints) → <strong>Two iPhones</strong> (best deal; phones you already own, attribution measured by distance) → <strong>One iPhone + wireless mic set</strong> (most professional; separated in hardware). Accuracy climbs in the same order. All three run on the device; the audio never leaves the phone.</p>
 
     <h2>So</h2>
-    <p>OdiMeet now has its <strong>first certified compact wireless mic set: the DJI Mic Mini</strong>. If you already own one, or are about to buy one, you can use it with confidence: plug the receiver into your iPhone, switch it to Stereo in Mimo, pick the third card in New recording — one track per speaker, and the transcript tells you who said what.</p>
+    <p>OdiMeet now has its <strong>first certified compact wireless mic set: the DJI Mic Mini</strong>. If you already own one, or are about to buy one, you can use it with confidence: set the receiver to Stereo in DJI Mimo first (the only setting you need to touch), plug it into your iPhone, pick the third card in New recording — one track per speaker, and the transcript tells you who said what.</p>
     <div class="callout">Receivers that work the same way — RØDE Wireless GO, Hollyland Lark — should work too, but we keep the word "certified" for sets we have actually tested on a table. There will be a note for the next one. This setup ships with OdiMeet 1.1.</div>
     <p class="outro">OdiMeet is free for seven days, then $2.99 a month, $29.99 a year, or $39.99 once. Follow <a href="/">odimeet.app</a> for the App Store link.</p>
   </main>
@@ -313,20 +309,16 @@
     <p>兩支 iPhone 的陣列靠的是物理：離誰近，誰的手機大聲，實測差 12–17 dB。無線麥克風組更直接——<strong>每個發射器就是一條獨立的音軌</strong>，接收器把 TX1 放在左聲道、TX2 放在右聲道，同一個時鐘同時送進 iPhone。不用估計誰比較大聲，不用對齊兩支手機的時鐘，兩個人的聲音在硬體層就已經分開了。剩下的工作只有：把左右聲道拆成兩軌，各自轉錄，按時間合併，標上名字。</p>
     <p>所以在 OdiMeet 裡它走的是和精準模式一模一樣的管線，只差一個開關：對齊步驟直接設為 0。這不只是省事——領夾麥克風之間的串音很弱，用互相關去找偏移反而可能抓到假峰值；兩個聲道本來就是同一個時鐘，沒有偏移可找。</p>
 
-    <h2>第一次：app 沒認出接收器</h2>
-    <p>第一次錄完，畫面上輸入裝置只寫「麥克風」。也就是 iOS 把手機自己的麥克風當成輸入，接收器根本沒被用到——那次錄到的是 iPhone 在桌上聽見的聲音，跟無線麥克風無關。我原本想靠裝置名稱認出 DJI，結果 DJI 的接收器對 iOS 回報的 USB 名稱是「Wireless Mic Rx」，一個字都沒提到 DJI。</p>
-    <p>與其繼續猜，我讓 app 把它看到的東西全部列出來：每一個可用的輸入、類型、是不是外接、目前用的是哪一個，並在這個模式下主動選用外接輸入。然後再加一行——iOS 只有在一個輸入「使用中」的時候才會告訴你它最多能給幾個聲道，所以那行只能在選定輸入之後顯示。</p>
+    <h2>唯一要你動手的一步：在 DJI Mimo 切到 Stereo</h2>
+    <p>接收器有三種聲道模式：Mono 把兩個發射器混成一路，Safety Track 是同一路再加一條低 6 dB 的備份，只有 <strong>Stereo</strong> 才是一個發射器一個聲道。這個設定在 DJI 自己的 Mimo app 裡（接收器透過藍牙連上去改），OdiMeet 改不了它——所以這是整個流程裡<strong>唯一需要你操作的地方</strong>。設好之後，接收器接上 iPhone，OdiMeet 的錄音畫面會顯示它認出了 DJI Mic、而且拿到兩個聲道。</p>
     <div class="pair">
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4623.png" alt="" loading="lazy"><figcaption>新錄音的第三張卡：一支 iPhone ＋ 無線麥克風組。</figcaption></figure>
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4624.png" alt="" loading="lazy"><figcaption>錄音畫面列出 iOS 看到的輸入：DJI Mic（Wireless Mic Rx）· USBAudio · max 2 ch，目前 2 ch 已配置。</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4618.png" alt="" loading="lazy"><figcaption>DJI Mimo → RX Settings → Audio Channel：Stereo。</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4624.png" alt="" loading="lazy"><figcaption>OdiMeet 錄音畫面：DJI Mic（Wireless Mic Rx）· 2 ch configured / 2 ch max。</figcaption></figure>
     </div>
+    <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4623.png" alt="" loading="lazy"><figcaption>新錄音的第三張卡：一支 iPhone ＋ 無線麥克風組。</figcaption></figure>
 
-    <h2>第二次：立體聲模式</h2>
-    <p>接收器有三種聲道模式：Mono 把兩個發射器混成一路，Safety Track 是同一路再加一條低 6 dB 的備份，只有 <strong>Stereo</strong> 才是一個發射器一個聲道。這要在 DJI 自己的 Mimo app 裡設定，接收器透過藍牙連上去改。設好之後，OdiMeet 那一行變成綠色：「iOS: 2 ch configured / 2 ch max」。</p>
-    <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4618.png" alt="" loading="lazy"><figcaption>DJI Mimo → RX Settings → Audio Channel：Stereo。</figcaption></figure>
-
-    <h2>第三次：完成，然後 crash</h2>
-    <p>錄完、切軌、合併——然後 app 當掉。我把 crash log 從 iPhone 16e 透過 Wi‑Fi 直接拉到 Mac 上看：主執行緒、Swift 的執行期陷阱，位置在合併完成後組字串的那一行。原因很蠢：因為這個模式跳過了對齊搜尋，我把「對齊鎖定倍數」設成無限大，而顯示用的字串把它轉成整數——Swift 遇到 <code>Int(∞)</code> 會直接停下來。改成有限值、字串改寫成「same clock」，並加了一個測試防止它再回來。</p>
+    <h2>然後 crash 了一次</h2>
+    <p>第一次完整跑：錄完、切軌、合併——然後 app 當掉。我把 crash log 從 iPhone 16e 透過 Wi‑Fi 直接拉到 Mac 上看：主執行緒、Swift 的執行期陷阱，位置在合併完成後組字串的那一行。原因很蠢：因為這個模式跳過了對齊搜尋，我把「對齊鎖定倍數」設成無限大，而顯示用的字串把它轉成整數——Swift 遇到 <code>Int(∞)</code> 會直接停下來。改成有限值、字串改寫成「same clock」，並加了一個測試防止它再回來。</p>
 
     <h2>結果</h2>
     <div class="pair">
@@ -345,7 +337,7 @@
     <p>新錄音的三張卡，左右滑動：<strong>一支 iPhone</strong>（最簡單，講者標記用聲紋估計）→ <strong>兩支 iPhone</strong>（最划算，用你已經有的手機，靠距離量出誰在講）→ <strong>一支 iPhone ＋ 無線麥克風組</strong>（最專業，硬體分軌）。準確度剛好反過來遞增。三種都在裝置上完成，音檔都不離開手機。</p>
 
     <h2>好了</h2>
-    <p>現在 OdiMeet 有了<strong>第一套我們認證的迷你錄音麥克風：DJI Mic Mini</strong>。如果你已經有這套設備，或正準備買，現在可以放心用了：接收器接上 iPhone、在 Mimo 切到立體聲、新錄音選第三張卡——兩位講者各一條音軌，誰說了什麼，逐字稿直接寫給你。</p>
+    <p>現在 OdiMeet 有了<strong>第一套我們認證的迷你錄音麥克風：DJI Mic Mini</strong>。如果你已經有這套設備，或正準備買，現在可以放心用了：先在 DJI Mimo 把接收器切到 Stereo（唯一要做的設定），接上 iPhone，新錄音選第三張卡——兩位講者各一條音軌，誰說了什麼，逐字稿直接寫給你。</p>
     <div class="callout">同樣原理的接收器——RØDE Wireless GO、Hollyland Lark——理論上都能用，但「認證」兩個字我們留給真的在桌上測過的。下一套測完，會再寫一篇。這個模式隨 OdiMeet 1.1 推出。</div>
     <p class="outro">OdiMeet 免費試用 7 天，之後月費 $2.99、年費 $29.99，或一次買斷 $39.99。App Store 連結會放在 <a href="/zh/">odimeet.app</a>。</p>
   </main>

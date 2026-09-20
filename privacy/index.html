@@ -19,19 +19,25 @@
 <body>
   <p><a href="/">← OdiMeet</a></p>
   <h1>Privacy Policy</h1>
-  <p><em>Last updated: September 15, 2026</em></p>
+  <p><em>Last updated: September 20, 2026</em></p>
 
   <h2>The short version</h2>
-  <p>OdiMeet has no servers and no accounts. Your recordings and transcripts stay on your iPhone. We do not collect, receive, or have access to any of your data. The App Store privacy label for OdiMeet is "Data Not Collected".</p>
+  <p>OdiMeet has no servers and no accounts. Your audio never leaves your iPhone. The only data that can leave the device is transcript <strong>text</strong>, and only if you turn on Gemini summaries with your own API key. We do not collect, receive, or have access to any of your data. The App Store privacy label for OdiMeet is "Data Not Collected".</p>
 
   <h2>Recordings and transcripts</h2>
-  <p>Audio you record or import is stored in the app's container on your device (and is visible in the Files app). Transcription runs entirely on the device using Apple's speech frameworks or a Whisper model you download. Nothing is uploaded by these features.</p>
+  <p>Audio you record or import is stored in the app's container on your device (and is visible in the Files app). Transcription runs entirely on the device, using Apple's speech frameworks or the optional SenseVoice model you can download. Nothing is uploaded by these features.</p>
+
+  <h2>Recording with two iPhones (sync recording, Precision Mode)</h2>
+  <p>When you pair two iPhones, they talk to each other directly over Wi‑Fi and Bluetooth using Apple's Multipeer Connectivity — no internet connection and no server is involved. iOS will ask for Local Network permission for this. Pairing is protected by a six-digit code shown on the host phone. When the recording stops, the guest phone sends its audio track to the host phone over that same direct link, so the host can combine the two tracks; the guest keeps its own copy. Alignment and speaker attribution are computed on the host phone.</p>
+
+  <h2>Speaker separation on one iPhone (optional)</h2>
+  <p>If you download the optional speaker-separation models and turn the feature on, the app estimates who is speaking from voice characteristics. This runs entirely on the device; no audio or text leaves the phone for it.</p>
 
   <h2>Optional: summaries with your own Gemini API key</h2>
-  <p>If you add a Google Gemini API key and turn on summaries, the app sends transcript <strong>text</strong> (never audio) directly from your device to Google's Generative Language API using your key. There is no OdiMeet server in between; Google's terms and privacy policy govern that processing. If you enable Google Search grounding, specific claims from the transcript may be sent to Google as search queries. Both features are off by default and are enabled per recording. Your key is stored in the iOS Keychain on this device only and is never synced or logged.</p>
+  <p>If you add a Google Gemini API key and turn on summaries, the app sends transcript <strong>text</strong> (never audio) directly from your device to Google's Generative Language API using your key. With live summaries on, this happens in short increments while you record; the final summary sends the full transcript once. There is no OdiMeet server in between; Google's terms and privacy policy govern that processing. If you enable Google Search grounding, specific claims from the transcript may be sent to Google as search queries. These features are off by default and are enabled per recording. Your key is stored in the iOS Keychain on this device only and is never synced or logged.</p>
 
-  <h2>Optional: Whisper model download</h2>
-  <p>Downloading a Whisper model fetches model files from Hugging Face (repository <code>argmaxinc/whisperkit-coreml</code>). This is the only other network access the app makes, and it transfers no data about you or your recordings.</p>
+  <h2>Optional: model downloads</h2>
+  <p>Downloading the SenseVoice speech model or the speaker-separation models fetches model files from Hugging Face and from the sherpa-onnx project's GitHub releases. Together with Gemini, this is the only network access the app makes. The downloads transfer no data about you or your recordings; each file is verified against a known checksum before use.</p>
 
   <h2>Analytics and crash reports</h2>
   <p>OdiMeet contains no analytics SDKs and collects no usage data. Crash reports are shared with the developer only if you have enabled "Share with App Developers" in iOS Settings, in which case Apple provides them in anonymized form.</p>

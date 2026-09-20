@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tonight OdiMeet learned to use a DJI Mic Mini — OdiMeet Notes</title>
+  <meta name="description" content="One iPhone, one receiver, two clip-on transmitters — one speaker per channel, 19.6 dB apart, zero alignment. The evening it took to get there, including the crash.">
+  <meta property="og:title" content="Tonight OdiMeet learned to use a DJI Mic Mini">
+  <meta property="og:description" content="One iPhone, one receiver, two clip-on transmitters — one speaker per channel, 19.6 dB apart, zero alignment. The evening it took to get there, including the crash.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://odimeet.app/notes/dji-mic-mini/og-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="OdiMeet sharing card: “Tonight OdiMeet learned to use a DJI Mic Mini” beside a phone with a transmitter on each side.">
+  <meta name="twitter:image" content="https://odimeet.app/notes/dji-mic-mini/og-en.png">
+  <meta property="og:url" content="https://odimeet.app/notes/dji-mic-mini/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:site_name" content="OdiMeet">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:title" content="Tonight OdiMeet learned to use a DJI Mic Mini">
+  <meta name="twitter:description" content="One iPhone, one receiver, two clip-on transmitters — one speaker per channel, 19.6 dB apart, zero alignment. The evening it took to get there, including the crash.">
+  <link rel="canonical" href="https://odimeet.app/notes/dji-mic-mini/">
+  <link rel="icon" type="image/png" href="/icon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    :root {
+      --teal: #4FB3A9;
+      --teal-deep: #2F8C83;
+      --teal-tint: #DDF0ED;
+      --ink: #13302C;
+      --muted: #5E7773;
+      --bg: #F5F9F8;
+      --card: #EAF2F0;
+      --border: rgba(47, 140, 131, 0.18);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --teal: #4FB3A9;
+        --teal-deep: #7FD1C8;
+        --teal-tint: #15302E;
+        --ink: #E8EEF5;
+        --muted: #9AA7B5;
+        --bg: #0F1720;
+        --card: #16222B;
+        --border: rgba(79, 179, 169, 0.22);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "PingFang TC", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.72;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 860px; margin: 0 auto; padding: 0.9rem 1.5rem;
+      backdrop-filter: saturate(180%) blur(16px);
+      gap: 0.75rem; flex-wrap: wrap;
+    }
+    nav .brand { display: flex; align-items: center; gap: 0.55rem; font-weight: 700; font-size: 1.05rem; text-decoration: none; color: var(--ink); }
+    nav .brand img { width: 28px; height: 28px; border-radius: 7px; }
+    .lang-switch {
+      display: inline-flex; gap: 0.25rem;
+      padding: 0.22rem; border-radius: 999px;
+      background: var(--card); border: 1px solid var(--border);
+    }
+    .lang-switch button {
+      font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--muted);
+      background: none; border: 0; cursor: pointer;
+      padding: 0.3rem 0.75rem; border-radius: 999px;
+    }
+    .lang-switch button[aria-selected="true"] {
+      background: var(--bg); color: var(--ink);
+      box-shadow: 0 1px 3px rgba(19, 48, 44, 0.14);
+    }
+    main { max-width: 680px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    main[hidden] { display: none; }
+    .back { display: inline-block; color: var(--muted); text-decoration: none; font-size: 0.88rem; margin-bottom: 1.6rem; }
+    .back:hover { color: var(--teal-deep); }
+    h1 {
+      font-size: clamp(1.9rem, 4.6vw, 2.5rem);
+      line-height: 1.15; letter-spacing: -0.015em; font-weight: 800;
+    }
+    .byline { color: var(--muted); font-size: 0.9rem; margin-top: 0.7rem; }
+    h2 {
+      font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em;
+      margin: 2.6rem 0 0.8rem;
+    }
+    p { margin-top: 1rem; font-size: 1.02rem; }
+    .lede { font-size: 1.1rem; }
+    ul { margin-top: 0.8rem; padding-left: 1.3rem; }
+    li { margin-bottom: 0.6rem; }
+    li::marker { color: var(--teal); }
+    strong { color: var(--teal-deep); }
+    code {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.86em; background: var(--card);
+      border: 1px solid var(--border); border-radius: 5px; padding: 0.08em 0.35em;
+    }
+    .numbers {
+      margin-top: 1.2rem; background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 0.9rem 1.2rem; font-size: 0.95rem;
+    }
+    .numbers div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.3rem 0; border-bottom: 1px solid var(--border); }
+    .numbers div:last-child { border-bottom: 0; }
+    .numbers b { font-variant-numeric: tabular-nums; color: var(--teal-deep); white-space: nowrap; }
+    .callout {
+      background: var(--teal-tint); border-radius: 14px;
+      padding: 1.1rem 1.4rem; margin-top: 2.4rem;
+      font-size: 1.02rem;
+    }
+    .callout strong { color: var(--teal-deep); }
+    .outro { color: var(--muted); font-size: 0.95rem; }
+    .outro a { color: var(--teal-deep); }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.2rem 1.5rem; text-align: center;
+      color: var(--muted); font-size: 0.88rem;
+    }
+    footer a { color: var(--teal-deep); text-decoration: none; margin: 0 0.4rem; }
+
+    /* Storyboard: two iPhones pair → sync → count down → record → send track → merge → labelled transcript */
+    .story { margin-top: 1.8rem; background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.2rem 1rem 0.9rem; }
+    .story .stage { display: flex; gap: 14px; align-items: center; justify-content: center; }
+    .story .mini { width: 112px; height: 226px; border-radius: 22px; background: #1c1e22; padding: 7px; box-shadow: 0 10px 26px rgba(19,48,44,.28); position: relative; flex: 0 0 auto; }
+    .story .mini .scr { width: 100%; height: 100%; border-radius: 16px; background: #06080b; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 42px 7px 10px; position: relative; }
+    .story .mini .isl { position: absolute; top: 13px; left: 50%; transform: translateX(-50%); width: 34%; height: 6px; border-radius: 99px; background: #1c1e22; z-index: 2; }
+    .story .mini .who { font-size: 11px; color: #9AA7B5; font-weight: 700; position: absolute; top: 24px; }
+    .story .mini.host .who { color: #4FB3A9; }
+    .story .mini.guest .who { color: #E7B75F; }
+    .story .mini .count { font: 300 40px/1 -apple-system, sans-serif; color: #E8EEF5; font-variant-numeric: tabular-nums; display: none; }
+    .story .mini .rec { display: none; align-items: center; gap: 5px; font-size: 11px; color: #ff5a5f; font-weight: 700; }
+    .story .mini .rec .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff5a5f; animation: recpulse 1.4s ease-in-out infinite; }
+    .story .mini .clock { font: 500 15px/1 -apple-system, sans-serif; color: #E8EEF5; font-variant-numeric: tabular-nums; display: none; }
+    .story .mini .lvl { display: none; gap: 3px; align-items: flex-end; height: 34px; }
+    .story .mini .lvl i { width: 6px; border-radius: 3px; background: rgba(255,255,255,.22); height: 100%; transform: scaleY(.3); transform-origin: bottom; transition: transform .35s; }
+    .story .mini.loud .lvl i { background: #4FB3A9; animation: vu 1s ease-in-out infinite; }
+    .story .mini.guest.loud .lvl i { background: #E7B75F; }
+    .story .mini.loud .lvl i:nth-child(2) { animation-duration: .85s; animation-delay: .2s; }
+    .story .mini.loud .lvl i:nth-child(3) { animation-duration: 1.25s; animation-delay: .1s; }
+    .story .mini.loud .lvl i:nth-child(4) { animation-duration: .95s; animation-delay: .3s; }
+    .story .mini .db { display: none; font-size: 10px; color: #6F7E8C; font-variant-numeric: tabular-nums; }
+    .story .mini.loud .db { color: #E8EEF5; font-weight: 700; }
+    .story .mini .xfer { display: none; flex-direction: column; align-items: center; gap: 6px; width: 100%; }
+    .story .mini .xfer .bar { width: 80%; height: 5px; border-radius: 99px; background: rgba(255,255,255,.14); overflow: hidden; }
+    .story .mini .xfer .bar i { display: block; height: 100%; width: 0; background: #E7B75F; border-radius: 99px; transition: width 1.6s linear; }
+    .story .mini .xfer .lbl { font-size: 10px; color: #9AA7B5; font-weight: 600; }
+    .story .mini .tx { display: none; flex-direction: column; gap: 5px; width: 100%; }
+    .story .mini .tx .meta { font-size: 9px; color: #6F7E8C; text-align: center; }
+    .story .mini .tx .line { font-size: 9px; line-height: 1.3; color: #C9D2DC; opacity: 0; transform: translateY(4px); transition: opacity .4s, transform .4s; }
+    .story .mini .tx .line.on { opacity: 1; transform: none; }
+    .story .mini .tx .line b { display: block; font-size: 9px; }
+    .story .mini .tx .line.a b { color: #4FB3A9; } .story .mini .tx .line.b b { color: #E7B75F; }
+    .story .mini .sent { display: none; font-size: 11px; color: #4FB3A9; font-weight: 700; }
+    .story .link { width: 58px; text-align: center; color: var(--teal-deep); font-size: 11px; font-weight: 700; line-height: 1.3; }
+    .story .link .arrow { display: none; font-size: 18px; animation: slide 1s ease-in-out infinite; }
+    @keyframes slide { 0%,100% { transform: translateX(6px); opacity: .4 } 50% { transform: translateX(-6px); opacity: 1 } }
+    @keyframes recpulse { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
+    @keyframes vu { 0%,100% { transform: scaleY(.55) } 30% { transform: scaleY(1) } 60% { transform: scaleY(.4) } 80% { transform: scaleY(.85) } }
+    .story .cap { text-align: center; font-size: .9rem; color: var(--muted); margin-top: .9rem; min-height: 1.5em; }
+    .story .cap b { color: var(--teal-deep); }
+    @media (prefers-reduced-motion: reduce) { .story .mini .lvl i, .story .mini .rec .dot, .story .link .arrow { animation: none !important; } }
+    /* Bar chart: array vs algorithm */
+    .chart { margin-top: 1.4rem; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.2rem 0.9rem; }
+    .chart .grp { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.01em; color: var(--muted); margin: 0.6rem 0 0.35rem; }
+    .chart .grp:first-child { margin-top: 0; }
+    .chart .row { display: grid; grid-template-columns: minmax(6.5rem, 34%) 1fr 3.2rem; align-items: center; gap: 0.6rem; padding: 0.22rem 0; font-size: 0.9rem; }
+    .chart .row .lbl { color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .chart .row .bar { height: 14px; border-radius: 7px; background: rgba(127,127,127,0.14); overflow: hidden; }
+    .chart .row .bar i { display: block; height: 100%; border-radius: 7px; width: var(--v); }
+    .chart .row.array .bar i { background: var(--teal); }
+    .chart .row.algo .bar i { background: #E7B75F; }
+    .chart .row.algo.bad .bar i { background: #C86B5A; }
+    .chart .row .val { font-variant-numeric: tabular-nums; font-weight: 700; text-align: right; color: var(--teal-deep); }
+    .chart .row.algo .val { color: #B8862F; }
+    .chart .row.algo.bad .val { color: #C86B5A; }
+    @media (prefers-color-scheme: dark) { .chart .row.algo .val { color: #E7B75F; } .chart .row.algo.bad .val { color: #E08A78; } }
+    .chart .note { font-size: 0.8rem; color: var(--muted); margin-top: 0.7rem; line-height: 1.5; }
+    @media (prefers-reduced-motion: no-preference) {
+      .chart .row .bar i { transform-origin: left; animation: grow .9s cubic-bezier(.2,.7,.2,1) both; }
+      @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    }
+    /* Room reconstruction sketch */
+    .recon { margin: 1.4rem 0 0; background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 0.8rem 0.8rem 0.6rem; }
+    .recon svg { width: 100%; height: auto; display: block; }
+    .recon .room { fill: none; stroke: var(--muted); stroke-opacity: .35; stroke-width: 1.2; stroke-dasharray: 6 6; }
+    .recon .table { fill: var(--teal); fill-opacity: .07; stroke: var(--teal-deep); stroke-opacity: .35; stroke-width: 1.2; }
+    .recon .ph { fill: #1c1e22; stroke: rgba(255,255,255,.12); }
+    .recon .ph-scr { fill: #06080b; }
+    @media (prefers-color-scheme: dark) { .recon .ph { fill: #2a2f36; stroke: var(--teal); stroke-opacity: .7; stroke-width: 1.2; } .recon .ph-scr { fill: #0b0f14; } }
+    .recon .head { fill: var(--muted); fill-opacity: .55; }
+    .recon .body { fill: var(--muted); fill-opacity: .35; }
+    .recon .name { font: 700 13px -apple-system, BlinkMacSystemFont, "PingFang TC", sans-serif; fill: var(--ink); }
+    .recon .share { font: 600 11px -apple-system, BlinkMacSystemFont, sans-serif; fill: var(--muted); }
+    .recon .dist { fill: none; stroke: var(--teal-deep); stroke-width: 1.6; stroke-dasharray: 4 5; opacity: .85; }
+    .recon .dlab { font: 600 12px ui-monospace, "SF Mono", Menlo, monospace; fill: var(--teal-deep); }
+    .recon .dlab-bg { fill: var(--card); }
+    .recon .compass { fill: none; stroke: var(--muted); stroke-opacity: .6; stroke-width: 1.2; }
+    .recon .compass-n { font: 700 11px -apple-system, sans-serif; fill: var(--muted); }
+    .recon .glow { fill: var(--teal); opacity: 0; }
+    .recon .cap { text-align: center; font-size: .82rem; color: var(--muted); margin-top: .5rem; line-height: 1.5; }
+    @media (prefers-reduced-motion: no-preference) {
+      .recon .dist { stroke-dasharray: 4 5; animation: reconDraw 1.6s ease-out both; }
+      .recon .dist.d2 { animation-delay: .5s; } .recon .dist.d3 { animation-delay: 1s; }
+      @keyframes reconDraw { from { opacity: 0; stroke-dashoffset: 120; } to { opacity: .85; stroke-dashoffset: 0; } }
+      .recon .glow { animation: reconGlow 7.5s ease-in-out infinite; }
+      .recon .glow.g2 { animation-delay: 2.5s; } .recon .glow.g3 { animation-delay: 5s; }
+      @keyframes reconGlow { 0%, 30%, 100% { opacity: 0; transform: scale(.8); } 12% { opacity: .35; transform: scale(1.15); } }
+      .recon .glow { transform-box: fill-box; transform-origin: center; }
+    }
+    figure.shot { margin: 1.6rem 0 0; }
+    figure.shot img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--border); display: block; }
+    figure.shot.phone { max-width: 300px; margin-left: auto; margin-right: auto; }
+    figure.shot figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; text-align: center; }
+    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; }
+    .pair figure.shot { max-width: none; margin: 1.6rem 0 0; }
+    @media (max-width: 560px) { .pair { grid-template-columns: 1fr; } .pair figure.shot { max-width: 300px; margin-left: auto; margin-right: auto; } }
+    .product { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1rem; align-items: center; margin-top: 1.6rem; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1rem; }
+    .product img { width: 100%; height: auto; border-radius: 10px; }
+    .product .meta { font-size: 0.92rem; }
+    .product .meta a { color: var(--teal-deep); font-weight: 700; }
+    .product .credit { font-size: 0.78rem; color: var(--muted); margin-top: 0.4rem; }
+    @media (max-width: 560px) { .product { grid-template-columns: 1fr; } }
+  </style>
+
+</head>
+<body>
+  <nav>
+    <a class="brand" href="/"><img src="/icon.png" alt="" width="28" height="28">OdiMeet</a>
+    <div class="lang-switch" role="tablist" aria-label="Language">
+      <button type="button" role="tab" data-lang-tab="en" aria-selected="true">EN</button>
+      <button type="button" role="tab" data-lang-tab="zh" aria-selected="false">中文</button>
+    </div>
+  </nav>
+
+  <main data-lang-page="en">
+    <a class="back" href="/notes/">← Notes</a>
+    <h1>Tonight OdiMeet learned to use a DJI Mic Mini</h1>
+    <p class="byline">September 20, 2026 · OdiMeet development notes</p>
+
+    <p class="lede">Yesterday's note was about two iPhones as an array, deciding who is speaking by distance. This morning OdiMeet's "New recording" gained a third card: one iPhone plus a wireless mic set — two clip-on transmitters, one receiver. That card went from "coming soon" in the morning to working tonight, and it is the most accurate of the three setups. This is what happened in between, crash included.</p>
+
+    <div class="product">
+      <img src="/notes/dji-mic-mini/dji-mic-mini-set.jpg" alt="DJI Mic Mini: two transmitters, one receiver and the charging case">
+      <div class="meta">
+        <div><a href="https://amzn.to/3V4oP34" rel="nofollow sponsored">DJI Mic Mini (2 TX + 1 RX + charging case)</a></div>
+        <div>The set we used tonight. The receiver plugs into the iPhone over USB‑C; each transmitter clips onto one speaker.</div>
+        <div class="credit">Product image from Amazon. The link is an Amazon affiliate link.</div>
+      </div>
+    </div>
+
+    <h2>Why this is the most accurate setup</h2>
+    <p>The two-iPhone array relies on physics: whoever is closer is louder on their phone, 12–17 dB in our measurements. A wireless mic set is more direct still — <strong>each transmitter is its own track</strong>. The receiver puts TX1 on the left channel and TX2 on the right, on one clock, into one iPhone. Nothing to estimate, no two clocks to align: the voices are separated in hardware before the app ever sees them. What remains is splitting left and right into two tracks, transcribing each, merging by time, and putting names on the lines.</p>
+    <p>So inside OdiMeet it runs the exact Precision Mode pipeline with one switch flipped: the alignment step is forced to zero. That is not just a shortcut — bleed between lavalier mics is faint, and a cross-correlation search could lock onto a spurious peak; the two channels share a clock, so there is no offset to find.</p>
+
+    <h2>Attempt one: the app didn't see the receiver</h2>
+    <p>After the first take, the input line on screen said just "Microphone". iOS had kept the phone's own mic as the input; the receiver was never used, and that take was whatever the iPhone heard from the table. I had planned to recognise DJI by device name. The receiver reports its USB product string to iOS as "Wireless Mic Rx" — not a mention of DJI anywhere.</p>
+    <p>Instead of guessing further, I made the app list everything it can see: every available input, its type, whether it is external, which one is active — and in this mode, actively select the external one. Then one more line, which can only appear once an input is active, because iOS reveals a device's channel capability only for the route in use.</p>
+    <div class="pair">
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4623.png" alt="" loading="lazy"><figcaption>The third card in New recording: one iPhone + wireless mic set.</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4624.png" alt="" loading="lazy"><figcaption>The recorder lists what iOS sees: DJI Mic (Wireless Mic Rx) · USBAudio · max 2 ch, 2 ch configured.</figcaption></figure>
+    </div>
+
+    <h2>Attempt two: Stereo mode</h2>
+    <p>The receiver has three channel modes. Mono mixes both transmitters into one channel; Safety Track is the same mix plus a copy 6 dB lower; only <strong>Stereo</strong> gives one transmitter per channel. It is set in DJI's own Mimo app, which talks to the receiver over Bluetooth. With that done, OdiMeet's line turned green: "iOS: 2 ch configured / 2 ch max".</p>
+    <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4618.png" alt="" loading="lazy"><figcaption>DJI Mimo → RX Settings → Audio Channel: Stereo.</figcaption></figure>
+
+    <h2>Attempt three: done — then a crash</h2>
+    <p>Record, split, combine — and the app died. I pulled the crash log from the iPhone 16e over Wi‑Fi straight onto the Mac: main thread, a Swift runtime trap, in the line that builds the engine label after the merge. The cause was dumb. Because this mode skips the alignment search, I had set the "alignment lock" value to infinity, and the label converts it to an integer — Swift stops dead on <code>Int(∞)</code>. A finite value, a label that now reads "same clock", and a test so it cannot come back.</p>
+
+    <h2>The result</h2>
+    <div class="pair">
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4619.png" alt="" loading="lazy"><figcaption>The merged conversation: Δ 19.6 dB, offset 0.00 s, same clock; 41 s of audio processed in 2 s.</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4621.png" alt="" loading="lazy"><figcaption>Every transcript line carries TX1 / TX2; the menu renames them to real names.</figcaption></figure>
+    </div>
+    <div class="numbers">
+      <div><span>Speaker separation (median over speech windows)</span><b>19.6 dB</b></div>
+      <div><span>Alignment offset</span><b>0.00 s · same clock</b></div>
+      <div><span>Transcribe + merge, 41 s of audio</span><b>2 s (0.06× realtime)</b></div>
+      <div><span>Two-iPhone array, same measure (for comparison)</span><b>12–17 dB</b></div>
+    </div>
+    <p>19.6 dB beats the two-iPhone array's best — and it is what lavalier mics should deliver: 15 cm from a mouth, with the other person two metres away. TX1 and TX2 alternate cleanly through the transcript; the tester's verdict was "isolation is perfect". Then came "Rename speakers", so TX1 and TX2 become people, in every line and in exports.</p>
+
+    <h2>How the three setups line up now</h2>
+    <p>Three cards in New recording, swiped left and right: <strong>One iPhone</strong> (simplest; speaker labels estimated from voice-prints) → <strong>Two iPhones</strong> (best deal; phones you already own, attribution measured by distance) → <strong>One iPhone + wireless mic set</strong> (most professional; separated in hardware). Accuracy climbs in the same order. All three run on the device; the audio never leaves the phone.</p>
+
+    <h2>The one thing I'm keeping from tonight</h2>
+    <p>The two traps were the same trap: I assumed I knew what the system would do — the receiver would be called DJI, the channel count would be queryable at any time — and coded to the assumption. The fix was the same too: <strong>don't assume; show what the system sees.</strong> That input list started as a debugging aid and stayed on the screen, because when a user hits "only 1 channel", that line is exactly what they need.</p>
+
+    <div class="callout">The DJI Mic Mini is the first wireless set we have tested for real. Any receiver that outputs two transmitters as USB audio in stereo mode should work the same way — RØDE Wireless GO and Hollyland Lark are on the list to try. This setup ships with OdiMeet 1.1.</div>
+    <p class="outro">OdiMeet is free for seven days, then $2.99 a month, $29.99 a year, or $39.99 once. Follow <a href="/">odimeet.app</a> for the App Store link.</p>
+  </main>
+
+  <main data-lang-page="zh" hidden>
+    <a class="back" href="/notes/">← 開發筆記</a>
+    <h1>今晚，OdiMeet 正式支援 DJI Mic Mini</h1>
+    <p class="byline">2026 年 9 月 20 日 · OdiMeet 開發筆記</p>
+
+    <p class="lede">昨天筆記寫的是兩支 iPhone 組成陣列、靠距離判斷誰在講。今天早上 OdiMeet 的「新錄音」多了第三張卡：一支 iPhone 加一組無線麥克風——兩個領夾式發射器、一個接收器。那張卡從早上的「即將推出」，到今晚變成能用、而且是三種模式裡最準的一種。這篇記錄中間發生的事，包括一次 crash。</p>
+
+    <div class="product">
+      <img src="/notes/dji-mic-mini/dji-mic-mini-set.jpg" alt="DJI Mic Mini：兩個發射器、一個接收器與充電盒">
+      <div class="meta">
+        <div><a href="https://amzn.to/3V4oP34" rel="nofollow sponsored">DJI Mic Mini（2 TX + 1 RX + 充電盒）</a></div>
+        <div>我們今晚用的就是這一組。接收器以 USB‑C 接到 iPhone，兩個發射器各夾在一位講者身上。</div>
+        <div class="credit">商品圖片來自 Amazon。連結為 Amazon 推薦連結。</div>
+      </div>
+    </div>
+
+    <h2>為什麼這是最準的一種</h2>
+    <p>兩支 iPhone 的陣列靠的是物理：離誰近，誰的手機大聲，實測差 12–17 dB。無線麥克風組更直接——<strong>每個發射器就是一條獨立的音軌</strong>，接收器把 TX1 放在左聲道、TX2 放在右聲道，同一個時鐘同時送進 iPhone。不用估計誰比較大聲，不用對齊兩支手機的時鐘，兩個人的聲音在硬體層就已經分開了。剩下的工作只有：把左右聲道拆成兩軌，各自轉錄，按時間合併，標上名字。</p>
+    <p>所以在 OdiMeet 裡它走的是和精準模式一模一樣的管線，只差一個開關：對齊步驟直接設為 0。這不只是省事——領夾麥克風之間的串音很弱，用互相關去找偏移反而可能抓到假峰值；兩個聲道本來就是同一個時鐘，沒有偏移可找。</p>
+
+    <h2>第一次：app 沒認出接收器</h2>
+    <p>第一次錄完，畫面上輸入裝置只寫「麥克風」。也就是 iOS 把手機自己的麥克風當成輸入，接收器根本沒被用到——那次錄到的是 iPhone 在桌上聽見的聲音，跟無線麥克風無關。我原本想靠裝置名稱認出 DJI，結果 DJI 的接收器對 iOS 回報的 USB 名稱是「Wireless Mic Rx」，一個字都沒提到 DJI。</p>
+    <p>與其繼續猜，我讓 app 把它看到的東西全部列出來：每一個可用的輸入、類型、是不是外接、目前用的是哪一個，並在這個模式下主動選用外接輸入。然後再加一行——iOS 只有在一個輸入「使用中」的時候才會告訴你它最多能給幾個聲道，所以那行只能在選定輸入之後顯示。</p>
+    <div class="pair">
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4623.png" alt="" loading="lazy"><figcaption>新錄音的第三張卡：一支 iPhone ＋ 無線麥克風組。</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4624.png" alt="" loading="lazy"><figcaption>錄音畫面列出 iOS 看到的輸入：DJI Mic（Wireless Mic Rx）· USBAudio · max 2 ch，目前 2 ch 已配置。</figcaption></figure>
+    </div>
+
+    <h2>第二次：立體聲模式</h2>
+    <p>接收器有三種聲道模式：Mono 把兩個發射器混成一路，Safety Track 是同一路再加一條低 6 dB 的備份，只有 <strong>Stereo</strong> 才是一個發射器一個聲道。這要在 DJI 自己的 Mimo app 裡設定，接收器透過藍牙連上去改。設好之後，OdiMeet 那一行變成綠色：「iOS: 2 ch configured / 2 ch max」。</p>
+    <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4618.png" alt="" loading="lazy"><figcaption>DJI Mimo → RX Settings → Audio Channel：Stereo。</figcaption></figure>
+
+    <h2>第三次：完成，然後 crash</h2>
+    <p>錄完、切軌、合併——然後 app 當掉。我把 crash log 從 iPhone 16e 透過 Wi‑Fi 直接拉到 Mac 上看：主執行緒、Swift 的執行期陷阱，位置在合併完成後組字串的那一行。原因很蠢：因為這個模式跳過了對齊搜尋，我把「對齊鎖定倍數」設成無限大，而顯示用的字串把它轉成整數——Swift 遇到 <code>Int(∞)</code> 會直接停下來。改成有限值、字串改寫成「same clock」，並加了一個測試防止它再回來。</p>
+
+    <h2>結果</h2>
+    <div class="pair">
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4619.png" alt="" loading="lazy"><figcaption>合併結果：Δ 19.6 dB、offset 0.00 s、same clock；41 秒音檔 2 秒處理完。</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4621.png" alt="" loading="lazy"><figcaption>逐字稿每一句帶 TX1 / TX2；選單裡可以把它們改成真名。</figcaption></figure>
+    </div>
+    <div class="numbers">
+      <div><span>講者分離度（語音窗中位數）</span><b>19.6 dB</b></div>
+      <div><span>對齊偏移</span><b>0.00 s · 同一時鐘</b></div>
+      <div><span>轉錄 ＋ 合併耗時（41 秒音檔）</span><b>2 s（0.06× 即時）</b></div>
+      <div><span>兩支 iPhone 陣列，同樣的量（對照）</span><b>12–17 dB</b></div>
+    </div>
+    <p>19.6 dB 比兩支 iPhone 的最好成績還高——而且這是領夾麥克風本來就該有的數字：麥克風離嘴 15 公分，對面的人在兩公尺外。逐字稿裡 TX1 / TX2 交替得乾淨；測試者的評語是「隔離完美」。接著補了「重新命名說話者」，把 TX1、TX2 換成人名，逐字稿每一句和匯出檔一起改。</p>
+
+    <h2>三種模式現在怎麼排</h2>
+    <p>新錄音的三張卡，左右滑動：<strong>一支 iPhone</strong>（最簡單，講者標記用聲紋估計）→ <strong>兩支 iPhone</strong>（最划算，用你已經有的手機，靠距離量出誰在講）→ <strong>一支 iPhone ＋ 無線麥克風組</strong>（最專業，硬體分軌）。準確度剛好反過來遞增。三種都在裝置上完成，音檔都不離開手機。</p>
+
+    <h2>今晚留下的一件事</h2>
+    <p>兩個坑其實是同一個：我以為知道系統會怎麼做——接收器會叫 DJI、聲道數隨時可查——然後照著假設寫。修法也是同一個：<strong>不要假設，把系統看到的東西顯示出來。</strong>那個輸入清單本來是拿來 debug 的，最後留在畫面上，因為使用者遇到「只有一個聲道」時，需要的正是這一行。</p>
+
+    <div class="callout">DJI Mic Mini 是我們手上第一組實測的無線麥克風。任何以 USB 音訊、立體聲模式輸出兩個發射器的接收器理論上都能用——RØDE Wireless GO、Hollyland Lark 都在待測清單上。這個模式隨 OdiMeet 1.1 推出。</div>
+    <p class="outro">OdiMeet 免費試用 7 天，之後月費 $2.99、年費 $29.99，或一次買斷 $39.99。App Store 連結會放在 <a href="/zh/">odimeet.app</a>。</p>
+  </main>
+
+  <footer>
+    © 2026 OdiMeet · <a href="/">odimeet.app</a> · <a href="/notes/">Notes</a> · <a href="/privacy/">Privacy</a> · <a href="mailto:tautiu.dev+odimeet@gmail.com">Support</a>
+  </footer>
+
+  <script>
+    (function () {
+      var LANGS = ["en", "zh"];
+      var HTML_LANG = { en: "en", zh: "zh-Hant" };
+      var TITLES = {
+        en: "Tonight OdiMeet learned to use a DJI Mic Mini — OdiMeet Notes",
+        zh: "今晚，OdiMeet 正式支援 DJI Mic Mini — OdiMeet 開發筆記",
+      };
+
+      function setLang(lang, remember) {
+        if (LANGS.indexOf(lang) === -1) lang = "en";
+        document.documentElement.lang = HTML_LANG[lang];
+        document.title = TITLES[lang];
+        document.querySelectorAll("[data-lang-page]").forEach(function (page) {
+          page.hidden = page.getAttribute("data-lang-page") !== lang;
+        });
+        document.querySelectorAll("[data-lang-tab]").forEach(function (tab) {
+          tab.setAttribute("aria-selected", String(tab.getAttribute("data-lang-tab") === lang));
+        });
+        if (remember) {
+          try { localStorage.setItem("odimeet-notes-lang", lang); } catch (e) {}
+        }
+      }
+
+      document.querySelectorAll("[data-lang-tab]").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          setLang(tab.getAttribute("data-lang-tab"), true);
+        });
+      });
+
+      var initial = null;
+      var param = new URLSearchParams(location.search).get("lang");
+      if (param && LANGS.indexOf(param) !== -1) initial = param;
+      if (!initial) {
+        try { initial = localStorage.getItem("odimeet-notes-lang"); } catch (e) {}
+      }
+      if (!initial) {
+        var sitePath = null;
+        try { sitePath = localStorage.getItem("odimeet-lang"); } catch (e) {}
+        if (sitePath === "/zh/") initial = "zh";
+        else if (sitePath === "/") initial = "en";
+      }
+      if (!initial) {
+        var langs = navigator.languages && navigator.languages.length
+          ? navigator.languages : [navigator.language || ""];
+        for (var i = 0; i < langs.length && !initial; i++) {
+          if (/^zh/i.test(langs[i])) initial = "zh";
+          else if (/^en/i.test(langs[i])) initial = "en";
+        }
+      }
+      setLang(initial || "en", false);
+    })();
+  </script>
+</body>
+</html>

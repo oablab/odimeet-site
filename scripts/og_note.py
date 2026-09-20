@@ -5,7 +5,18 @@ import sys, os
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1200, 630
-TEXT = {
+TEXTS = {}
+TEXTS["dji-mic-mini"] = {
+  "en": dict(kicker="OdiMeet · development notes",
+             title=["Tonight OdiMeet", "learned to use", "a DJI Mic Mini"],
+             sub="One receiver, two clip-on transmitters, one iPhone.\nOne speaker per channel — 19.6 dB apart, zero alignment.",
+             font="/System/Library/Fonts/HelveticaNeue.ttc", bold_index=1, kfont_index=0, a="TX1", b="TX2"),
+  "zh": dict(kicker="OdiMeet 開發筆記",
+             title=["今晚，OdiMeet", "正式支援", "DJI Mic Mini"],
+             sub="一個接收器、兩個領夾發射器、一支 iPhone。\n一人一聲道——相差 19.6 dB，不用對齊。",
+             font="/System/Library/Fonts/Hiragino Sans GB.ttc", bold_index=2, kfont_index=0, a="TX1", b="TX2"),
+}
+TEXTS["iphone-array"] = TEXT = {
   "en": dict(kicker="OdiMeet · development notes",
              title=["How the iPhone", "recording array", "works"],
              sub="A phone per speaker. The loudest track is the one talking —\nmeasured, not guessed.",
@@ -49,7 +60,7 @@ def phone(im, x, y, w, h, name, color, loud, bars):
     db = "−24 dB" if loud else "−39 dB"
     tw = d.textlength(db, font=f2); d.text((x + (w - tw) / 2, base + 16), db, font=f2, fill=(232, 238, 245) if loud else (111, 126, 140))
 
-def card(lang, out):
+def card(lang, out, TEXT):
     t = TEXT[lang]
     im = Image.new("RGB", (W, H)); d = ImageDraw.Draw(im); gradient(d)
     teal, amber = (79, 179, 169), (231, 183, 95)
@@ -82,5 +93,6 @@ def card(lang, out):
 
 if __name__ == "__main__":
     slug = sys.argv[1]
+    TEXT = TEXTS[slug]
     for lang in ("en", "zh"):
-        card(lang, f"notes/{slug}/og-{lang}.png")
+        card(lang, f"notes/{slug}/og-{lang}.png", TEXT)

@@ -14,7 +14,7 @@ TEXTS["rode-wireless-micro"] = {
   # Hiragino Sans (JP) W6: Hiragino Sans GB has no Ø glyph (renders tofu).
   "zh": dict(kicker="OdiMeet 開發筆記",
              title=["RØDE Wireless", "Micro 也通過了"],
-             sub="DJI 之後幾小時，第二套認證的迷你無線麥克風。\n唯一的設定：RØDE Central 裡把 Channel Routing 選 Split。",
+             sub="DJI 之後幾小時，第二套認證的迷你無線麥克風。\n唯一的設定：Channel Routing 選 Split。",
              font="/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc", bold_index=0, kfont_index=0, a="TX1", b="TX2"),
 }
 TEXTS["dji-mic-mini"] = {

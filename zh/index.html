@@ -99,6 +99,12 @@
     .hero .phone-shot { display: block; margin: 3rem auto 0; width: min(300px, 70vw); height: auto; }
     .hero .caption { color: var(--muted); font-size: 0.86rem; margin-top: 0.8rem; }
 
+    section.stance { max-width: 820px; margin: 0 auto; padding: 3.6rem 1.5rem 0.4rem; text-align: center; }
+    .stance p { font-family: "New York", Georgia, "Times New Roman", serif; font-size: clamp(1.25rem, 3.2vw, 1.7rem); line-height: 1.45; letter-spacing: -0.01em; margin: 0.55rem 0; }
+    .stance p em { font-style: normal; color: var(--teal-deep); }
+    .stance p.last { font-weight: 700; margin-top: 1rem; }
+    html[lang="zh-Hant"] .stance p { font-family: inherit; font-weight: 700; letter-spacing: 0.01em; }
+    html[lang="zh-Hant"] .stance p.last { font-weight: 800; }
     section.features { max-width: 1080px; margin: 0 auto; padding: 4.6rem 1.5rem 1rem; }
     h2.section-title { font-family: "New York", Georgia, "Times New Roman", serif; font-size: 1.9rem; letter-spacing: -0.02em; margin-bottom: 1.6rem; text-align: center; }
     .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; }
@@ -336,6 +342,12 @@
     <div class="swipe-hint" id="swipe-hint"><span>滑動手機螢幕，看即時文字與 Gemini 摘要</span><span class="arrow">→</span></div>
     <p class="caption">隱形模式：手機放在桌上像睡著了。微弱的呼吸光代表正在錄音——這支從你打開網頁那一刻就開始錄了。</p>
   </header>
+
+  <section class="stance" aria-label="我們的立場">
+    <p>你不用被迫買一台硬體，才能有錄音和摘要。</p>
+    <p>你更不該被迫一個月只能錄 <em>300 分鐘</em>——你要錄多久都行。</p>
+    <p class="last">你的隱私、你的內容，全部在你自己手上。</p>
+  </section>
 
   <section class="features" id="features">
     <h2 class="section-title">你已經擁有的錄音筆。<br>一份真正屬於你的逐字稿。</h2>

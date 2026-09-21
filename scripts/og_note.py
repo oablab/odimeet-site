@@ -6,6 +6,17 @@ from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1200, 630
 TEXTS = {}
+TEXTS["rode-wireless-micro"] = {
+  "en": dict(kicker="OdiMeet · development notes",
+             title=["The RØDE", "Wireless Micro", "passes too"],
+             sub="Second certified wireless mic set, hours after the DJI.\nOne setting: Channel Routing set to Split in RØDE Central.",
+             font="/System/Library/Fonts/HelveticaNeue.ttc", bold_index=1, kfont_index=0, a="TX1", b="TX2"),
+  # Hiragino Sans (JP) W6: Hiragino Sans GB has no Ø glyph (renders tofu).
+  "zh": dict(kicker="OdiMeet 開發筆記",
+             title=["RØDE Wireless", "Micro 也通過了"],
+             sub="DJI 之後幾小時，第二套認證的迷你無線麥克風。\n唯一的設定：RØDE Central 裡把 Channel Routing 選 Split。",
+             font="/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc", bold_index=0, kfont_index=0, a="TX1", b="TX2"),
+}
 TEXTS["dji-mic-mini"] = {
   "en": dict(kicker="OdiMeet · development notes",
              title=["Tonight OdiMeet", "learned to use", "a DJI Mic Mini"],
@@ -77,6 +88,7 @@ def card(lang, out, TEXT):
     sf = font(t["font"], 28 if lang == "zh" else 26, t["kfont_index"], bold=False)
     y += 14
     for line in t["sub"].split("\n"):
+        assert 72 + d.textlength(line, font=sf) <= 824, ("subline crosses artwork", line)
         d.text((72, y), line, font=sf, fill=(154, 167, 181)); y += 42
     # footer brand
     bf = font(t["font"], 24, t["kfont_index"], bold=False)

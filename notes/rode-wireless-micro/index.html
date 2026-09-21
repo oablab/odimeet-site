@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tonight OdiMeet learned to use a DJI Mic Mini — OdiMeet Notes</title>
-  <meta name="description" content="One iPhone, one receiver, two clip-on transmitters — one speaker per channel, 19.6 dB apart, zero alignment. The evening it took to get there, including the crash.">
-  <meta property="og:title" content="Tonight OdiMeet learned to use a DJI Mic Mini">
-  <meta property="og:description" content="One iPhone, one receiver, two clip-on transmitters — one speaker per channel, 19.6 dB apart, zero alignment. The evening it took to get there, including the crash.">
+  <title>The RØDE Wireless Micro passes too — OdiMeet Notes</title>
+  <meta name="description" content="One day after the DJI Mic Mini, a second certified wireless mic set. The only step: set Channel Routing to Split in RØDE Central.">
+  <meta property="og:title" content="The RØDE Wireless Micro passes too">
+  <meta property="og:description" content="One day after the DJI Mic Mini, a second certified wireless mic set. The only step: set Channel Routing to Split in RØDE Central.">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://odimeet.app/notes/dji-mic-mini/og-en.png">
+  <meta property="og:image" content="https://odimeet.app/notes/rode-wireless-micro/og-en.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="OdiMeet sharing card: “Tonight OdiMeet learned to use a DJI Mic Mini” beside a phone with a transmitter on each side.">
-  <meta name="twitter:image" content="https://odimeet.app/notes/dji-mic-mini/og-en.png">
-  <meta property="og:url" content="https://odimeet.app/notes/dji-mic-mini/">
+  <meta property="og:image:alt" content="OdiMeet sharing card: “The RØDE Wireless Micro passes too” beside two transmitter tracks.">
+  <meta name="twitter:image" content="https://odimeet.app/notes/rode-wireless-micro/og-en.png">
+  <meta property="og:url" content="https://odimeet.app/notes/rode-wireless-micro/">
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:site_name" content="OdiMeet">
   <meta property="og:locale" content="en_US">
-  <meta name="twitter:title" content="Tonight OdiMeet learned to use a DJI Mic Mini">
-  <meta name="twitter:description" content="One iPhone, one receiver, two clip-on transmitters — one speaker per channel, 19.6 dB apart, zero alignment. The evening it took to get there, including the crash.">
-  <link rel="canonical" href="https://odimeet.app/notes/dji-mic-mini/">
+  <meta name="twitter:title" content="The RØDE Wireless Micro passes too">
+  <meta name="twitter:description" content="One day after the DJI Mic Mini, a second certified wireless mic set. The only step: set Channel Routing to Split in RØDE Central.">
+  <link rel="canonical" href="https://odimeet.app/notes/rode-wireless-micro/">
   <link rel="icon" type="image/png" href="/icon.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <style>
@@ -238,107 +238,73 @@
 
   <main data-lang-page="en">
     <a class="back" href="/notes/">← Notes</a>
-    <h1>Tonight OdiMeet learned to use a DJI Mic Mini</h1>
+    <h1>The RØDE Wireless Micro passes too</h1>
     <p class="byline">September 20, 2026 · OdiMeet development notes</p>
 
-    <p class="lede">Yesterday's note was about two iPhones as an array, deciding who is speaking by distance. This morning OdiMeet's "New recording" gained a third card: one iPhone plus a wireless mic set — two clip-on transmitters, one receiver. That card went from "coming soon" in the morning to working tonight, and it is the most accurate of the three setups. This is what happened in between, crash included.</p>
+    <p class="lede">A few hours ago the DJI Mic Mini note said RØDE was on the list to test. The list was short, because a RØDE Wireless Micro happened to be on the table. Plug in, flip one setting, record, combine — pass. It is the second compact wireless mic set OdiMeet certifies.</p>
 
     <div class="product">
-      <img src="/notes/dji-mic-mini/dji-mic-mini-set.jpg" alt="DJI Mic Mini: two transmitters, one receiver and the charging case">
+      <img src="/notes/rode-wireless-micro/rode-wireless-micro-set.jpg" alt="RØDE Wireless Micro: two transmitters and the receiver that plugs into a phone">
       <div class="meta">
-        <div><a href="https://amzn.to/3V4oP34" rel="nofollow sponsored">DJI Mic Mini (2 TX + 1 RX + charging case)</a></div>
-        <div>The set we used tonight. The receiver plugs into the iPhone over USB‑C; each transmitter clips onto one speaker.</div>
+        <div><a href="https://amzn.to/4hfv3oh" rel="nofollow sponsored">RØDE Wireless Micro (2 TX + 1 RX)</a></div>
+        <div>The receiver is a small block that plugs straight into the iPhone's USB‑C port, no cable; each transmitter clips onto one speaker.</div>
         <div class="credit">Product image from Amazon. The link is an Amazon affiliate link.</div>
       </div>
     </div>
 
-    <h2>Why this is the most accurate setup</h2>
-    <p>The two-iPhone array relies on physics: whoever is closer is louder on their phone, 12–17 dB in our measurements. A wireless mic set is more direct still — <strong>each transmitter is its own track</strong>. The receiver puts TX1 on the left channel and TX2 on the right, on one clock, into one iPhone. Nothing to estimate, no two clocks to align: the voices are separated in hardware before the app ever sees them. What remains is splitting left and right into two tracks, transcribing each, merging by time, and putting names on the lines.</p>
-    <p>So inside OdiMeet it runs the exact Precision Mode pipeline with one switch flipped: the alignment step is forced to zero. That is not just a shortcut — bleed between lavalier mics is faint, and a cross-correlation search could lock onto a spurious peak; the two channels share a clock, so there is no offset to find.</p>
-
-    <h2>The one thing you have to do: switch the receiver to Stereo in DJI Mimo</h2>
-    <p>The receiver has three channel modes. Mono mixes both transmitters into one channel; Safety Track is the same mix plus a copy 6 dB lower; only <strong>Stereo</strong> gives one transmitter per channel. That setting lives in DJI's own Mimo app (the receiver connects to it over Bluetooth) and OdiMeet cannot change it for you — so it is the <strong>only step in the whole flow that needs your hands</strong>. Once set, plug the receiver into the iPhone and OdiMeet's recording screen shows that it recognised a DJI Mic and is getting two channels.</p>
+    <h2>The one thing you have to do: set Channel Routing to Split in RØDE Central</h2>
+    <p>Like the DJI, the receiver can either <strong>mix both transmitters into one output (Merged)</strong> or <strong>give each its own channel (Split)</strong>. OdiMeet needs Split — TX1 on the left channel, TX2 on the right, one clean track per person. The setting lives in RØDE's own RØDE Central app; OdiMeet cannot change it for you, so it is the only step in the whole flow that needs your hands. Set it, unplug and replug the receiver, and OdiMeet's recording screen shows two channels.</p>
     <div class="pair">
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4618.png" alt="" loading="lazy"><figcaption>DJI Mimo → RX Settings → Audio Channel: Stereo.</figcaption></figure>
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4624.png" alt="" loading="lazy"><figcaption>OdiMeet's recorder: DJI Mic (Wireless Mic Rx) · 2 ch configured / 2 ch max.</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/rode-wireless-micro/IMG_4626.png" alt="" loading="lazy"><figcaption>RØDE Central explaining Channel Routing: Split records each transmitter to its own channel.</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/rode-wireless-micro/IMG_4627.png" alt="" loading="lazy"><figcaption>Choose Split. Merged hands OdiMeet a single mix, which cannot be separated by speaker.</figcaption></figure>
     </div>
-    <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4623.png" alt="" loading="lazy"><figcaption>The third card in New recording: one iPhone + wireless mic set.</figcaption></figure>
-
-    <h2>Then it crashed, once</h2>
-    <p>First full run: record, split, combine — and the app died. I pulled the crash log from the iPhone 16e over Wi‑Fi straight onto the Mac: main thread, a Swift runtime trap, in the line that builds the engine label after the merge. The cause was dumb. Because this mode skips the alignment search, I had set the "alignment lock" value to infinity, and the label converts it to an integer — Swift stops dead on <code>Int(∞)</code>. A finite value, a label that now reads "same clock", and a test so it cannot come back.</p>
+    <p>One small note: in OdiMeet's input list this receiver reports itself to iOS as "<strong>Wireless Micro</strong>", with no RØDE in front — that is the receiver's own USB name, not the app misreading it. "Wireless Micro · USBAudio · 2 ch" is what you want to see.</p>
 
     <h2>The result</h2>
-    <div class="pair">
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4619.png" alt="" loading="lazy"><figcaption>The merged conversation: Δ 19.6 dB, offset 0.00 s, same clock; 41 s of audio processed in 2 s.</figcaption></figure>
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4621.png" alt="" loading="lazy"><figcaption>Every transcript line carries TX1 / TX2; the menu renames them to real names.</figcaption></figure>
-    </div>
-    <div class="numbers">
-      <div><span>Speaker separation (median over speech windows)</span><b>19.6 dB</b></div>
-      <div><span>Alignment offset</span><b>0.00 s · same clock</b></div>
-      <div><span>Transcribe + merge, 41 s of audio</span><b>2 s (0.06× realtime)</b></div>
-      <div><span>Two-iPhone array, same measure (for comparison)</span><b>12–17 dB</b></div>
-    </div>
-    <p>19.6 dB beats the two-iPhone array's best — and it is what lavalier mics should deliver: 15 cm from a mouth, with the other person two metres away. TX1 and TX2 alternate cleanly through the transcript; the tester's verdict was "isolation is perfect". Then came "Rename speakers", so TX1 and TX2 become people, in every line and in exports.</p>
+    <p>Record, split, combine — exactly the pipeline the DJI Mic Mini uses: two channels on one clock, so alignment is simply zero; each track transcribed on its own; merged by time; every transcript line carries TX1 / TX2, renamable to real names from the menu. Separation between the lavaliers is in the same league as last night's DJI take — a microphone a few centimetres from a mouth, the other person two metres away. That is set by the hardware, not by an algorithm.</p>
 
-    <h2>How the three setups line up now</h2>
-    <p>Three cards in New recording, swiped left and right: <strong>One iPhone</strong> (simplest; speaker labels estimated from voice-prints) → <strong>Two iPhones</strong> (best deal; phones you already own, attribution measured by distance) → <strong>One iPhone + wireless mic set</strong> (most professional; separated in hardware). Accuracy climbs in the same order. All three run on the device; the audio never leaves the phone.</p>
+    <h2>Which one to pick</h2>
+    <p>To OdiMeet they are the same: one transmitter per channel, one mode switch in the maker's app (DJI calls it Stereo, RØDE calls it Split). The difference is form. The <strong>Wireless Micro</strong>'s receiver plugs directly into the phone with no cable and the whole kit is smaller — for people whose phone is the only recording device. The <strong>DJI Mic Mini</strong>'s receiver connects over a USB‑C cable, comes with a charging case, and its transmitters run a little longer. Use whichever you already own.</p>
 
     <h2>So</h2>
-    <p>OdiMeet now has its <strong>first certified compact wireless mic set: the DJI Mic Mini</strong>. If you already own one, or are about to buy one, you can use it with confidence: set the receiver to Stereo in DJI Mimo first (the only setting you need to touch), plug it into your iPhone, pick the third card in New recording — one track per speaker, and the transcript tells you who said what.</p>
-    <div class="callout">Receivers that work the same way should work too, but we keep the word "certified" for sets we have actually tested on a table. A few hours later, <a href="/notes/rode-wireless-micro/">the RØDE Wireless Micro passed as well</a>. This setup ships with OdiMeet 1.1.</div>
+    <p>OdiMeet now has <strong>two certified compact wireless mic sets: the DJI Mic Mini and the RØDE Wireless Micro</strong>. If you have either, or are about to buy one, you can use it with confidence: set Stereo / Split in the maker's app (the only setting you need to touch), plug it into your iPhone, pick the third card in New recording — one track per speaker, and the transcript tells you who said what.</p>
+    <div class="callout">Receivers that work the same way (Hollyland Lark, for one) should work too, but we keep the word "certified" for sets we have actually tested on a table. This setup ships with OdiMeet 1.1.</div>
     <p class="outro">OdiMeet is free for seven days, then $2.99 a month, $29.99 a year, or $39.99 once. Follow <a href="/">odimeet.app</a> for the App Store link.</p>
   </main>
 
   <main data-lang-page="zh" hidden>
     <a class="back" href="/notes/">← 開發筆記</a>
-    <h1>今晚，OdiMeet 正式支援 DJI Mic Mini</h1>
+    <h1>RØDE Wireless Micro 也通過了</h1>
     <p class="byline">2026 年 9 月 20 日 · OdiMeet 開發筆記</p>
 
-    <p class="lede">昨天筆記寫的是兩支 iPhone 組成陣列、靠距離判斷誰在講。今天早上 OdiMeet 的「新錄音」多了第三張卡：一支 iPhone 加一組無線麥克風——兩個領夾式發射器、一個接收器。那張卡從早上的「即將推出」，到今晚變成能用、而且是三種模式裡最準的一種。這篇記錄中間發生的事，包括一次 crash。</p>
+    <p class="lede">幾個小時前那篇寫完 DJI Mic Mini，說 RØDE 在待測清單上。清單很短，因為桌上剛好有一組 RØDE Wireless Micro。接上、切一個設定、錄一段、合併——通過。這是 OdiMeet 認證的第二套迷你無線麥克風。</p>
 
     <div class="product">
-      <img src="/notes/dji-mic-mini/dji-mic-mini-set.jpg" alt="DJI Mic Mini：兩個發射器、一個接收器與充電盒">
+      <img src="/notes/rode-wireless-micro/rode-wireless-micro-set.jpg" alt="RØDE Wireless Micro：兩個發射器與接在手機上的接收器">
       <div class="meta">
-        <div><a href="https://amzn.to/3V4oP34" rel="nofollow sponsored">DJI Mic Mini（2 TX + 1 RX + 充電盒）</a></div>
-        <div>我們今晚用的就是這一組。接收器以 USB‑C 接到 iPhone，兩個發射器各夾在一位講者身上。</div>
+        <div><a href="https://amzn.to/4hfv3oh" rel="nofollow sponsored">RØDE Wireless Micro（2 TX + 1 RX）</a></div>
+        <div>接收器是直接插在 iPhone USB‑C 孔上的小方塊，沒有線；兩個發射器各夾一位講者。</div>
         <div class="credit">商品圖片來自 Amazon。連結為 Amazon 推薦連結。</div>
       </div>
     </div>
 
-    <h2>為什麼這是最準的一種</h2>
-    <p>兩支 iPhone 的陣列靠的是物理：離誰近，誰的手機大聲，實測差 12–17 dB。無線麥克風組更直接——<strong>每個發射器就是一條獨立的音軌</strong>，接收器把 TX1 放在左聲道、TX2 放在右聲道，同一個時鐘同時送進 iPhone。不用估計誰比較大聲，不用對齊兩支手機的時鐘，兩個人的聲音在硬體層就已經分開了。剩下的工作只有：把左右聲道拆成兩軌，各自轉錄，按時間合併，標上名字。</p>
-    <p>所以在 OdiMeet 裡它走的是和精準模式一模一樣的管線，只差一個開關：對齊步驟直接設為 0。這不只是省事——領夾麥克風之間的串音很弱，用互相關去找偏移反而可能抓到假峰值；兩個聲道本來就是同一個時鐘，沒有偏移可找。</p>
-
-    <h2>唯一要你動手的一步：在 DJI Mimo 切到 Stereo</h2>
-    <p>接收器有三種聲道模式：Mono 把兩個發射器混成一路，Safety Track 是同一路再加一條低 6 dB 的備份，只有 <strong>Stereo</strong> 才是一個發射器一個聲道。這個設定在 DJI 自己的 Mimo app 裡（接收器透過藍牙連上去改），OdiMeet 改不了它——所以這是整個流程裡<strong>唯一需要你操作的地方</strong>。設好之後，接收器接上 iPhone，OdiMeet 的錄音畫面會顯示它認出了 DJI Mic、而且拿到兩個聲道。</p>
+    <h2>唯一要你動手的一步：在 RØDE Central 把 Channel Routing 切到 Split</h2>
+    <p>和 DJI 一樣，接收器可以把兩個發射器<strong>混成一路（Merged）</strong>或<strong>各佇一個聲道（Split）</strong>。OdiMeet 需要 Split——TX1 走左聲道、TX2 走右聲道，每個人一條乾淨的音軌。這個設定在 RØDE 自己的 RØDE Central 手機 app 裡，OdiMeet 改不了它，所以這是整個流程裡唯一需要你操作的地方。切好之後拔插一次接收器，OdiMeet 錄音畫面上就會看到兩個聲道。</p>
     <div class="pair">
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4618.png" alt="" loading="lazy"><figcaption>DJI Mimo → RX Settings → Audio Channel：Stereo。</figcaption></figure>
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4624.png" alt="" loading="lazy"><figcaption>OdiMeet 錄音畫面：DJI Mic（Wireless Mic Rx）· 2 ch configured / 2 ch max。</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/rode-wireless-micro/IMG_4626.png" alt="" loading="lazy"><figcaption>RØDE Central 對 Channel Routing 的說明：Split 讓每個發射器各錄一個聲道。</figcaption></figure>
+      <figure class="shot phone"><img src="/notes/rode-wireless-micro/IMG_4627.png" alt="" loading="lazy"><figcaption>選 Split。Merged 只會給 OdiMeet 一路混音，無法分講者。</figcaption></figure>
     </div>
-    <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4623.png" alt="" loading="lazy"><figcaption>新錄音的第三張卡：一支 iPhone ＋ 無線麥克風組。</figcaption></figure>
-
-    <h2>然後 crash 了一次</h2>
-    <p>第一次完整跑：錄完、切軌、合併——然後 app 當掉。我把 crash log 從 iPhone 16e 透過 Wi‑Fi 直接拉到 Mac 上看：主執行緒、Swift 的執行期陷阱，位置在合併完成後組字串的那一行。原因很蠢：因為這個模式跳過了對齊搜尋，我把「對齊鎖定倍數」設成無限大，而顯示用的字串把它轉成整數——Swift 遇到 <code>Int(∞)</code> 會直接停下來。改成有限值、字串改寫成「same clock」，並加了一個測試防止它再回來。</p>
+    <p>一個小提醒：在 OdiMeet 的輸入清單裡，這支接收器對 iOS 回報的名字就是「<strong>Wireless Micro</strong>」，前面不會有 RØDE——那是接收器自己的 USB 名稱，不是 app 認錯。看到「Wireless Micro · USBAudio · 2 ch」就對了。</p>
 
     <h2>結果</h2>
-    <div class="pair">
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4619.png" alt="" loading="lazy"><figcaption>合併結果：Δ 19.6 dB、offset 0.00 s、same clock；41 秒音檔 2 秒處理完。</figcaption></figure>
-      <figure class="shot phone"><img src="/notes/dji-mic-mini/IMG_4621.png" alt="" loading="lazy"><figcaption>逐字稿每一句帶 TX1 / TX2；選單裡可以把它們改成真名。</figcaption></figure>
-    </div>
-    <div class="numbers">
-      <div><span>講者分離度（語音窗中位數）</span><b>19.6 dB</b></div>
-      <div><span>對齊偏移</span><b>0.00 s · 同一時鐘</b></div>
-      <div><span>轉錄 ＋ 合併耗時（41 秒音檔）</span><b>2 s（0.06× 即時）</b></div>
-      <div><span>兩支 iPhone 陣列，同樣的量（對照）</span><b>12–17 dB</b></div>
-    </div>
-    <p>19.6 dB 比兩支 iPhone 的最好成績還高——而且這是領夾麥克風本來就該有的數字：麥克風離嘴 15 公分，對面的人在兩公尺外。逐字稿裡 TX1 / TX2 交替得乾淨；測試者的評語是「隔離完美」。接著補了「重新命名說話者」，把 TX1、TX2 換成人名，逐字稿每一句和匯出檔一起改。</p>
+    <p>錄音、切軌、合併，走的是和 DJI Mic Mini 完全相同的管線：兩個聲道同一個時鐘，對齊直接為 0；各軌分別轉錄；按時間合併；逐字稿每句帶 TX1 / TX2，選單裡可以改成真名。領夾麥克風之間的分離度和昨晚 DJI 那組同一個量級——麥克風離嘴十幾公分、對面的人在兩公尺外，這是硬體決定的，不是演算法。</p>
 
-    <h2>三種模式現在怎麼排</h2>
-    <p>新錄音的三張卡，左右滑動：<strong>一支 iPhone</strong>（最簡單，講者標記用聲紋估計）→ <strong>兩支 iPhone</strong>（最划算，用你已經有的手機，靠距離量出誰在講）→ <strong>一支 iPhone ＋ 無線麥克風組</strong>（最專業，硬體分軌）。準確度剛好反過來遞增。三種都在裝置上完成，音檔都不離開手機。</p>
+    <h2>兩套怎麼選</h2>
+    <p>對 OdiMeet 來說它們一樣：都是一個發射器一個聲道，都只需要在原廠 app 切一次模式（DJI 叫 Stereo，RØDE 叫 Split）。差別在形態：<strong>Wireless Micro</strong> 的接收器直接插在手機上、不用線、整組更小，適合手機就是唯一錄音裝置的人；<strong>DJI Mic Mini</strong> 的接收器用 USB‑C 線連手機，有充電盒，發射器續航長一點。你已經有哪一套，就用哪一套。</p>
 
     <h2>好了</h2>
-    <p>現在 OdiMeet 有了<strong>第一套我們認證的迷你錄音麥克風：DJI Mic Mini</strong>。如果你已經有這套設備，或正準備買，現在可以放心用了：先在 DJI Mimo 把接收器切到 Stereo（唯一要做的設定），接上 iPhone，新錄音選第三張卡——兩位講者各一條音軌，誰說了什麼，逐字稿直接寫給你。</p>
-    <div class="callout">同樣原理的接收器理論上都能用，但「認證」兩個字我們留給真的在桌上測過的。幾小時後 <a href="/notes/rode-wireless-micro/?lang=zh">RØDE Wireless Micro 也測完了</a>。這個模式隨 OdiMeet 1.1 推出。</div>
+    <p>現在 OdiMeet 有<strong>兩套認證的迷你無線麥克風：DJI Mic Mini 和 RØDE Wireless Micro</strong>。如果你手上有其中一套，或正準備買，現在可以放心用了：在原廠 app 切到 Stereo／Split（唯一要做的設定），接上 iPhone，新錄音選第三張卡——兩位講者各一條音軌，誰說了什麼，逐字稿直接寫給你。</p>
+    <div class="callout">同原理的接收器（例如 Hollyland Lark）理論上也能用，但「認證」兩個字我們留給真的在桌上測過的。這個模式隨 OdiMeet 1.1 推出。</div>
     <p class="outro">OdiMeet 免費試用 7 天，之後月費 $2.99、年費 $29.99，或一次買斷 $39.99。App Store 連結會放在 <a href="/zh/">odimeet.app</a>。</p>
   </main>
 
@@ -351,8 +317,8 @@
       var LANGS = ["en", "zh"];
       var HTML_LANG = { en: "en", zh: "zh-Hant" };
       var TITLES = {
-        en: "Tonight OdiMeet learned to use a DJI Mic Mini — OdiMeet Notes",
-        zh: "今晚，OdiMeet 正式支援 DJI Mic Mini — OdiMeet 開發筆記",
+        en: "The RØDE Wireless Micro passes too — OdiMeet Notes",
+        zh: "RØDE Wireless Micro 也通過了 — OdiMeet 開發筆記",
       };
 
       function setLang(lang, remember) {

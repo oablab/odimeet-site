@@ -481,7 +481,7 @@
     <h2 class="section-title">FAQ</h2>
     <details>
       <summary>How is this different from Plaud, Otter or the other AI note-takers?</summary>
-      <p>Three ways. <strong>Hardware:</strong> they sell you a recorder; OdiMeet uses the iPhone you already have, or the voice recorder in your drawer. <strong>Where the audio goes:</strong> they upload it to their cloud and meter it by the minute; OdiMeet transcribes on the phone with no account and no meter. <strong>Whose AI:</strong> they pick the model and bill you monthly; OdiMeet uses your own Gemini key, so you pay Google's actual price and see every request.</p>
+      <p>Four ways. <strong>Hardware:</strong> they sell you a recorder; OdiMeet uses the iPhone you already have, the voice recorder in your drawer, or the wireless mics you bought for video. <strong>Where the audio goes:</strong> they upload it to their cloud and meter it by the minute; OdiMeet transcribes on the phone with no account and no meter. <strong>Whose AI:</strong> they pick the model and bill you monthly; OdiMeet uses your own Gemini key, so you pay Google's actual price and see every request. <strong>Who said what:</strong> they guess from voice-prints; OdiMeet measures it, by distance or by separate tracks.</p>
     </details>
     <details>
       <summary>Does anything leave my phone?</summary>
@@ -501,7 +501,7 @@
     </details>
     <details>
       <summary>Does it identify speakers?</summary>
-      <p>Not yet. The next release adds multi-phone attribution described above — each participant's phone records its own track, and the loudest track wins each moment. It is the only approach we know of that does not rely on an AI guessing from voice prints, and it needs no hardware. Single-microphone speaker labels are being evaluated separately and will be labelled clearly as an estimate if they ship.</p>
+      <p>Yes — and not by guessing. <strong>Two iPhones</strong>: one in front of each speaker, recording in sync; whichever phone is louder is the person talking, 12–17 dB of separation in our tests, and the transcript is labelled automatically. <strong>Wireless lavalier sets</strong> (DJI Mic Mini and RØDE Wireless Micro certified): each transmitter is one speaker's track — the most accurate. <strong>A single phone</strong> can use optional on-device voice-print separation; it is an estimate, confused by similar voices and cross-talk, and the interface says so. In all three you can rename speakers after merging.</p>
     </details>
     <details>
       <summary>Do I still need an external microphone, like a DJI Mic?</summary>
@@ -513,7 +513,7 @@
     </details>
     <details>
       <summary>Are summaries Gemini-only?</summary>
-      <p>1.0 ships with Gemini because it is the easiest key to get and the cheapest to run. Amazon Bedrock, OpenAI, Anthropic and custom endpoints are coming — any OpenAI-compatible API will work, including a local model on your own computer such as Ollama. With a local model, transcript text never reaches Google or anyone else.</p>
+      <p>Gemini comes first because it is the easiest key to get and the cheapest to run. Amazon Bedrock, OpenAI, Anthropic and custom endpoints are coming — any OpenAI-compatible API will work, including a local model on your own computer such as Ollama. With a local model, transcript text never reaches Google or anyone else.</p>
     </details>
     <details>
       <summary>What does it cost?</summary>
@@ -521,7 +521,7 @@
     </details>
     <details>
       <summary>When can I get it?</summary>
-      <p>OdiMeet is in private beta on iOS 26 now. Write to us if you record meetings, interviews or depositions and want in. App Store release is planned for 2026.</p>
+      <p>Version 1.1 has been submitted to App Store review; it goes live as soon as it passes, and the link will appear here first. If you record meetings, interviews or depositions and want the beta now, write to us. Requires iOS 26.</p>
     </details>
   </section>
 

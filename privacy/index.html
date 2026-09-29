@@ -14,15 +14,20 @@
     h2 { margin-top: 2rem; font-size: 1.15rem; }
     p, li { color: var(--muted); }
     a { color: var(--teal); }
+    table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+    th, td { text-align: left; vertical-align: top; padding: 0.45rem 0.5rem; border-bottom: 1px solid rgba(127,127,127,0.3); }
+    th { color: var(--ink); }
+    td { color: var(--muted); }
+    h3 { font-size: 1rem; margin-top: 1.4rem; }
   </style>
 </head>
 <body>
   <p><a href="/">← OdiMeet</a></p>
   <h1>Privacy Policy</h1>
-  <p><em>Last updated: September 20, 2026</em></p>
+  <p><em>Last updated: September 28, 2026</em></p>
 
   <h2>The short version</h2>
-  <p>OdiMeet has no servers and no accounts. Your audio never leaves your iPhone. The only data that can leave the device is transcript <strong>text</strong>, and only if you turn on Gemini summaries with your own API key. We do not collect, receive, or have access to any of your data. The App Store privacy label for OdiMeet is "Data Not Collected".</p>
+  <p>OdiMeet has no servers and no accounts. Your audio never leaves your iPhone. The only data that can leave the device is transcript <strong>text</strong>, sent to Google LLC (Gemini, a third-party AI service), and only if you set up summaries with your own API key and allow it on the in-app permission screen. We do not collect, receive, or have access to any of your data. The App Store privacy label for OdiMeet is "Data Not Collected".</p>
 
   <h2>Recordings and transcripts</h2>
   <p>Audio you record or import is stored in the app's container on your device (and is visible in the Files app). Transcription runs entirely on the device, using Apple's speech frameworks or the optional SenseVoice model you can download. Nothing is uploaded by these features.</p>
@@ -33,8 +38,33 @@
   <h2>Speaker separation on one iPhone (optional)</h2>
   <p>If you download the optional speaker-separation models and turn the feature on, the app estimates who is speaking from voice characteristics. This runs entirely on the device; no audio or text leaves the phone for it.</p>
 
-  <h2>Optional: summaries with your own Gemini API key</h2>
-  <p>If you add a Google Gemini API key and turn on summaries, the app sends transcript <strong>text</strong> (never audio) directly from your device to Google's Generative Language API using your key. With live summaries on, this happens in short increments while you record; the final summary sends the full transcript once. There is no OdiMeet server in between; Google's terms and privacy policy govern that processing. If you enable Google Search grounding, specific claims from the transcript may be sent to Google as search queries. Live and final summaries are enabled once you add a key and can be turned off in Settings; Google Search grounding is off by default. Your key is stored in the iOS Keychain on this device only and is never synced or logged.</p>
+  <h2>Optional: AI summaries by a third party (Google Gemini)</h2>
+  <p>OdiMeet can produce meeting notes and summaries with <strong>Google Gemini</strong>, a third-party AI service operated by <strong>Google LLC</strong>. This feature is off until you turn it on, and it is the only way any content from your recordings can leave your device.</p>
+  <ul>
+    <li><strong>Who receives the data:</strong> Google LLC, through the Gemini API (Generative Language API, <code>generativelanguage.googleapis.com</code>), using an API key from your own Google account. The data goes straight from your device to Google. OdiMeet has no server in between and never receives, sees or stores it.</li>
+    <li><strong>What is sent:</strong> transcript <strong>text</strong> — the words that were spoken, speaker labels (for example "Host", "Guest" or the names you entered), the recording title, and the instructions that ask the model for a summary. Audio is never sent. A transcript can contain personal information about you and about the other people you recorded.</li>
+    <li><strong>How it is collected:</strong> the text is produced on your device by on-device speech recognition from a recording you made or imported. It is sent only when you use a summary feature: with live summary on, new text roughly every 30 seconds and the last five minutes every five minutes while you record; for the final summary, the whole transcript once, when you tap <em>Generate</em> or when a recording made with live summary on finishes transcribing.</li>
+    <li><strong>What it is used for:</strong> only to generate the live notes and the final summary shown to you in the app. OdiMeet does not use it for advertising, analytics, profiling or model training, and does not share it with anyone else.</li>
+    <li><strong>Optional fact-checking:</strong> if you also turn on "Fact-check with Google Search" (off by default), specific claims from the transcript are sent to Google as search queries for the final summary. Google stores grounding prompts and results for 30 days for that service.</li>
+    <li><strong>Your permission:</strong> before anything is sent, the app shows a permission screen that explains what is sent, who receives it and why, and nothing is sent unless you tap <em>Allow sending transcript text to Google</em>. You can withdraw permission at any time in Settings › Gemini (Withdraw), or remove your key; nothing is sent afterwards. Your key is stored in the iOS Keychain on this device only and is never synced or logged.</li>
+  </ul>
+
+  <h3>How Google protects the data</h3>
+  <p>Google processes the text under the <a href="https://ai.google.dev/gemini-api/terms">Gemini API Additional Terms of Service</a>, the <a href="https://developers.google.com/terms">Google APIs Terms of Service</a> and the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>. The level of protection depends on your key:</p>
+  <ul>
+    <li><strong>Paid tier</strong> (a key whose Google Cloud project has billing enabled): Google does not use your prompts or responses to improve its products, processes them as a data processor under its <a href="https://business.safety.google/processorterms/">Data Processing Addendum</a>, and logs them only for a limited period to detect abuse. This provides protection equal to OdiMeet's own commitment: the text is used only to answer your request. <strong>Use a paid-tier key for real meetings.</strong></li>
+    <li><strong>Free tier</strong>: Google may use the text to improve its products, and human reviewers may read it after it has been disconnected from your account. Google asks that personal or confidential information not be sent on the free tier. The in-app permission screen says this before you agree. (In the EEA, Switzerland and the UK, Google applies the paid-tier data terms to free use as well.)</li>
+  </ul>
+
+  <h2>Data summary</h2>
+  <table>
+    <tr><th>Data</th><th>Where it is kept</th><th>Sent off the device?</th></tr>
+    <tr><td>Audio recordings</td><td>On your device only</td><td>Never (sync recording sends a guest's track directly to your other iPhone, no internet)</td></tr>
+    <tr><td>Transcripts, speaker labels, titles</td><td>On your device</td><td>Only to Google LLC (Gemini), only with your permission, only for summaries</td></tr>
+    <tr><td>Summaries</td><td>On your device</td><td>Generated by Google and returned to your device</td></tr>
+    <tr><td>Gemini API key</td><td>iOS Keychain on this device</td><td>Sent only to Google to authenticate your requests</td></tr>
+    <tr><td>Usage, analytics, identifiers</td><td>Not collected</td><td>No</td></tr>
+  </table>
 
   <h2>Optional: model downloads</h2>
   <p>Downloading the SenseVoice speech model or the speaker-separation models fetches model files from Hugging Face and from the sherpa-onnx project's GitHub releases. Together with Gemini, this is the only network access the app makes. The downloads transfer no data about you or your recordings; each file is verified against a known checksum before use.</p>
